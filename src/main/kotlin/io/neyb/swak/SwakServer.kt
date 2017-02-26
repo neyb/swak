@@ -1,7 +1,7 @@
-package io.neyb.swak.core
+package io.neyb.swak
 
-import io.neyb.swak.core.chain.Chain
-import io.neyb.swak.core.chain.ChainConfigurer
+import io.neyb.swak.chain.Chain
+import io.neyb.swak.chain.ChainConfigurer
 import io.undertow.Undertow
 
 class SwakServer(
@@ -13,12 +13,8 @@ class SwakServer(
 
     private var ut: Undertow? = null
 
-    fun configureChain(chainConfiguration: ChainConfigurer.() -> Unit) {
-        chain.apply { ChainConfigurer(this).apply(chainConfiguration) }
-    }
-
     fun start() {
-        if (ut != null) throw IllegalStateException("server started!")
+        if (ut != null) throw IllegalStateException("server already started!")
 
         ut = builder.addHttpListener(configuration.port, "0.0.0.0")
                 .setHandler(ChainAdapterHttpHandler(chain))
@@ -27,11 +23,8 @@ class SwakServer(
         ut!!.start()
     }
 
-//    fun addRoute(s: String, function: () -> String) {}
-
     fun stop() {
         (ut ?: throw IllegalStateException("server not started!"))
                 .stop()
     }
 }
-

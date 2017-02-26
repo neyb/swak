@@ -1,9 +1,9 @@
-package io.neyb.swak.core.chain.route
+package io.neyb.swak.chain.route
 
-import io.neyb.swak.core.http.Request
-import io.neyb.swak.core.http.Response
-import io.neyb.swak.core.http.Status
-import rx.Observable
+import io.neyb.swak.http.Request
+import io.neyb.swak.http.Response
+import io.neyb.swak.http.Status
+import io.reactivex.Single
 import java.util.*
 
 class Routes {
@@ -13,14 +13,13 @@ class Routes {
         routes.add(route)
     }
 
-    fun handle(request: Request): Observable<Response> {
+    fun handle(request: Request): Single<Response> {
         val acceptingRoutes = routes.filter { it.accept(request) }
         return when (acceptingRoutes.size) {
-            0 -> Observable.just(
+            0 -> Single.just(
                     Response(status = Status.NOT_FOUND))
             1 -> acceptingRoutes.single().handle(request)
-            else -> Observable.just(
-                    Response(Status.INTERNAL_ERROR))
+            else -> Single.just(Response(Status.INTERNAL_ERROR))
         }
     }
 

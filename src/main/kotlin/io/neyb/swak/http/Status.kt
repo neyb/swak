@@ -1,4 +1,4 @@
-package io.neyb.swak.core.http
+package io.neyb.swak.http
 
 enum class Status(val code: Int) {
     OK(200),
