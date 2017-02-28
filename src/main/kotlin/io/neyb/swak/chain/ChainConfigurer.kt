@@ -12,23 +12,16 @@ import io.reactivex.Single
 
 class ChainConfigurer(val chain: Chain) {
 
-    fun post(path: String, handler: (Request) -> Single<Response>) {
-        post(path, handler.asRequestHandler())
+//    fun intercept()
+
+//    infix fun Method.on(path:String) =
+//            RouteConfigurer(this, path)
+
+    fun handle(method: Method, path: String, handler: (Request) -> Single<Response>) {
+        handle(method, path, handler.asRequestHandler())
     }
 
-    fun post(path: String, handler: RequestHandler) {
-        intercept(path, Method.POST, handler)
-    }
-
-    fun get(path: String, handler: (Request) -> Single<Response>) {
-        get(path, handler.asRequestHandler())
-    }
-
-    fun get(path: String, handler: RequestHandler) {
-        intercept(path, Method.GET, handler)
-    }
-
-    private fun intercept(path: String, method: Method, handler: RequestHandler) {
+    fun handle(method: Method, path: String, handler: RequestHandler) {
         val routePath = RoutePath.of(path)
         chain.routes.add(Route(
                 MethodMatcher(method) and PathMatcher(routePath),

@@ -9,4 +9,6 @@ class OrMatcher(private val matchers: MutableList<RequestMatcher>) : RequestMatc
         matchers += matcher
         return this
     }
+
+    override fun toString() = matchers.joinToString(prefix = "(", separator = " or ", postfix = ")")
 }

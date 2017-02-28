@@ -6,4 +6,6 @@ class ExactRoutePath(private val path:String) : RoutePath{
     override fun extractPathParams(requestPath: String): Map<String, String> =
             if (accept(requestPath)) emptyMap()
             else throw IllegalArgumentException("incompatible path")
+
+    override fun toString() = path
 }

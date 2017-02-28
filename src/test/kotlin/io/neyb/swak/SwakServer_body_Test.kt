@@ -1,9 +1,8 @@
 package io.neyb.swak
 
 import io.github.neyb.shoulk.*
-import io.neyb.swak.http.Response
-import io.neyb.utils.SwakServerTest
-import org.junit.jupiter.api.Tag
+import io.neyb.swak.http.*
+import io.neyb.swak.SwakServerTest
 import org.junit.jupiter.api.Test
 
 class SwakServer_body_Test : SwakServerTest() {
@@ -11,7 +10,7 @@ class SwakServer_body_Test : SwakServerTest() {
     internal fun `body can be read`() {
         var whoAmI: String? = null
         swakServer {
-            post("/IAm"){ request ->
+            handle(Method.POST, "/IAm") { request :Request->
                 request.body
                         .doOnSuccess { whoAmI = it }
                         .map { Response() }

@@ -2,8 +2,6 @@ package io.neyb.swak
 
 import io.github.neyb.shoulk.*
 import io.github.neyb.shoulk.matcher.*
-import io.neyb.utils.SwakServerTest
-import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
 
 class SwakServer_basics_Test : SwakServerTest() {

@@ -2,7 +2,6 @@ package io.neyb.swak.chain.route.path
 
 import io.github.neyb.shoulk.*
 import io.github.neyb.shoulk.matcher.*
-import io.neyb.utils.*
 import org.junit.jupiter.api.Test
 
 internal class RegexRoutePathTest{

@@ -9,4 +9,6 @@ class AndMatcher(private val matchers: MutableList<RequestMatcher>) : RequestMat
         matchers += matcher
         return this
     }
+
+    override fun toString() = matchers.joinToString(prefix = "(", separator = " and ", postfix = ")")
 }

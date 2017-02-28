@@ -2,7 +2,7 @@ group 'swak'
 version '0.1-SNAPSHOT'
 
 task wrapper(type: Wrapper) {
-  gradleVersion = '3.4'
+  gradleVersion = '3.1'
   distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
 }
 
@@ -32,11 +32,14 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile "io.undertow:undertow-core:1.4.10.Final"
     compile "io.reactivex.rxjava2:rxjava:2.0.+"
+    compile 'io.github.microutils:kotlin-logging:1.+'
+    compile "org.slf4j:slf4j-api:1.+"
 
     testCompile "org.junit.jupiter:junit-jupiter-api:5.0.0-M3"
     testCompile "com.squareup.okhttp3:okhttp:3.+"
     testCompile "org.jetbrains.kotlin:kotlin-test:1+"
     testCompile "shoulk:shoulk:0.1-SNAPSHOT"
+    testCompile "ch.qos.logback:logback-classic:1.2.1"
 
     testRuntime("org.junit.jupiter:junit-jupiter-engine:5.0.0-M3")
 }

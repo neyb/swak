@@ -16,7 +16,10 @@ class Route(
         RequestHandler {
     companion object factory
 
-    override fun handle(request: Request): Single<Response> = requestHandler.handle(requestUpdater.update(request))
+    override fun handle(request: Request): Single<Response> =
+            requestUpdater.update(request)
+                    .flatMap { requestHandler.handle(it) }
 
+    override fun toString() = "on \"$requestMatcher\""
 }
 

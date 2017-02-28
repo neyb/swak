@@ -2,7 +2,7 @@ package io.neyb.swak.chain.route.path
 
 import java.util.*
 
-class RegexRoutePath(path: String) : RoutePath {
+class RegexRoutePath(private val path: String) : RoutePath {
     private val groupNames: MutableList<String> = ArrayList()
     private val extractor: Regex =
             path.replace("""\{(.*?)\}""".toRegex()) { matchResult ->
@@ -19,4 +19,6 @@ class RegexRoutePath(path: String) : RoutePath {
                     .drop(1)
                     .map { indexedValue -> groupNames[indexedValue.index - 1] to indexedValue.value }
                     .toMap()
+
+    override fun toString() = path
 }

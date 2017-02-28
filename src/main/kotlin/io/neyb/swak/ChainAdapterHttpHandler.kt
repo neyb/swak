@@ -10,7 +10,6 @@ class ChainAdapterHttpHandler(private val chain: Chain) : HttpHandler {
     override fun handleRequest(exchange: HttpServerExchange) {
         exchange.dispatch(Runnable {
             chain.handle(Request(exchange))
-                    .subscribe(ExchangeUpdater(exchange))
-        })
+                    .subscribe(ExchangeUpdater(exchange))})
     }
 }
