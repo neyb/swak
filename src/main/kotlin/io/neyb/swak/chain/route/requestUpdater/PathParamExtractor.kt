@@ -1,4 +1,4 @@
-package io.neyb.swak.chain.route.interceptor.requestUpdater
+package io.neyb.swak.chain.route.requestUpdater
 
 import io.neyb.swak.chain.route.path.RoutePath
 import io.neyb.swak.http.Request

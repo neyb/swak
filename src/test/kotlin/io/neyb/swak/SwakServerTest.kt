@@ -34,11 +34,13 @@ open class SwakServerTest {
 
     fun get(path: String, checkSuccess: Boolean = true): Response = send(path, checkSuccess) { it.get() }
 
-    fun send(path: String, checkSuccess: Boolean, build: (Request.Builder) -> Unit): Response =
+    fun send(path: String, checkSuccess: Boolean = true, build: (Request.Builder) -> Unit): Response =
             client.newCall(Request.Builder()
                     .url("http://localhost:8080" + path)
                     .apply(build)
-                    .build()).execute().apply {
-                if (checkSuccess) this should match("is successfull") { it.isSuccessful }
-            }
+                    .build()).execute()
+                    .apply {
+                        if (checkSuccess)
+                            this should match("is successfull") { it.isSuccessful }
+                    }
 }

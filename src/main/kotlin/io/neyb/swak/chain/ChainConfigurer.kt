@@ -1,7 +1,7 @@
 package io.neyb.swak.chain
 
 import io.neyb.swak.chain.route.Route
-import io.neyb.swak.chain.route.interceptor.requestUpdater.PathParamExtractor
+import io.neyb.swak.chain.route.requestUpdater.PathParamExtractor
 import io.neyb.swak.chain.route.matcher.MethodMatcher
 import io.neyb.swak.chain.route.matcher.PathMatcher
 import io.neyb.swak.chain.route.path.RoutePath

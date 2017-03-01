@@ -1,7 +1,7 @@
 package io.neyb.swak.chain.route
 
 import io.neyb.swak.chain.RequestHandler
-import io.neyb.swak.chain.route.interceptor.requestUpdater.RequestUpdater
+import io.neyb.swak.chain.route.requestUpdater.RequestUpdater
 import io.neyb.swak.chain.route.matcher.RequestMatcher
 import io.neyb.swak.http.Request
 import io.neyb.swak.http.Response

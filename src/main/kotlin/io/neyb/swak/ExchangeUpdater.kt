@@ -1,7 +1,7 @@
 package io.neyb.swak
 
 import io.neyb.swak.http.Response
-import io.neyb.swak.http.Status
+import io.neyb.swak.http.Code
 import io.reactivex.Observer
 import io.reactivex.SingleObserver
 import io.reactivex.disposables.Disposable
@@ -13,11 +13,12 @@ class ExchangeUpdater(private val exchange: HttpServerExchange) : SingleObserver
 
     override fun onSuccess(response: Response) {
         exchange.statusCode = response.status.code
-        exchange.responseSender.send(response.body.toString())
+        exchange.responseSender.send(response.body?.toString()?:"")
+        exchange.endExchange()
     }
 
     override fun onError(e: Throwable) {
-        exchange.statusCode = Status.INTERNAL_ERROR.code
+        exchange.statusCode = Code.INTERNAL_SERVER_ERROR.code
         exchange.endExchange()
     }
 }

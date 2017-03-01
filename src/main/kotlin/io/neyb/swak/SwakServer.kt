@@ -2,9 +2,10 @@ package io.neyb.swak
 
 import io.neyb.swak.chain.Chain
 import io.neyb.swak.chain.ChainConfigurer
-import io.neyb.swak.chain.route.interceptor.errorHandlers.NoRouteInterceptor
-import io.neyb.swak.chain.route.interceptor.errorHandlers.SeveralRouteInterceptor
+import io.neyb.swak.chain.interceptor.errorHandler.NoRouteInterceptor
+import io.neyb.swak.chain.interceptor.errorHandler.SeveralRouteInterceptor
 import io.undertow.Undertow
+import java.util.*
 
 class SwakServer(
         private val configuration: Configuration = Configuration(),
@@ -12,8 +13,8 @@ class SwakServer(
 ) {
     private val chain: Chain = Chain().apply {
         ChainConfigurer(this).apply(chainConfiguration)
-        interceptors.add(NoRouteInterceptor)
-        interceptors.add(SeveralRouteInterceptor)
+        errorHandlers.add(NoRouteInterceptor)
+        errorHandlers.add(SeveralRouteInterceptor)
     }
 
     private val builder: Undertow.Builder = Undertow.builder()
