@@ -4,7 +4,6 @@ import io.github.neyb.shoulk.*
 import io.neyb.swak.http.Method.GET
 import io.neyb.swak.http.Method.POST
 import io.neyb.swak.http.Response
-import io.neyb.swak.SwakServerTest
 import io.reactivex.Single
 import org.junit.jupiter.api.Test
 
@@ -33,8 +32,8 @@ class SwakServer_route_Test : SwakServerTest() {
 
     @Test fun `if several route intercept a path, server returns 500`() {
         swakServer {
-            handle(GET, "/hello") { Single.just(Response())}
-            handle(GET, "/hell{thisIsAO}") { Single.just(Response())}
+            handle(GET, "/hello") { Single.just(Response()) }
+            handle(GET, "/hell{thisIsAO}") { Single.just(Response()) }
         }.start()
 
         val response = get("/hello", checkSuccess = false)

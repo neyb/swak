@@ -1,8 +1,8 @@
 package io.neyb.swak.chain.interceptor.errorHandler
 
 import io.neyb.swak.chain.route.SeveralRouteFound
-import io.neyb.swak.http.Response
 import io.neyb.swak.http.Code
+import io.neyb.swak.http.Response
 import mu.KLoggable
 
 object SeveralRouteInterceptor : KLoggable, ErrorHandler {

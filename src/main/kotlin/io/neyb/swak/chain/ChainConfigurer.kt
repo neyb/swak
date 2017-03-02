@@ -1,9 +1,11 @@
 package io.neyb.swak.chain
 
+import io.neyb.swak.chain.configuration.ChainConfiguration
 import io.neyb.swak.chain.interceptor.before.BeforeInterceptor
 import io.neyb.swak.chain.route.Route
 import io.neyb.swak.chain.route.interceptors.PathParamExtractor
-import io.neyb.swak.chain.route.interceptors.body.reader.*
+import io.neyb.swak.chain.route.interceptors.body.reader.BeforeRouteInterceptor
+import io.neyb.swak.chain.route.interceptors.body.reader.RequestContentReaders
 import io.neyb.swak.chain.route.matcher.MethodMatcher
 import io.neyb.swak.chain.route.matcher.PathMatcher
 import io.neyb.swak.chain.route.path.RoutePath
@@ -13,6 +15,11 @@ import io.reactivex.Single
 class ChainConfigurer(val chain: Chain) {
 
     private val contentReaderProviders = mutableListOf<RequestContentReaderProvider>()
+
+    fun apply(chainConfiguration: ChainConfiguration): ChainConfigurer {
+        chainConfiguration(this)
+        return this
+    }
 
     fun addContentReaderProvider(contentReaderProvider: RequestContentReaderProvider) {
         contentReaderProviders.add(contentReaderProvider)

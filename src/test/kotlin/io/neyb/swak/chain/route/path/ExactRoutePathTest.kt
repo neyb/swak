@@ -4,7 +4,7 @@ import io.github.neyb.shoulk.*
 import io.github.neyb.shoulk.matcher.*
 import org.junit.jupiter.api.Test
 
-internal class ExactRoutePathTest{
+internal class ExactRoutePathTest {
     @Test
     internal fun `extract always return emptymap`() {
         val exactRoutePath = ExactRoutePath("/aze")

@@ -4,7 +4,6 @@ import io.neyb.swak.chain.interceptor.before.BeforeInterceptor
 import io.neyb.swak.chain.interceptor.before.BeforeInterceptors
 import io.neyb.swak.http.Request
 import io.reactivex.Single
-import java.util.*
 
 class BeforeRouteInterceptor<B>(
         private val preContentNegociationInterceptor: BeforeInterceptor<String, String> = BeforeInterceptors(),

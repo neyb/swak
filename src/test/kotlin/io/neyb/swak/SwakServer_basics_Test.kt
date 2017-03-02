@@ -19,12 +19,12 @@ class SwakServer_basics_Test : SwakServerTest() {
 
     @Test
     internal fun `a not started server cannot be stoped`() {
-        { swakServer.stop() } shouldThrow  IllegalStateException::class that hasMessage("server not started!")
+        { swakServer.stop() } shouldThrow IllegalStateException::class that hasMessage("server not started!")
     }
 
     @Test
     internal fun `get undefined path return 404`() {
         swakServer.start()
-        get(path = "/hello", checkSuccess = false) should match("fail with 404") { it.code() == 404}
+        get(path = "/hello", checkSuccess = false) should match("fail with 404") { it.code() == 404 }
     }
 }

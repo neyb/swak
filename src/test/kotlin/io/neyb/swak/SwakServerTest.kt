@@ -1,10 +1,7 @@
 package io.neyb.swak
 
-import io.github.neyb.shoulk.matcher.match
-import io.github.neyb.shoulk.should
-import io.github.neyb.shoulk.shouldBe
-import io.neyb.swak.Configuration
-import io.neyb.swak.SwakServer
+import io.github.neyb.shoulk.*
+import io.github.neyb.shoulk.matcher.*
 import io.neyb.swak.chain.ChainConfigurer
 import okhttp3.*
 import org.junit.jupiter.api.AfterEach

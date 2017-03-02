@@ -1,9 +1,9 @@
 package io.neyb.swak.chain.interceptor.errorHandler
 
 import io.neyb.swak.chain.route.NoRouteFound
-import io.neyb.swak.http.Response
 import io.neyb.swak.http.Code
-import mu.*
+import io.neyb.swak.http.Response
+import mu.KLoggable
 
 object NoRouteInterceptor : KLoggable, ErrorHandler {
     override val logger = logger()

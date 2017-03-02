@@ -4,7 +4,7 @@ import io.github.neyb.shoulk.*
 import io.github.neyb.shoulk.matcher.*
 import org.junit.jupiter.api.Test
 
-internal class RegexRoutePathTest{
+internal class RegexRoutePathTest {
     @Test
     internal fun `regex work without any group`() {
         val routePath = RegexRoutePath("/test/")

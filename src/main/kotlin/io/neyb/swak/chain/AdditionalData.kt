@@ -2,13 +2,13 @@ package io.neyb.swak.chain
 
 import java.util.*
 
-class AdditionalData{
+class AdditionalData {
     private val content: MutableMap<String, Any> = HashMap()
 
-    operator fun set(key: String, value:Any){
+    operator fun set(key: String, value: Any) {
         content[key] = value
     }
 
     @Suppress("UNCHECKED_CAST")
-    operator fun <E> get(key:String) = content[key] as E
+    operator fun <E> get(key: String) = content[key] as E
 }

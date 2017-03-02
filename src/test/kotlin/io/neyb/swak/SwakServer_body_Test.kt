@@ -1,8 +1,8 @@
 package io.neyb.swak
 
 import io.github.neyb.shoulk.*
-import io.neyb.swak.http.*
-import io.neyb.swak.SwakServerTest
+import io.neyb.swak.http.Method
+import io.neyb.swak.http.Response
 import org.junit.jupiter.api.Test
 
 class SwakServer_body_Test : SwakServerTest() {

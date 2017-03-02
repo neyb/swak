@@ -1,7 +1,6 @@
 package io.neyb.swak.chain.route
 
 import io.neyb.swak.chain.RequestHandler
-import io.neyb.swak.chain.interceptor.before.BeforeInterceptor
 import io.neyb.swak.chain.route.interceptors.body.reader.BeforeRouteInterceptor
 import io.neyb.swak.chain.route.matcher.RequestMatcher
 import io.neyb.swak.http.Request
@@ -18,7 +17,7 @@ class Route<B>(
     companion object factory
 
     override fun handle(request: Request<String>): Single<Response> =
-        beforeRouteInterceptor.updateRequest(request)
+            beforeRouteInterceptor.updateRequest(request)
                     .flatMap { requestHandler.handle(it) }
 
     override fun toString() = "on \"$requestMatcher\""

@@ -5,7 +5,7 @@ import io.neyb.swak.http.Response
 class ErrorHandlers : ErrorHandler {
     private val errorHandlers = mutableListOf<ErrorHandler>()
 
-    fun add(errorHandler: ErrorHandler){
+    fun add(errorHandler: ErrorHandler) {
         errorHandlers.add(0, errorHandler)
     }
 
