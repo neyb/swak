@@ -2,36 +2,30 @@ package io.neyb.swak.http
 
 import io.neyb.swak.chain.AdditionalData
 import io.reactivex.Single
-import io.undertow.server.HttpServerExchange
-import java.util.*
 
-class Request(private val exchange: HttpServerExchange,
-              val pathParams: Map<String, String> = emptyMap()
+class Request<B>(
+        private val basicRequest: BasicRequest,
+        private val bodyReader: (String) -> B?,
+        val pathParams: Map<String, String> = emptyMap()
 ) {
-    val headers: Headers by lazy {
-        Headers(exchange.requestHeaders
-                .map { it.headerName.toString() to ArrayList(it) }
-                .toMap())
-    }
+    val headers: Headers
+        get() = basicRequest.headers
 
-    val path: String by lazy {
-        exchange.requestPath
-    }
+    val path: String
+        get() = basicRequest.path
 
-    val method: Method by lazy {
-        Method.valueOf(exchange.requestMethod.toString())
-    }
+    val method: Method
+        get() = basicRequest.method
 
-    val body: Single<String> by lazy {
-        Single.create<String> {
-            exchange.requestReceiver.receiveFullString(
-                    { exchange, stringValue -> it.onSuccess(stringValue) },
-                    charset(exchange.requestCharset))
-        }
+    val body: Single<B?> by lazy {
+        basicRequest.body.map(bodyReader)
     }
 
     val additionalData: AdditionalData = AdditionalData()
 
+    fun <T> withBodyReader(newBodyReader: (String) -> T?) =
+            Request(basicRequest, newBodyReader, pathParams)
+
     fun withPathParam(pathParams: Map<String, String>) =
-            Request(exchange, pathParams)
+            Request(basicRequest, bodyReader, pathParams)
 }

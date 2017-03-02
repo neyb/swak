@@ -1,9 +1,9 @@
-package io.neyb.swak.chain.interceptor.before
+package io.neyb.swak.chain.interceptor.after
 
 import io.neyb.swak.http.Request
 import io.neyb.swak.http.Response
 import io.reactivex.Single
 
-interface AfterInterceptor {
-    fun onAfter(request: Request, response: Response): Single<Response>
+interface AfterInterceptor<in B> {
+    fun <B> onAfter(request: Request<B>, response: Response): Single<Response>
 }

@@ -6,13 +6,13 @@ import io.reactivex.Single
 import java.util.*
 
 class Routes {
-    private val routes: MutableList<Route> = ArrayList()
+    private val routes: MutableList<Route<*>> = ArrayList()
 
-    fun add(route: Route) {
+    fun add(route: Route<*>) {
         routes.add(route)
     }
 
-    fun handle(request: Request): Single<Response> {
+    fun handle(request: Request<String>): Single<Response> {
         val acceptingRoutes = routes.filter { it.accept(request) }
         return when (acceptingRoutes.size) {
             0 -> Single.error { NoRouteFound(request.path) }

@@ -4,7 +4,7 @@ import io.neyb.swak.http.Request
 
 @FunctionalInterface
 interface RequestMatcher {
-    fun accept(request: Request): Boolean
+    fun accept(request: Request<String>): Boolean
 
     infix fun or(matcher: RequestMatcher): RequestMatcher = OrMatcher(mutableListOf(this, matcher))
 

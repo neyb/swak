@@ -6,7 +6,7 @@ class ErrorHandlers : ErrorHandler {
     private val errorHandlers = mutableListOf<ErrorHandler>()
 
     fun add(errorHandler: ErrorHandler){
-        errorHandlers.add(errorHandler)
+        errorHandlers.add(0, errorHandler)
     }
 
     override fun onError(error: Throwable): Response? =

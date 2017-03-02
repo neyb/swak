@@ -1,6 +1,6 @@
 package io.neyb.swak.http
 
-data class Response @JvmOverloads constructor(
+data class Response (
         val status: Code = Code.OK,
         val body: Any? = null
 )

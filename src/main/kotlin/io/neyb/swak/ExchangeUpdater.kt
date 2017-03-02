@@ -7,7 +7,7 @@ import io.reactivex.SingleObserver
 import io.reactivex.disposables.Disposable
 import io.undertow.server.HttpServerExchange
 
-class ExchangeUpdater(private val exchange: HttpServerExchange) : SingleObserver<Response> {
+internal class ExchangeUpdater(private val exchange: HttpServerExchange) : SingleObserver<Response> {
     override fun onSubscribe(d: Disposable) {
     }
 
