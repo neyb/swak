@@ -1,6 +1,6 @@
 package io.neyb.swak.http
 
-import io.neyb.swak.chain.AdditionalData
+import io.neyb.swak.http.AdditionalData
 import io.reactivex.Single
 
 class Request<B>(
