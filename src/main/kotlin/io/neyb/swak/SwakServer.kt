@@ -1,27 +1,27 @@
 package io.neyb.swak
 
-import io.neyb.swak.route.*
-import io.neyb.swak.route.configuration.DefaultRouteConfiguration
+import io.neyb.swak.handler.RequestHandler
+import io.neyb.swak.handler.config.builder.MainHandler
+import io.neyb.swak.handler.config.configurable.CrossConfigurer
+import io.neyb.swak.handler.config.configurable.HandlerConfigurer
+import io.neyb.swak.handler.config.configuration.DefaultHandlerConfiguration
 import io.undertow.Undertow
 
 class SwakServer(
         private val configuration: Configuration = Configuration(),
-        routeCongurer: SubRouteConfigurer<String, String>.() -> Unit = {}
+        crossConfiguration: CrossConfigurer.() -> Unit = {}
 ) {
-    private val mainRoute: SubRoute<String, String>
+    private val mainHandler: RequestHandler<String>
 
     init {
-        val mainRouteBuilder = SubRouteBuilder("", String::class.java, String::class.java, null, "main")
-        val mainRouteConfigurer = SubRouteConfigurer(mainRouteBuilder, String::class.java)
-        DefaultRouteConfiguration(mainRouteConfigurer)
+        val mainHandlerBuilder = MainHandler()
+        val mainHandlerConfigurer = HandlerConfigurer(mainHandlerBuilder)
+        DefaultHandlerConfiguration.configure(mainHandlerConfigurer)
 
-        val userRouteBuilder = SubRouteBuilder("", String::class.java, String::class.java, mainRouteBuilder.contentReaderProviders, "user")
-        val userRouteConfigurer = SubRouteConfigurer(userRouteBuilder, String::class.java)
-        routeCongurer(userRouteConfigurer)
+        val userHandlerBuilder = mainHandlerBuilder.innerHandlerBuilder
+        CrossConfigurer(userHandlerBuilder).crossConfiguration()
 
-        mainRouteBuilder.routes.add(userRouteBuilder.build())
-
-        mainRoute = mainRouteBuilder.build()
+        mainHandler = mainHandlerBuilder.build()
     }
 
     private val builder: Undertow.Builder = Undertow.builder()
@@ -32,7 +32,7 @@ class SwakServer(
         if (ut != null) throw IllegalStateException("server already started!")
 
         ut = builder.addHttpListener(configuration.port, "0.0.0.0")
-                .setHandler(RouteAdapterHttpHandler(mainRoute))
+                .setHandler(RouteAdapterHttpHandler(mainHandler))
                 .build()
 
         ut!!.start()
