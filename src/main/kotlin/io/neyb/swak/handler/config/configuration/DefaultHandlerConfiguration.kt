@@ -27,7 +27,7 @@ object DefaultHandlerConfiguration : HandlerConfiguration<HandlerConfigurer>, KL
             code: Code,
             message: String = "",
             logStack: Boolean = true) {
-        addErrorHandler<E> { error ->
+        handleError<E> { error ->
             if (logStack) logger.error(error) { message + error.message }
             else logger.error { message + error.message }
             Response(status = code)

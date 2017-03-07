@@ -7,7 +7,7 @@ import io.neyb.swak.http.Response
 import io.reactivex.Single
 import org.junit.jupiter.api.Test
 
-class SwakServer_finalRoute_Test : SwakServerTest() {
+class `ss route Test` : SwakServerTest() {
     @Test fun `hello world server`() {
         swakServer {
             handle(GET, "/hello") {
@@ -28,6 +28,16 @@ class SwakServer_finalRoute_Test : SwakServerTest() {
         post("/count", "")
         post("/count", "")
         get("/count").body().string() shouldEqual "2"
+    }
+
+    @Test fun `2 routes with a path containing the other`() {
+        swakServer {
+            handle(GET, "/hello1") { Single.just(Response()) }
+            handle(GET, "/hello2") { Single.just(Response()) }
+        }.start()
+
+        get("/hello1")
+        get("/hello2")
     }
 
     @Test fun `if several route intercept a path, server returns 500`() {

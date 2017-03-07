@@ -6,6 +6,7 @@ import io.neyb.swak.handler.converter.BodyConverterHandler
 import io.neyb.swak.handler.cross.route.Route
 import io.neyb.swak.handler.cross.route.matcher.MethodMatcher
 import io.neyb.swak.handler.cross.route.matcher.PathMatcher
+import io.neyb.swak.handler.interceptor.InterceptableHandler
 import io.neyb.swak.handler.interceptor.before.PathParamExtractor
 import io.neyb.swak.handler.path.RoutePath
 import io.neyb.swak.http.*
@@ -41,11 +42,11 @@ class CrossConfigurer(
     private fun handle(method: Method, path: String, handler: RequestHandler<String>) {
         val routePath = RoutePath.of(path)
 
-        configurableCrossHandler.interceptHandlerBuilder.before.interceptors.add(PathParamExtractor(routePath))
-
         configurableCrossHandler.addRoute(Route(
                 MethodMatcher<String>(method) and PathMatcher(routePath),
-                handler
+                InterceptableHandler.Builder<String>().apply {
+                    before.interceptors.add(PathParamExtractor(routePath))
+                }.build(handler)
         ))
     }
 

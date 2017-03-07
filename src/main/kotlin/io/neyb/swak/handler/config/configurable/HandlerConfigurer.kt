@@ -8,11 +8,11 @@ import io.neyb.swak.http.Response
 open class HandlerConfigurer(
         private val configurableHandler: ConfigurableHandler
 ) {
-    inline fun <reified E : Throwable> addErrorHandler(noinline errorHandler: (E) -> Response) {
-        addErrorHandler(ErrorHandler.of(errorHandler))
+    inline fun <reified E : Throwable> handleError(noinline errorHandler: (E) -> Response) {
+        handleError(ErrorHandler.of(errorHandler))
     }
 
-    fun addErrorHandler(errorHandler: ErrorHandler) {
+    fun handleError(errorHandler: ErrorHandler) {
         configurableHandler.interceptHandlerBuilder.errorHandlersBuilder.errorHandlers.add(errorHandler)
     }
 
