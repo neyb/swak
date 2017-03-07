@@ -1,6 +1,6 @@
 package io.neyb.swak.handler.cross
 
-import io.neyb.swak.handler.RequestHandler
+import io.neyb.swak.handler.Handler
 import io.neyb.swak.handler.HandlerBuilder
 import io.neyb.swak.handler.cross.route.Route
 import io.neyb.swak.http.Request
@@ -10,7 +10,7 @@ import java.util.*
 
 class Cross<Body>(
         private val routes: List<Route<Body>>
-) : RequestHandler<Body> {
+) : Handler<Body> {
 
     override fun handle(request: Request<Body>): Single<Response> {
         val acceptingRoutes = routes.filter { it.accept(request) }

@@ -4,6 +4,6 @@ import io.neyb.swak.http.Request
 import io.neyb.swak.http.Response
 import io.reactivex.Single
 
-interface RequestHandler<B> {
+interface Handler<B> {
     fun handle(request: Request<B>): Single<Response>
 }

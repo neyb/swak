@@ -1,10 +1,10 @@
 package io.neyb.swak.handler.cross.route
 
-import io.neyb.swak.handler.RequestHandler
+import io.neyb.swak.handler.Handler
 import io.neyb.swak.handler.cross.route.matcher.RequestMatcher
 
 class Route<Body>(
         private val matcher: RequestMatcher<Body>,
-        private val handler: RequestHandler<Body>
+        private val handler: Handler<Body>
 ) : RequestMatcher<Body> by matcher,
-        RequestHandler<Body> by handler
+        Handler<Body> by handler

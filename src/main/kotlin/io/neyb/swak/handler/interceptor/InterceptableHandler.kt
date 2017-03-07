@@ -1,6 +1,6 @@
 package io.neyb.swak.handler.interceptor
 
-import io.neyb.swak.handler.RequestHandler
+import io.neyb.swak.handler.Handler
 import io.neyb.swak.handler.interceptor.after.AfterInterceptors
 import io.neyb.swak.handler.interceptor.before.BeforeInterceptor
 import io.neyb.swak.handler.interceptor.before.BeforeInterceptors
@@ -12,10 +12,10 @@ import io.reactivex.Single
 
 class InterceptableHandler<Body>(
         private val beforeRouteInterceptor: BeforeInterceptor<Body>,
-        private val handler: RequestHandler<Body>,
+        private val handler: Handler<Body>,
         private val afterRouteInterceptor: AfterInterceptors<Body>,
         private val errorHandlers: ErrorHandlers
-) : RequestHandler<Body> {
+) : Handler<Body> {
 
     override fun handle(request: Request<Body>): Single<Response> =
             Single.just(request)
@@ -33,7 +33,7 @@ class InterceptableHandler<Body>(
         val afterRouteInterceptorBuilder = AfterInterceptors.Builder<Body>()
         val errorHandlersBuilder = ErrorHandlers.Builder()
 
-        fun build(handler: RequestHandler<Body>) = InterceptableHandler(
+        fun build(handler: Handler<Body>) = InterceptableHandler(
                 before.build(),
                 handler,
                 afterRouteInterceptorBuilder.build(),

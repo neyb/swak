@@ -1,6 +1,6 @@
 package io.neyb.swak
 
-import io.neyb.swak.handler.RequestHandler
+import io.neyb.swak.handler.Handler
 import io.neyb.swak.handler.config.builder.MainHandler
 import io.neyb.swak.handler.config.configurable.CrossConfigurer
 import io.neyb.swak.handler.config.configurable.HandlerConfigurer
@@ -11,7 +11,7 @@ class SwakServer(
         private val configuration: Configuration = Configuration(),
         crossConfiguration: CrossConfigurer.() -> Unit = {}
 ) {
-    private val mainHandler: RequestHandler<String>
+    private val mainHandler: Handler<String>
 
     init {
         val mainHandlerBuilder = MainHandler()

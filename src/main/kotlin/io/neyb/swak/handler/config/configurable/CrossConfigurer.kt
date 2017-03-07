@@ -1,6 +1,6 @@
 package io.neyb.swak.handler.config.configurable
 
-import io.neyb.swak.handler.RequestHandler
+import io.neyb.swak.handler.Handler
 import io.neyb.swak.handler.config.builder.ConfigurableCrossHandler
 import io.neyb.swak.handler.converter.BodyConverterHandler
 import io.neyb.swak.handler.cross.route.Route
@@ -29,7 +29,7 @@ class CrossConfigurer(
         handleTyped(method, path, bodyType, handler.asRequestHandler())
     }
 
-    private fun <B> handleTyped(method: Method, path: String, bodyType: Class<B>, handler: RequestHandler<B>) {
+    private fun <B> handleTyped(method: Method, path: String, bodyType: Class<B>, handler: Handler<B>) {
         handle(method, path, BodyConverterHandler(
                 configurableCrossHandler.bodyReaderTypeProviders.forClass(bodyType),
                 handler))
@@ -39,7 +39,7 @@ class CrossConfigurer(
         handle(method, path, handler.asRequestHandler())
     }
 
-    private fun handle(method: Method, path: String, handler: RequestHandler<String>) {
+    private fun handle(method: Method, path: String, handler: Handler<String>) {
         val routePath = RoutePath.of(path)
 
         configurableCrossHandler.addRoute(Route(
@@ -50,8 +50,8 @@ class CrossConfigurer(
         ))
     }
 
-    private fun <B> ((Request<B>) -> Single<Response>).asRequestHandler(): RequestHandler<B> =
-            object : RequestHandler<B> {
+    private fun <B> ((Request<B>) -> Single<Response>).asRequestHandler(): Handler<B> =
+            object : Handler<B> {
                 override fun handle(request: Request<B>) = this@asRequestHandler(request)
             }
 
