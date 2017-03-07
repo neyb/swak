@@ -1,7 +1,6 @@
 package io.neyb.swak.config.configurable
 
 import io.neyb.swak.config.builder.ConfigurableHandler
-import io.neyb.swak.config.configuration.HandlerConfiguration
 import io.neyb.swak.handler.interceptor.errorHandler.ErrorHandler
 import io.neyb.swak.http.Response
 

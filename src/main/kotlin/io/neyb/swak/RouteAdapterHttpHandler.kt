@@ -1,9 +1,9 @@
 package io.neyb.swak
 
 import io.neyb.swak.handler.Handler
+import io.neyb.swak.handler.converter.reader.TextReader
 import io.neyb.swak.http.BasicRequest
 import io.neyb.swak.http.Request
-import io.neyb.swak.handler.converter.reader.TextReader
 import io.undertow.server.HttpHandler
 import io.undertow.server.HttpServerExchange
 

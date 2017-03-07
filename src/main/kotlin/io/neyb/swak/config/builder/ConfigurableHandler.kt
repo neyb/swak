@@ -1,9 +1,9 @@
 package io.neyb.swak.config.builder
 
 import io.neyb.swak.handler.HandlerBuilder
+import io.neyb.swak.handler.converter.reader.provider.type.BodyReaderTypeProviders
 import io.neyb.swak.handler.interceptor.InterceptableHandler
 import io.neyb.swak.handler.interceptor.errorHandler.ErrorHandler
-import io.neyb.swak.handler.converter.reader.provider.type.BodyReaderTypeProviders
 
 abstract class ConfigurableHandler(
         protected val parent: ConfigurableHandler? = null

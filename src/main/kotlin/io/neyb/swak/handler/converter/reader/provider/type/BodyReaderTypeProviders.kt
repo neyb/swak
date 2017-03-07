@@ -1,6 +1,5 @@
 package io.neyb.swak.handler.converter.reader.provider.type
 
-import io.neyb.swak.handler.converter.reader.provider.type.NoReaderFoundForType
 import io.neyb.swak.handler.converter.reader.provider.request.BodyReaderRequestProvider
 import io.neyb.swak.handler.converter.reader.provider.request.BodyReaderRequestProviders
 import java.util.*
