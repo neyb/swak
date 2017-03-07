@@ -2,7 +2,7 @@ package io.neyb.swak
 
 import io.github.neyb.shoulk.*
 import io.github.neyb.shoulk.matcher.*
-import io.neyb.swak.chain.ChainConfigurer
+import io.neyb.swak.handler.config.configurable.CrossConfigurer
 import okhttp3.*
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Tag
@@ -13,8 +13,8 @@ open class SwakServerTest {
     var swakServer = swakServer()
         private set
 
-    fun swakServer(configuration: Configuration = Configuration(8080), chainConfiguration: ChainConfigurer.() -> Unit = {}): SwakServer {
-        swakServer = SwakServer(configuration, chainConfiguration)
+    fun swakServer(configuration: Configuration = Configuration(8080), handlerConfiguration: CrossConfigurer.() -> Unit = {}): SwakServer {
+        swakServer = SwakServer(configuration, handlerConfiguration)
         return swakServer
     }
 

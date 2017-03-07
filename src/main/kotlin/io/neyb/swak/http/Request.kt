@@ -1,11 +1,11 @@
 package io.neyb.swak.http
 
-import io.neyb.swak.chain.AdditionalData
+import io.neyb.swak.reader.BodyReader
 import io.reactivex.Single
 
 class Request<B>(
         private val basicRequest: BasicRequest,
-        private val bodyReader: (String) -> B?,
+        private val bodyReader: BodyReader<B>,
         val pathParams: Map<String, String> = emptyMap()
 ) {
     val headers: Headers
@@ -18,14 +18,14 @@ class Request<B>(
         get() = basicRequest.method
 
     val body: Single<B?> by lazy {
-        basicRequest.body.map(bodyReader)
+        basicRequest.body.map { bodyReader.read(it) }
     }
 
     val additionalData: AdditionalData = AdditionalData()
 
-    fun <T> withBodyReader(newBodyReader: (String) -> T?) =
+    fun <NewBody> withBodyReader(newBodyReader: BodyReader<NewBody>) =
             Request(basicRequest, newBodyReader, pathParams)
 
-    fun withPathParam(pathParams: Map<String, String>) =
-            Request(basicRequest, bodyReader, pathParams)
+    fun withPathParam(newPathParams: Map<String, String>) =
+            Request(basicRequest, bodyReader, pathParams + newPathParams)
 }

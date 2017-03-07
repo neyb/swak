@@ -1,10 +1,10 @@
 package io.neyb.swak
 
 import io.github.neyb.shoulk.*
-import io.neyb.swak.chain.RequestContentReaderProvider
-import io.neyb.swak.chain.route.interceptors.body.reader.RequestContentReader
 import io.neyb.swak.http.*
-import io.reactivex.Single
+import io.neyb.swak.reader.BodyReader
+import io.neyb.swak.reader.provider.request.BodyReaderRequestProvider
+import io.neyb.swak.reader.provider.type.BodyReaderTypeProvider
 import org.junit.jupiter.api.Test
 
 class SwakServer_body_Reader_Test : SwakServerTest() {
@@ -13,15 +13,15 @@ class SwakServer_body_Reader_Test : SwakServerTest() {
     @Test
     internal fun `body can be read`() {
         @Suppress("UNCHECKED_CAST")
-        val bodyLengthReader = object : RequestContentReader<Int>, RequestContentReaderProvider {
-            override fun <B> forClass(bodyClass: Class<B>) =
-                    if (bodyClass == Int::class.javaObjectType) this as RequestContentReader<B>
+        val bodyLengthReader = object : BodyReader<Int>, BodyReaderTypeProvider, BodyReaderRequestProvider<Int> {
+            override fun read(body: String) = body.length
+
+            override fun <B> forClass(target: Class<B>) =
+                    if (target == Int::class.javaObjectType) this as BodyReaderRequestProvider<B>
                     else null
 
-            override fun accept(request: Request<String>) = true
-
-            override fun updateRequest(request: Request<String>) =
-                    Single.just(request.withBodyReader { it.length })
+            override fun forRequest(request: Request<String>): BodyReader<Int>//compiler bug : need too specify return type
+                    = this
         }
 
         var nameLength: Int? = null

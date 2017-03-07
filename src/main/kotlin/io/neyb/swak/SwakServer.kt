@@ -1,18 +1,27 @@
 package io.neyb.swak
 
-import io.neyb.swak.chain.Chain
-import io.neyb.swak.chain.ChainConfigurer
-import io.neyb.swak.chain.configuration.DefaultChainConfiguration
+import io.neyb.swak.handler.RequestHandler
+import io.neyb.swak.handler.config.builder.MainHandler
+import io.neyb.swak.handler.config.configurable.CrossConfigurer
+import io.neyb.swak.handler.config.configurable.HandlerConfigurer
+import io.neyb.swak.handler.config.configuration.DefaultHandlerConfiguration
 import io.undertow.Undertow
 
 class SwakServer(
         private val configuration: Configuration = Configuration(),
-        chainConfiguration: ChainConfigurer.() -> Unit = {}
+        crossConfiguration: CrossConfigurer.() -> Unit = {}
 ) {
-    private val chain: Chain = Chain().apply {
-        ChainConfigurer(this)
-                .apply(DefaultChainConfiguration)
-                .apply(chainConfiguration)
+    private val mainHandler: RequestHandler<String>
+
+    init {
+        val mainHandlerBuilder = MainHandler()
+        val mainHandlerConfigurer = HandlerConfigurer(mainHandlerBuilder)
+        DefaultHandlerConfiguration.configure(mainHandlerConfigurer)
+
+        val userHandlerBuilder = mainHandlerBuilder.innerHandlerBuilder
+        CrossConfigurer(userHandlerBuilder).crossConfiguration()
+
+        mainHandler = mainHandlerBuilder.build()
     }
 
     private val builder: Undertow.Builder = Undertow.builder()
@@ -23,7 +32,7 @@ class SwakServer(
         if (ut != null) throw IllegalStateException("server already started!")
 
         ut = builder.addHttpListener(configuration.port, "0.0.0.0")
-                .setHandler(ChainAdapterHttpHandler(chain))
+                .setHandler(RouteAdapterHttpHandler(mainHandler))
                 .build()
 
         ut!!.start()
