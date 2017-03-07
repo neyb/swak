@@ -1,4 +1,4 @@
-package io.neyb.swak.handler.config.builder
+package io.neyb.swak.config.builder
 
 import io.neyb.swak.handler.cross.Cross
 import io.neyb.swak.handler.cross.route.Route

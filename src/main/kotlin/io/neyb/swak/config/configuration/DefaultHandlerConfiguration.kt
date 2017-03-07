@@ -1,6 +1,6 @@
-package io.neyb.swak.handler.config.configuration
+package io.neyb.swak.config.configuration
 
-import io.neyb.swak.handler.config.configurable.HandlerConfigurer
+import io.neyb.swak.config.configurable.HandlerConfigurer
 import io.neyb.swak.handler.cross.NoRouteFound
 import io.neyb.swak.handler.cross.SeveralRouteFound
 import io.neyb.swak.http.Code

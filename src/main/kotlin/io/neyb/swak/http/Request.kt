@@ -1,6 +1,6 @@
 package io.neyb.swak.http
 
-import io.neyb.swak.reader.BodyReader
+import io.neyb.swak.handler.converter.reader.BodyReader
 import io.reactivex.Single
 
 class Request<B>(

@@ -1,4 +1,4 @@
-package io.neyb.swak.handler.config.builder
+package io.neyb.swak.config.builder
 
 class MainHandler(
         parent: ConfigurableHandler? = null

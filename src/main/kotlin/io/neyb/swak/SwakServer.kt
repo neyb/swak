@@ -1,10 +1,10 @@
 package io.neyb.swak
 
 import io.neyb.swak.handler.Handler
-import io.neyb.swak.handler.config.builder.MainHandler
-import io.neyb.swak.handler.config.configurable.CrossConfigurer
-import io.neyb.swak.handler.config.configurable.HandlerConfigurer
-import io.neyb.swak.handler.config.configuration.DefaultHandlerConfiguration
+import io.neyb.swak.config.builder.MainHandler
+import io.neyb.swak.config.configurable.CrossConfigurer
+import io.neyb.swak.config.configurable.HandlerConfigurer
+import io.neyb.swak.config.configuration.DefaultHandlerConfiguration
 import io.undertow.Undertow
 
 class SwakServer(

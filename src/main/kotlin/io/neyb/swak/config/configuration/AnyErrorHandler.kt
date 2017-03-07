@@ -1,4 +1,4 @@
-package io.neyb.swak.handler.config.configuration
+package io.neyb.swak.config.configuration
 
 import io.neyb.swak.handler.interceptor.errorHandler.ErrorHandler
 import io.neyb.swak.http.Code

@@ -2,7 +2,7 @@ package io.neyb.swak
 
 import io.github.neyb.shoulk.*
 import io.github.neyb.shoulk.matcher.*
-import io.neyb.swak.handler.config.configurable.CrossConfigurer
+import io.neyb.swak.config.configurable.CrossConfigurer
 import okhttp3.*
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Tag

@@ -1,8 +1,8 @@
-package io.neyb.swak.reader.provider.request
+package io.neyb.swak.handler.converter.reader.provider.request
 
 import io.neyb.swak.http.Request
-import io.neyb.swak.reader.BodyReader
-import io.neyb.swak.reader.provider.request.NoReaderFoundForRequest
+import io.neyb.swak.handler.converter.reader.BodyReader
+import io.neyb.swak.handler.converter.reader.provider.request.NoReaderFoundForRequest
 
 class BodyReaderRequestProviders<B>(
         private val requestDependentBodyReaders: List<BodyReaderRequestProvider<B>>

@@ -1,8 +1,8 @@
-package io.neyb.swak.reader.provider.type
+package io.neyb.swak.handler.converter.reader.provider.type
 
-import io.neyb.swak.reader.provider.type.NoReaderFoundForType
-import io.neyb.swak.reader.provider.request.BodyReaderRequestProvider
-import io.neyb.swak.reader.provider.request.BodyReaderRequestProviders
+import io.neyb.swak.handler.converter.reader.provider.type.NoReaderFoundForType
+import io.neyb.swak.handler.converter.reader.provider.request.BodyReaderRequestProvider
+import io.neyb.swak.handler.converter.reader.provider.request.BodyReaderRequestProviders
 import java.util.*
 
 class BodyReaderTypeProviders(
