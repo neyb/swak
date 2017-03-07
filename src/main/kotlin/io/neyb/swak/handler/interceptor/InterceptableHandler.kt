@@ -5,10 +5,10 @@ import io.neyb.swak.handler.interceptor.after.AfterInterceptors
 import io.neyb.swak.handler.interceptor.before.BeforeInterceptor
 import io.neyb.swak.handler.interceptor.before.BeforeInterceptors
 import io.neyb.swak.handler.interceptor.errorHandler.ErrorHandlers
+import io.neyb.swak.handler.interceptor.errorHandler.ErrorRecover
 import io.neyb.swak.http.Request
 import io.neyb.swak.http.Response
 import io.reactivex.Single
-import io.reactivex.exceptions.CompositeException
 
 class InterceptableHandler<Body>(
         private val beforeRouteInterceptor: BeforeInterceptor<Body>,
@@ -24,12 +24,9 @@ class InterceptableHandler<Body>(
                         handler.handle(request)
                                 .flatMap { afterRouteInterceptor.onAfter(request, it) }
                     }
-                    .onErrorReturn { error ->
-                        val errorToDealWith =
-                                if (error is CompositeException && error.exceptions.size == 1) error.exceptions[0]
-                                else error
-                        errorHandlers.onError(errorToDealWith) ?: throw errorToDealWith
-                    }
+                    .map<ErrorRecover> { ErrorRecover.SafeErrorRecover(it) }
+                    .onErrorReturn { error -> ErrorRecover.RethrowErrorRecover(error, errorHandlers.onError(error)) }
+                    .map { it.response }
 
     class Builder<Body> {
         val before = BeforeInterceptors.Builder<Body>()

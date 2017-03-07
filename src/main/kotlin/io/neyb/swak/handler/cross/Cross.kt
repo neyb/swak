@@ -1,7 +1,7 @@
 package io.neyb.swak.handler.cross
 
 import io.neyb.swak.handler.RequestHandler
-import io.neyb.swak.handler.config.builder.HandlerBuilder
+import io.neyb.swak.handler.HandlerBuilder
 import io.neyb.swak.handler.cross.route.Route
 import io.neyb.swak.http.Request
 import io.neyb.swak.http.Response

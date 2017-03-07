@@ -1,5 +1,6 @@
 package io.neyb.swak.handler.config.builder
 
+import io.neyb.swak.handler.HandlerBuilder
 import io.neyb.swak.handler.interceptor.InterceptableHandler
 import io.neyb.swak.handler.interceptor.errorHandler.ErrorHandler
 import io.neyb.swak.reader.provider.type.BodyReaderTypeProviders
