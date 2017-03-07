@@ -5,7 +5,7 @@ import io.neyb.swak.http.Method
 import io.neyb.swak.http.Response
 import org.junit.jupiter.api.Test
 
-class SwakServer_body_Test : SwakServerTest() {
+class SwakServer_bodyTest : SwakServerTest() {
     @Test
     internal fun `body can be read`() {
         var whoAmI: String? = null

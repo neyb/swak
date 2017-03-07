@@ -4,7 +4,7 @@ import io.github.neyb.shoulk.*
 import io.github.neyb.shoulk.matcher.*
 import org.junit.jupiter.api.Test
 
-class SwakServer_basics_Test : SwakServerTest() {
+class SwakServer_basicsTest : SwakServerTest() {
 
     @Test fun `a server can be started and stoped`() {
         swakServer.start()

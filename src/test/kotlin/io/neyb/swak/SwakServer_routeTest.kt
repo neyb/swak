@@ -7,7 +7,7 @@ import io.neyb.swak.http.Response
 import io.reactivex.Single
 import org.junit.jupiter.api.Test
 
-class `ss route Test` : SwakServerTest() {
+class SwakServer_routeTest : SwakServerTest() {
     @Test fun `hello world server`() {
         swakServer {
             handle(GET, "/hello") {

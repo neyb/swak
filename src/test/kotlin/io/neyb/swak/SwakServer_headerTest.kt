@@ -7,7 +7,7 @@ import io.neyb.swak.http.Response
 import io.reactivex.Single
 import org.junit.jupiter.api.Test
 
-class SwakServer_header_Test : SwakServerTest() {
+class SwakServer_headerTest : SwakServerTest() {
     @Test
     internal fun `test header`() {
         var header: Headers? = null

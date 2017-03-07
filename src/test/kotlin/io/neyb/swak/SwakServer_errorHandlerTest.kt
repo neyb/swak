@@ -4,12 +4,13 @@ import io.github.neyb.shoulk.*
 import io.neyb.swak.http.*
 import org.junit.jupiter.api.Test
 
-class SwakServer_ErrorHandlerTest : SwakServerTest() {
+class SwakServer_errorHandlerTest : SwakServerTest() {
     open class MyException : RuntimeException()
     class MySubException : MyException()
 
     @Test
     internal fun `can handle a specific error`() {
+
         swakServer {
             handle(Method.GET, "/test") {
                 throw MyException()

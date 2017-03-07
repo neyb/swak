@@ -6,7 +6,7 @@ import io.neyb.swak.http.Response
 import io.reactivex.Single
 import org.junit.jupiter.api.Test
 
-class SwakServer_finalRoute_extract_Test : SwakServerTest() {
+class SwakServer_finalRouteExtractTest : SwakServerTest() {
 
     @Test
     internal fun simpleExtraction() {
