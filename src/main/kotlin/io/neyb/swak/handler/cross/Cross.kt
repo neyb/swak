@@ -8,11 +8,11 @@ import io.neyb.swak.http.Response
 import io.reactivex.Single
 import java.util.*
 
-class Cross<Body>(
-        private val routes: List<Route<Body>>
-) : Handler<Body> {
+class Cross(
+        private val routes: List<Route>
+) : Handler<String> {
 
-    override fun handle(request: Request<Body>): Single<Response> {
+    override fun handle(request: Request<String>): Single<Response> {
         val acceptingRoutes = routes.filter { it.accept(request) }
         return when (acceptingRoutes.size) {
             0 -> Single.error { NoRouteFound(request.path) }
@@ -22,7 +22,7 @@ class Cross<Body>(
     }
 
     class Builder : HandlerBuilder<String> {
-        val routes: MutableList<Route<String>> = ArrayList()
+        val routes: MutableList<Route> = ArrayList()
         override fun build() = Cross(routes)
     }
 }
