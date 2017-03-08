@@ -6,7 +6,8 @@ import io.neyb.swak.handler.interceptor.InterceptableHandler
 import kotlin.properties.Delegates
 
 class SimpleConfigurableIntercepter(
-        override val parent: ConfigurableHandler<*>? = null
+        override val parent: ConfigurableHandler<*>? = null,
+        override val localPath: String? = null
 ) : ConfigurableIntercepter<String> {
     override val bodyReaderTypeProviders = BodyReaderTypeProviders(parent?.bodyReaderTypeProviders)
     override var innerHandlerBuilder: HandlerBuilder<String> by Delegates.notNull()

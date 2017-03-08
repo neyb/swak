@@ -11,6 +11,9 @@ import io.reactivex.Single
 
 interface ConfigurableHandler<B> : HandlerConfigurer, HandlerBuilder<B> {
     val parent: ConfigurableHandler<*>?
+    val localPath: String?
+    val path: String
+        get() = (parent?.localPath ?: "") + (localPath ?: "")
     val bodyReaderTypeProviders: BodyReaderTypeProviders
 
     override fun addContentReaderProvider(bodyReaderTypeProvider: BodyReaderTypeProvider) {
@@ -20,5 +23,6 @@ interface ConfigurableHandler<B> : HandlerConfigurer, HandlerBuilder<B> {
     private class SimpleHandler<B>(private val handler: (Request<B>) -> Single<Response>) : Handler<B> {
         override fun handle(request: Request<B>) = handler(request)
     }
-    fun <B> ((Request<B>) -> Single<Response>).asRequestHandler():Handler<B> = SimpleHandler(this)
+
+    fun <B> ((Request<B>) -> Single<Response>).asRequestHandler(): Handler<B> = SimpleHandler(this)
 }

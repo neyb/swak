@@ -1,15 +1,14 @@
 package io.neyb.swak.handler.path
 
-import java.util.*
+internal class RegexRoutePath(private val path: String) : RoutePath {
+    private val groupNames: List<String>
+    private val extractor: Regex
 
-class RegexRoutePath(private val path: String) : RoutePath {
-    private val groupNames: MutableList<String> = ArrayList()
-    private val extractor: Regex =
-            path.replace("""\{(.*?)\}""".toRegex()) { matchResult ->
-                val groupName = matchResult.groupValues[1]
-                groupNames += groupName
-                """(.*?)"""
-            }.toRegex()
+    init {
+        val result = PatternCompiler.compile("", path, matchAll = true)
+        extractor = result.regex
+        groupNames = result.groupNames
+    }
 
     override fun accept(requestPath: String) = extractor.matches(requestPath)
 

@@ -30,13 +30,13 @@ class InterceptableHandler<Body>(
 
     class Builder<Body> {
         val before = BeforeInterceptors.Builder<Body>()
-        val afterRouteInterceptorBuilder = AfterInterceptors.Builder<Body>()
+        val after = AfterInterceptors.Builder<Body>()
         val errorHandlersBuilder = ErrorHandlers.Builder()
 
         fun build(handler: Handler<Body>) = InterceptableHandler(
                 before.build(),
                 handler,
-                afterRouteInterceptorBuilder.build(),
+                after.build(),
                 errorHandlersBuilder.build()
         )
     }

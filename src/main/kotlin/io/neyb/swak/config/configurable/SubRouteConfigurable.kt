@@ -5,7 +5,8 @@ import io.neyb.swak.handler.cross.Cross
 import io.neyb.swak.handler.interceptor.InterceptableHandler
 
 class SubRouteConfigurable(
-        override val parent: ConfigurableHandler<*>? = null
+        override val parent: ConfigurableHandler<*>? = null,
+        override val localPath: String? = null
 ) : ConfigurableIntercepter<String>, ConfigurableCross {
     override val bodyReaderTypeProviders = BodyReaderTypeProviders(parent?.bodyReaderTypeProviders)
     override val interceptHandlerBuilder = InterceptableHandler.Builder<String>()

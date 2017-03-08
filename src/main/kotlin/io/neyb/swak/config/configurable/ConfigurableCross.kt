@@ -35,7 +35,7 @@ interface ConfigurableCross : CrossConfigurer, ConfigurableHandler<String> {
     }
 
     private fun handle(method: Method, path: String, handler: Handler<String>) {
-        val routePath = RoutePath.of(path)
+        val routePath = RoutePath.of(this.path + path)
 
         addRoute(Route(
                 MethodMatcher<String>(method) and PathMatcher(routePath),
