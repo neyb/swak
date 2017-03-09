@@ -9,28 +9,28 @@ internal class RegexRoutePathTest {
     internal fun `regex work without any group`() {
         val routePath = RegexRoutePath("/test/")
         routePath should accept("/test/")
-        routePath.extractPathParams("/test/") shouldEqual mapOf()
+        routePath.extractor.extractFrom("/test/") shouldEqual mapOf()
     }
 
     @Test
     internal fun `regex accept can match with a group`() {
         val routePath = RegexRoutePath("/test/{foo}")
         routePath should accept("/test/bar")
-        routePath.extractPathParams("/test/bar") shouldEqual mapOf("foo" to "bar")
+        routePath.extractor.extractFrom("/test/bar") shouldEqual mapOf("foo" to "bar")
     }
 
     @Test
     internal fun `can match empty string`() {
         val routePath = RegexRoutePath("/test/{foo}")
         routePath should accept("/test/")
-        routePath.extractPathParams("/test/") shouldEqual mapOf("foo" to "")
+        routePath.extractor.extractFrom("/test/") shouldEqual mapOf("foo" to "")
     }
 
     @Test
     internal fun `extracting a rejected path should fail`() {
         val routePath = RegexRoutePath("/foo/{test}")
         routePath should reject("/bar/value");
-        { routePath.extractPathParams("/bar/value") } shouldThrow
+        { routePath.extractor.extractFrom("/bar/value") } shouldThrow
                 IllegalArgumentException::class that match { it.message == "incompatible path" }
     }
 
@@ -38,7 +38,7 @@ internal class RegexRoutePathTest {
     internal fun `several groups`() {
         val routePath = RegexRoutePath("/{foo}/{bar}/{empty}/{notEmpty}/{emptyAgain}")
         routePath should reject("/")
-        routePath.extractPathParams("/foo/bar//notEmpty/") shouldEqual mapOf(
+        routePath.extractor.extractFrom("/foo/bar//notEmpty/") shouldEqual mapOf(
                 "foo" to "foo",
                 "bar" to "bar",
                 "empty" to "",

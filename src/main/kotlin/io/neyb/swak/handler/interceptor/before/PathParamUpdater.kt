@@ -4,7 +4,7 @@ import io.neyb.swak.handler.path.RoutePath
 import io.neyb.swak.http.UpdatableRequest
 import io.reactivex.Single
 
-class PathParamExtractor(private val routePath: RoutePath) : BeforeInterceptor<String> {
+internal class PathParamUpdater(private val routePath: RoutePath) : BeforeInterceptor<String> {
     override fun updateRequest(request: UpdatableRequest<String>) = Single.just(
-            request.withPathParam(routePath.extractPathParams(request.path)))!!
+            request.withPathParamExtractor(routePath.extractor))
 }

@@ -6,13 +6,17 @@ import io.reactivex.Single
 class UpdatableRequest<B> internal constructor(
         private val basicRequest: BasicRequest,
         private val bodyReader: BodyReader<B>,
-        override val pathParams: Map<String, String> = emptyMap()
+        private val pathParamExtractor: PathParamExtractor
 ) : Request<B> {
     override val headers: Headers
         get() = basicRequest.headers
 
     override val path: String
         get() = basicRequest.path
+
+    override val pathParams by lazy {
+        pathParamExtractor.extractFrom(path)
+    }
 
     override val method: Method
         get() = basicRequest.method
@@ -24,8 +28,9 @@ class UpdatableRequest<B> internal constructor(
     override val additionalData: AdditionalData = AdditionalData()
 
     fun <NewBody> withBodyReader(newBodyReader: BodyReader<NewBody>) =
-            UpdatableRequest(basicRequest, newBodyReader, pathParams)
+            UpdatableRequest(basicRequest, newBodyReader, pathParamExtractor)
 
-    fun withPathParam(newPathParams: Map<String, String>) =
-            UpdatableRequest(basicRequest, bodyReader, pathParams + newPathParams)
+    internal fun withPathParamExtractor(pathParamExtractor: PathParamExtractor) =
+            UpdatableRequest(basicRequest, bodyReader, pathParamExtractor)
 }
+

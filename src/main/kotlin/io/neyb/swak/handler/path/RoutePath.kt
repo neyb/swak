@@ -1,8 +1,10 @@
 package io.neyb.swak.handler.path
 
-interface RoutePath {
+import io.neyb.swak.http.PathParamExtractor
+
+internal interface RoutePath {
     fun accept(requestPath: String): Boolean
-    fun extractPathParams(requestPath: String): Map<String, String>
+    val extractor: PathParamExtractor
 
     companion object {
         private val regex: Regex = """\{.*\}""".toRegex()

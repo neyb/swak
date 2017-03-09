@@ -8,7 +8,7 @@ import io.neyb.swak.handler.cross.route.Route
 import io.neyb.swak.handler.cross.route.matcher.MethodMatcher
 import io.neyb.swak.handler.cross.route.matcher.PathMatcher
 import io.neyb.swak.handler.interceptor.InterceptableHandler
-import io.neyb.swak.handler.interceptor.before.PathParamExtractor
+import io.neyb.swak.handler.interceptor.before.PathParamUpdater
 import io.neyb.swak.handler.path.RoutePath
 import io.neyb.swak.http.*
 import io.reactivex.Single
@@ -40,7 +40,7 @@ interface ConfigurableCross : CrossConfigurer, ConfigurableHandler<String> {
         addRoute(Route(
                 MethodMatcher<String>(method) and PathMatcher(routePath),
                 InterceptableHandler.Builder<String>().apply {
-                    before.interceptors.add(PathParamExtractor(routePath))
+                    before.interceptors.add(PathParamUpdater(routePath))
                 }.build(handler)
         ))
     }
