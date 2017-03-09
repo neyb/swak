@@ -19,7 +19,7 @@ class SwakServer_bodyReaderTest : SwakServerTest() {
                     if (target == Int::class.javaObjectType) this as BodyReaderRequestProvider<B>
                     else null
 
-            override fun forRequest(request: Request<String>) = this
+            override fun forRequest(request: UpdatableRequest<String>) = this
         }
 
         var nameLength: Int? = null

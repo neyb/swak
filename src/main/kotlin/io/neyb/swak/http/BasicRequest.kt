@@ -4,7 +4,7 @@ import io.reactivex.Single
 import io.undertow.server.HttpServerExchange
 import java.util.*
 
-class BasicRequest(private val exchange: HttpServerExchange) {
+internal class BasicRequest(private val exchange: HttpServerExchange) {
     val headers: Headers by lazy {
         Headers(exchange.requestHeaders
                 .map { it.headerName.toString() to ArrayList(it) }

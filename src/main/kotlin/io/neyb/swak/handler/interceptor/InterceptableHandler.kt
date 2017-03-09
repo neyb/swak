@@ -6,7 +6,7 @@ import io.neyb.swak.handler.interceptor.before.BeforeInterceptor
 import io.neyb.swak.handler.interceptor.before.BeforeInterceptors
 import io.neyb.swak.handler.interceptor.errorHandler.ErrorHandlers
 import io.neyb.swak.handler.interceptor.errorHandler.ErrorRecover
-import io.neyb.swak.http.Request
+import io.neyb.swak.http.UpdatableRequest
 import io.neyb.swak.http.Response
 import io.reactivex.Single
 
@@ -17,7 +17,7 @@ class InterceptableHandler<Body>(
         private val errorHandlers: ErrorHandlers
 ) : Handler<Body> {
 
-    override fun handle(request: Request<Body>): Single<Response> =
+    override fun handle(request: UpdatableRequest<Body>): Single<Response> =
             Single.just(request)
                     .flatMap { beforeRouteInterceptor.updateRequest(it) }
                     .flatMap { request ->

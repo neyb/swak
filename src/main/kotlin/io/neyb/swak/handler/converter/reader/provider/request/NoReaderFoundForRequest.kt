@@ -1,5 +1,5 @@
 package io.neyb.swak.handler.converter.reader.provider.request
 
-import io.neyb.swak.http.Request
+import io.neyb.swak.http.UpdatableRequest
 
-class NoReaderFoundForRequest(request: Request<String>) : RuntimeException("no reader found for exception $request")
+class NoReaderFoundForRequest(request: UpdatableRequest<String>) : RuntimeException("no reader found for exception $request")

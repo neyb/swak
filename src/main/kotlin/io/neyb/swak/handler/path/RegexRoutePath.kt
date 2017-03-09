@@ -5,7 +5,7 @@ internal class RegexRoutePath(private val path: String) : RoutePath {
     private val extractor: Regex
 
     init {
-        val result = PatternCompiler.compile("", path, matchAll = true)
+        val result = PathPatternCompiler.compile(path)
         extractor = result.regex
         groupNames = result.groupNames
     }
