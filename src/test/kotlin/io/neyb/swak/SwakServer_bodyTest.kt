@@ -10,7 +10,7 @@ class SwakServer_bodyTest : SwakServerTest() {
     internal fun `body can be read`() {
         var whoAmI: String? = null
         swakServer {
-            handle(Method.POST, "/IAm") { request ->
+            handle("/IAm", Method.POST) { request ->
                 request.body
                         .doOnSuccess { whoAmI = it }
                         .map { Response() }

@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test
 class SwakServer_routeTest : SwakServerTest() {
     @Test fun `hello world server`() {
         swakServer {
-            handle(GET, "/hello") {
+            handle("/hello", GET) {
                 Single.just(Response(body = "hello world!"))
             }
         }.start()
@@ -21,8 +21,8 @@ class SwakServer_routeTest : SwakServerTest() {
     @Test fun `several route on same path`() {
         var counter = 0
         swakServer {
-            handle(POST, "/count") { counter++;Single.just(Response()) }
-            handle(GET, "/count") { Single.just(Response(body = counter)) }
+            handle("/count", POST) { counter++;Single.just(Response()) }
+            handle("/count", GET) { Single.just(Response(body = counter)) }
         }.start()
 
         post("/count", "")
@@ -32,8 +32,8 @@ class SwakServer_routeTest : SwakServerTest() {
 
     @Test fun `2 routes with a path containing the other`() {
         swakServer {
-            handle(GET, "/hello1") { Single.just(Response()) }
-            handle(GET, "/hello2") { Single.just(Response()) }
+            handle("/hello1", GET) { Single.just(Response()) }
+            handle("/hello2", GET) { Single.just(Response()) }
         }.start()
 
         get("/hello1")
@@ -42,8 +42,8 @@ class SwakServer_routeTest : SwakServerTest() {
 
     @Test fun `if several route intercept a path, server returns 500`() {
         swakServer {
-            handle(GET, "/hello") { Single.just(Response()) }
-            handle(GET, "/hell{thisIsAO}") { Single.just(Response()) }
+            handle("/hello", GET) { Single.just(Response()) }
+            handle("/hell{thisIsAO}", GET) { Single.just(Response()) }
         }.start()
 
         val response = get("/hello", checkSuccess = false)

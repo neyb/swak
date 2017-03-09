@@ -14,7 +14,7 @@ class SubRouteConfigurer(
             subRouteHandler.addContentReaderProvider(bodyReaderTypeProvider)
 
     inline fun <reified B> handleTyped(method: Method, path: String, noinline handler: (Request<B>) -> Single<Response>) {
-        handleTyped(method, path, B::class.java, handler)
+        handleTyped(path, method, B::class.java, handler)
     }
 
     inline fun <reified E : Throwable> handleError(noinline errorHandler: (E) -> Response) {

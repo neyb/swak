@@ -16,7 +16,7 @@ internal object PathPatternCompiler {
     private fun tryToCompile(pathPattern: String): CompileResult {
         checkNoStickenGroups(pathPattern)
         val groupNames = mutableListOf<String>()
-        val replace = pathPattern.replace(groupRegex) { matchResult ->
+        val replace = "^" + pathPattern.replace(groupRegex) { matchResult ->
             val groupInfo = matchResult.groups[1]!!
             groupNames += groupInfo.value.substringBefore(':')
             val content = getContentPattern(groupInfo, pathPattern)

@@ -3,7 +3,6 @@ package io.neyb.swak.handler.path
 import io.github.neyb.shoulk.*
 import io.github.neyb.shoulk.matcher.*
 import io.neyb.swak.handler.path.PathPatternCompiler.compile
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class PathPatternCompilerTest {
@@ -17,12 +16,12 @@ internal class PathPatternCompilerTest {
 
     @Test
     internal fun `compile can extract one path group`() {
-        test("/{group1}", "/(.*?)", "group1")
+        test("/{group1}", "^/(.*?)", "group1")
     }
 
     @Test
     internal fun `matchAll add right characters`() {
-        test("/a/b", "/a/b")
+        test("/a/b", "^/a/b")
     }
 
     @Test
@@ -33,7 +32,7 @@ internal class PathPatternCompilerTest {
 
     @Test
     internal fun `specifying a regex for a group`() {
-        test("{g1:[0-9]+}", "([0-9]+)", "g1")
+        test("{g1:[0-9]+}", "^([0-9]+)", "g1")
     }
 
     @Test
@@ -44,16 +43,16 @@ internal class PathPatternCompilerTest {
 
     @Test
     internal fun `2 groups separated by slash`() {
-        test("/{grp1}/{grp2}", "/([^/]*)/(.*?)", "grp1", "grp2")
+        test("/{grp1}/{grp2}", "^/([^/]*)/(.*?)", "grp1", "grp2")
     }
 
     @Test
     internal fun `2 groups separated by slash not optimized`() {
-        test("/{group1:}/{group2:}", "/(.*?)/(.*?)", "group1", "group2")
+        test("/{group1:}/{group2:}", "^/(.*?)/(.*?)", "group1", "group2")
     }
 
     @Test
     internal fun `use next char as separator`() {
-        test("/{group1}-{group2:}x{group3}/", "/([^-]*)-(.*?)x([^/]*)/", "group1", "group2", "group3")
+        test("/{group1}-{group2:}x{group3}/", "^/([^-]*)-(.*?)x([^/]*)/", "group1", "group2", "group3")
     }
 }

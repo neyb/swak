@@ -11,7 +11,7 @@ class SwakServer_finalRouteExtractTest : SwakServerTest() {
     @Test
     internal fun simpleExtraction() {
         swakServer {
-            handle(GET, "/hello/{who}") { request ->
+            handle("/hello/{who}", GET) { request ->
                 Single.just(Response(body = request.pathParams["who"]))
             }
         }.start()

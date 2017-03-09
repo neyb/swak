@@ -12,7 +12,7 @@ class SwakServer_headerTest : SwakServerTest() {
     internal fun `test header`() {
         var header: Headers? = null
         swakServer {
-            handle(GET, "/") { request ->
+            handle("/", GET) { request ->
                 header = request.headers
                 Single.just(Response())
             }

@@ -8,6 +8,7 @@ import io.reactivex.Single
 interface CrossConfigurer : HandlerConfigurer {
     val crossHandlerBuilder: Cross.Builder
     fun addRoute(route: Route)
-    fun handle(method: Method, path: String, handler: (Request<String>) -> Single<Response>)
-    fun <B> handleTyped(method: Method, path: String, bodyType: Class<B>, handler: (Request<B>) -> Single<Response>)
+    fun handle(path: String, method: Method, handler: (Request<String>) -> Single<Response>)
+    fun <B> handleTyped(path: String, method: Method, bodyType: Class<B>, handler: (Request<B>) -> Single<Response>)
+    fun sub(path: String, configuration: SubRouteConfigurer.() -> Unit)
 }

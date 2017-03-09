@@ -1,6 +1,6 @@
 package io.neyb.swak.http
 
-internal class BasicPathParamExtractor(
+internal class RegexPathParamExtractor(
         private val extractor: Regex,
         private val groupNames: List<String>) : PathParamExtractor {
     override fun extractFrom(requestPath: String) =

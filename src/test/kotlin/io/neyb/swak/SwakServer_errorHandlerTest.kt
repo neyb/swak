@@ -12,10 +12,10 @@ class SwakServer_errorHandlerTest : SwakServerTest() {
     internal fun `can handle a specific error`() {
 
         swakServer {
-            handle(Method.GET, "/test") {
+            handle("/test", Method.GET) {
                 throw MyException()
             }
-            handle(Method.GET, "/test2") {
+            handle("/test2", Method.GET) {
                 throw MySubException()
             }
             handleError<MyException> { Response(Code.PARTIAL_CONTENT) }

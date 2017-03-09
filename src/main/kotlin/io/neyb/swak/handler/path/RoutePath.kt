@@ -8,8 +8,8 @@ internal interface RoutePath {
 
     companion object {
         private val regex: Regex = """\{.*\}""".toRegex()
-        fun of(path: String) =
-                if (regex.containsMatchIn(path)) RegexRoutePath(path)
-                else ExactRoutePath(path)
+        fun of(path: String, isFull: Boolean) =
+                if (regex.containsMatchIn(path)) RegexRoutePath(path, isFull)
+                else ExactRoutePath(path, isFull)
     }
 }
