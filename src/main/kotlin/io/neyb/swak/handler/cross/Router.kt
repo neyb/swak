@@ -8,7 +8,7 @@ import io.neyb.swak.http.Response
 import io.reactivex.Single
 import java.util.*
 
-class Cross(
+class Router(
         private val routes: List<Route>
 ) : Handler<String> {
 
@@ -23,7 +23,7 @@ class Cross(
 
     class Builder : HandlerBuilder<String> {
         val routes: MutableList<Route> = ArrayList()
-        override fun build() = Cross(routes)
+        override fun build() = Router(routes)
     }
 }
 

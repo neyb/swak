@@ -1,10 +1,10 @@
 package io.neyb.swak.config.configurable
 
-import io.neyb.swak.config.configurer.CrossConfigurer
+import io.neyb.swak.config.configurer.RouterConfigurer
 import io.neyb.swak.config.configurer.SubRouteConfigurer
 import io.neyb.swak.handler.Handler
 import io.neyb.swak.handler.converter.BodyConverterHandler
-import io.neyb.swak.handler.cross.Cross
+import io.neyb.swak.handler.cross.Router
 import io.neyb.swak.handler.cross.route.Route
 import io.neyb.swak.handler.cross.route.matcher.*
 import io.neyb.swak.handler.interceptor.InterceptableHandler
@@ -13,11 +13,11 @@ import io.neyb.swak.handler.path.RoutePath
 import io.neyb.swak.http.*
 import io.reactivex.Single
 
-interface ConfigurableCross : CrossConfigurer, ConfigurableHandler<String> {
-    override val crossHandlerBuilder: Cross.Builder
+interface ConfigurableRouter : RouterConfigurer, ConfigurableHandler<String> {
+    override val routerHandlerBuilder: Router.Builder
 
     override fun addRoute(route: Route) {
-        crossHandlerBuilder.routes.add(route)
+        routerHandlerBuilder.routes.add(route)
     }
 
     override fun handle(path: String, method: Method, handler: (Request<String>) -> Single<Response>) {
@@ -59,6 +59,6 @@ interface ConfigurableCross : CrossConfigurer, ConfigurableHandler<String> {
             if (additionalMatcher != null) this and additionalMatcher
             else this
 
-    override fun build(): Handler<String> = crossHandlerBuilder.build()
+    override fun build(): Handler<String> = routerHandlerBuilder.build()
 
 }

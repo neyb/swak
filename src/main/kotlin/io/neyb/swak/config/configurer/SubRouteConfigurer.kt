@@ -8,7 +8,7 @@ import io.reactivex.Single
 
 class SubRouteConfigurer(
         private val subRouteHandler: SubRouteConfigurable
-) : IntercepterConfigurer by subRouteHandler, CrossConfigurer by subRouteHandler{
+) : IntercepterConfigurer by subRouteHandler, RouterConfigurer by subRouteHandler{
 
     override fun addContentReaderProvider(bodyReaderTypeProvider: BodyReaderTypeProvider) =
             subRouteHandler.addContentReaderProvider(bodyReaderTypeProvider)
