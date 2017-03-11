@@ -1,7 +1,7 @@
 package swak.http
 
 import io.reactivex.Single
-import swak.handler.converter.reader.BodyReader
+import swak.reader.BodyReader
 
 class UpdatableRequest<B> internal constructor(
         private val basicRequest: BasicRequest,

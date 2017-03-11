@@ -1,7 +1,7 @@
 package swak.config.configuration
 
 import mu.KLogging
-import swak.handler.interceptor.errorHandler.ErrorHandler
+import swak.interceptor.errorHandler.ErrorHandler
 import swak.http.Code
 import swak.http.Response
 

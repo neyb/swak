@@ -3,8 +3,8 @@ package swak.config.configurable
 import swak.config.configurer.AroundConfigurer
 import swak.handler.Handler
 import swak.handler.HandlerBuilder
-import swak.handler.interceptor.Around
-import swak.handler.interceptor.errorHandler.ErrorHandler
+import swak.handler.Around
+import swak.interceptor.errorHandler.ErrorHandler
 
 internal interface ConfigurableAround<B> : AroundConfigurer, ConfigurableHandler<B> {
     val interceptHandlerBuilder: Around.Builder<B>

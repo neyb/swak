@@ -1,8 +1,8 @@
 package swak.config.configurable
 
 import swak.handler.HandlerBuilder
-import swak.handler.converter.reader.provider.type.BodyReaderTypeProviders
-import swak.handler.interceptor.Around
+import swak.reader.provider.type.BodyReaderTypeProviders
+import swak.handler.Around
 import kotlin.properties.Delegates
 
 internal class SimpleConfigurableAround(

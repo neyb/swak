@@ -2,8 +2,8 @@ package swak.config.configuration
 
 import mu.KLoggable
 import swak.config.configurer.SimpleAroundConfigurer
-import swak.handler.cross.NoRouteFound
-import swak.handler.cross.SeveralRouteFound
+import swak.handler.router.NoRouteFound
+import swak.handler.router.SeveralRouteFound
 import swak.http.Code
 import swak.http.Response
 
