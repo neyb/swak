@@ -9,7 +9,7 @@ import swak.http.*
 internal class RouteAdapterHttpHandler(private val mainHandler: Handler<String>) : HttpHandler {
     override fun handleRequest(exchange: HttpServerExchange) {
         exchange.dispatch(Runnable {
-            mainHandler.handle(UpdatableRequest(BasicRequest(exchange), TextReader, NoPathParamExtractor()))
+            mainHandler.handle(UpdatableRequest(UndertowBasicRequest(exchange), TextReader, NoPathParamExtractor()))
                     .subscribe(ExchangeUpdater(exchange))
         })
     }
