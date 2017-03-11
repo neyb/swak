@@ -1,0 +1,16 @@
+package swak
+
+import io.undertow.server.HttpHandler
+import io.undertow.server.HttpServerExchange
+import swak.handler.Handler
+import swak.handler.converter.reader.TextReader
+import swak.http.*
+
+internal class RouteAdapterHttpHandler(private val mainHandler: Handler<String>) : HttpHandler {
+    override fun handleRequest(exchange: HttpServerExchange) {
+        exchange.dispatch(Runnable {
+            mainHandler.handle(UpdatableRequest(BasicRequest(exchange), TextReader, NoPathParamExtractor()))
+                    .subscribe(ExchangeUpdater(exchange))
+        })
+    }
+}
