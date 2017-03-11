@@ -12,5 +12,13 @@ while being very flexible
 
 # example
 
+# tasks
+* use `Internal` what can be
+* around Wrapper
+ * timeout
+* list routes
+* dont build interceptorPluger when not necessary
+* separate undertow (to eventually let user replace it)
+
 # where 'swak' comes from
 well... we all know kotlin coders got the swak
