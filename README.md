@@ -4,7 +4,7 @@ when undertow meets rxjava & kotlin
 in development
 
 # what is swak
-swak is a library which allow to start a http server where everthing is asynchronous.
+swak is a library which allow to start a http server where everything is asynchronous.
 
 ## everything is code
 in swak, everything is code : a nice syntax allow it to be easy to configurable
