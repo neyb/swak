@@ -1,8 +1,8 @@
 package swak.config.configurer
 
 import swak.config.configurable.SimpleConfigurableAround
-import swak.interceptor.errorHandler.ErrorHandler
 import swak.http.Response
+import swak.interceptor.errorHandler.ErrorHandler
 
 class SimpleAroundConfigurer internal constructor(
         private val configurable: SimpleConfigurableAround

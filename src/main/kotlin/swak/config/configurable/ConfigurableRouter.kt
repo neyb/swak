@@ -3,15 +3,13 @@ package swak.config.configurable
 import io.reactivex.Single
 import swak.config.configurer.RouterConfigurer
 import swak.config.configurer.SubRouteConfigurer
-import swak.handler.Handler
-import swak.handler.BodyConverterHandler
+import swak.handler.*
+import swak.handler.path.RoutePath
 import swak.handler.router.Router
 import swak.handler.router.route.Route
-import swak.matcher.*
-import swak.handler.Around
-import swak.interceptor.before.PathParamUpdater
-import swak.handler.path.RoutePath
 import swak.http.*
+import swak.interceptor.before.PathParamUpdater
+import swak.matcher.*
 
 internal interface ConfigurableRouter : RouterConfigurer, ConfigurableHandler<String> {
     val routerHandlerBuilder: Router.Builder
@@ -48,11 +46,17 @@ internal interface ConfigurableRouter : RouterConfigurer, ConfigurableHandler<St
     private fun handle(path: String, additionalMatcher: RequestMatcher<String>?, handler: Handler<String>, haveSubRoute: Boolean) {
         val routePath = RoutePath.of(this.path + path, !haveSubRoute)
         val matcher = PathMatcher<String>(routePath) and additionalMatcher
-        val handlerWithParamUpdater = Around.Builder<String>().apply {
-            before.interceptors.add(PathParamUpdater(routePath))
-        }.build(handler)
 
-        addRoute(Route(matcher, handlerWithParamUpdater))
+        val handlerWithAnyParamUpdater =
+                if (routePath.extractor != null) {
+                    Around.Builder<String>().apply {
+                        before.interceptors.add(PathParamUpdater(routePath))
+                    }.build(handler)
+                } else {
+                    handler
+                }
+
+        addRoute(Route(matcher, handlerWithAnyParamUpdater))
     }
 
     infix fun RequestMatcher<String>.and(additionalMatcher: RequestMatcher<String>?) =

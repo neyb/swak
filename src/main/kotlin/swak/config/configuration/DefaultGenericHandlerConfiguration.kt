@@ -16,8 +16,6 @@ internal object DefaultGenericHandlerConfiguration : GenericHandlerConfiguration
             logAndRespondWithStatus<NoRouteFound>(Code.NOT_FOUND, logStack = false)
             logAndRespondWithStatus<SeveralRouteFound>(Code.INTERNAL_SERVER_ERROR, logStack = false)
             logAndRespondWithStatus<Throwable>(Code.INTERNAL_SERVER_ERROR, message = "an unhandled error occured:")
-            handleError(AnyErrorHandler)
-            handleError(AnyErrorHandler)
         }
     }
 

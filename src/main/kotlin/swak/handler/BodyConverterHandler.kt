@@ -1,8 +1,7 @@
 package swak.handler
 
-import swak.handler.Handler
-import swak.reader.provider.request.BodyReaderRequestProvider
 import swak.http.UpdatableRequest
+import swak.reader.provider.request.BodyReaderRequestProvider
 
 internal class BodyConverterHandler<Body>(
         private val readerProvider: BodyReaderRequestProvider<Body>,

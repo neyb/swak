@@ -11,4 +11,6 @@ internal class SpecificErrorHandler<in E:Throwable>(
                 @Suppress("UNCHECKED_CAST")
                 errorHandler(error as E)
             else null
+
+    override fun toString() = "handle ${handledErrorType.simpleName}"
 }

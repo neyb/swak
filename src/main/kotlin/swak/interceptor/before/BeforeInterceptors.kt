@@ -20,4 +20,6 @@ internal class BeforeInterceptors<T>(
         fun hasBehaviour() = !interceptors.isEmpty()
         fun build() = BeforeInterceptors(interceptors.toList())
     }
+
+    override fun toString() = interceptors.toString()
 }

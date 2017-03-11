@@ -1,8 +1,8 @@
 package swak.config.configurable
 
-import swak.reader.provider.type.BodyReaderTypeProviders
-import swak.handler.router.Router
 import swak.handler.Around
+import swak.handler.router.Router
+import swak.reader.provider.type.BodyReaderTypeProviders
 
 internal class SubRouteConfigurable(
         override val parent: ConfigurableHandler<*>? = null,

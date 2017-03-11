@@ -7,4 +7,6 @@ internal class Route(
         private val matcher: RequestMatcher<String>,
         private val handler: Handler<String>
 ) : RequestMatcher<String> by matcher,
-        Handler<String> by handler
+        Handler<String> by handler{
+    override fun toString() = "$matcher => $handler"
+}

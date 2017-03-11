@@ -2,10 +2,10 @@ package swak
 
 import io.github.neyb.shoulk.*
 import org.junit.jupiter.api.Test
+import swak.http.*
 import swak.reader.BodyReader
 import swak.reader.provider.request.BodyReaderRequestProvider
 import swak.reader.provider.type.BodyReaderTypeProvider
-import swak.http.*
 
 class SwakServer_bodyReaderTest : SwakServerTest() {
 

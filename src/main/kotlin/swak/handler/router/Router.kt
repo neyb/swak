@@ -21,6 +21,8 @@ internal class Router(
         }
     }
 
+    override fun toString() = routes.toString()
+
     class Builder : HandlerBuilder<String> {
         val routes: MutableList<Route> = ArrayList()
         override fun build() = Router(routes)

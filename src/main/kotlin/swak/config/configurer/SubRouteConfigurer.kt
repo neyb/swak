@@ -2,9 +2,9 @@ package swak.config.configurer
 
 import io.reactivex.Single
 import swak.config.configurable.SubRouteConfigurable
-import swak.reader.provider.type.BodyReaderTypeProvider
-import swak.interceptor.errorHandler.ErrorHandler
 import swak.http.*
+import swak.interceptor.errorHandler.ErrorHandler
+import swak.reader.provider.type.BodyReaderTypeProvider
 
 class SubRouteConfigurer internal constructor(
         private val subRouteHandler: SubRouteConfigurable

@@ -1,9 +1,7 @@
 package swak.config.configurable
 
 import swak.config.configurer.AroundConfigurer
-import swak.handler.Handler
-import swak.handler.HandlerBuilder
-import swak.handler.Around
+import swak.handler.*
 import swak.interceptor.errorHandler.ErrorHandler
 
 internal interface ConfigurableAround<B> : AroundConfigurer, ConfigurableHandler<B> {

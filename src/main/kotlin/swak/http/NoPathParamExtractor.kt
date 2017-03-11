@@ -1,5 +1,5 @@
 package swak.http
 
-class NoPathParamExtractor : PathParamExtractor {
+internal object NoPathParamExtractor : PathParamExtractor {
     override fun extractFrom(requestPath: String) = mapOf<String, String>()
 }

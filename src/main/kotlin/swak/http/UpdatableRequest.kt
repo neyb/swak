@@ -6,7 +6,7 @@ import swak.reader.BodyReader
 class UpdatableRequest<B> internal constructor(
         private val basicRequest: BasicRequest,
         private val bodyReader: BodyReader<B>,
-        private val pathParamExtractor: PathParamExtractor
+        private val pathParamExtractor: PathParamExtractor = NoPathParamExtractor
 ) : Request<B> {
     override val headers: Headers
         get() = basicRequest.headers

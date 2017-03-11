@@ -11,6 +11,9 @@ internal class ErrorHandlers(
                     .mapNotNull { it.onError(error) }
                     .firstOrNull()
 
+    override fun toString() = errorHandlers.toString()
+
+
     class Builder {
         val errorHandlers = mutableListOf<ErrorHandler>()
         fun  hasBehaviour() = !errorHandlers.isEmpty()

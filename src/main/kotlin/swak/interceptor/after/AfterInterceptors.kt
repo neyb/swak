@@ -18,6 +18,8 @@ internal class AfterInterceptors<B> : AfterInterceptor<B> {
         return result
     }
 
+    override fun toString() = interceptors.toString()
+
     class Builder<B> {
         fun build() = AfterInterceptors<B>(
 

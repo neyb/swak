@@ -3,10 +3,10 @@ package swak.config.configurable
 import io.reactivex.Single
 import swak.config.configurer.HandlerConfigurer
 import swak.handler.*
-import swak.reader.provider.type.BodyReaderTypeProvider
-import swak.reader.provider.type.BodyReaderTypeProviders
 import swak.http.Request
 import swak.http.Response
+import swak.reader.provider.type.BodyReaderTypeProvider
+import swak.reader.provider.type.BodyReaderTypeProviders
 
 internal interface ConfigurableHandler<B> : HandlerConfigurer, HandlerBuilder<B> {
     val parent: ConfigurableHandler<*>?

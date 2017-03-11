@@ -1,14 +1,13 @@
 package swak.handler
 
 import io.reactivex.Single
-import swak.handler.Handler
+import swak.http.Response
+import swak.http.UpdatableRequest
 import swak.interceptor.after.AfterInterceptors
 import swak.interceptor.before.BeforeInterceptor
 import swak.interceptor.before.BeforeInterceptors
 import swak.interceptor.errorHandler.ErrorHandlers
 import swak.interceptor.errorHandler.ErrorRecover
-import swak.http.Response
-import swak.http.UpdatableRequest
 
 internal class Around<Body>(
         private val before: BeforeInterceptor<Body>,
@@ -27,6 +26,8 @@ internal class Around<Body>(
                     .map<ErrorRecover> { ErrorRecover.SafeErrorRecover(it) }
                     .onErrorReturn { error -> ErrorRecover.RethrowErrorRecover(error, errorHandlers.onError(error)) }
                     .map { it.response }
+
+    override fun toString() = handler.toString()
 
     class Builder<Body> {
         val before = BeforeInterceptors.Builder<Body>()

@@ -1,7 +1,7 @@
 package swak.reader.provider.request
 
-import swak.reader.BodyReader
 import swak.http.UpdatableRequest
+import swak.reader.BodyReader
 
 internal class BodyReaderRequestProviders<B>(
         private val requestDependentBodyReaders: List<BodyReaderRequestProvider<B>>
