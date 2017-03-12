@@ -16,12 +16,11 @@ class SwakServer(
 
     init {
         val rootHandlerBuilder = SimpleConfigurableAround()
-        DefaultGenericHandlerConfiguration.configure(SimpleAroundConfigurer(rootHandlerBuilder))
-
         val mainHandlerBuilder = SubRouteConfigurable(rootHandlerBuilder)
-        mainConfiguration(SubRouteConfigurer(mainHandlerBuilder))
+        rootHandlerBuilder.interceptHandlerBuilder.innerHandler = mainHandlerBuilder
 
-        rootHandlerBuilder.innerHandlerBuilder = mainHandlerBuilder
+        DefaultGenericHandlerConfiguration.configure(SimpleAroundConfigurer(rootHandlerBuilder))
+        mainConfiguration(SubRouteConfigurer(mainHandlerBuilder))
 
         rootHandler = rootHandlerBuilder.build()
     }

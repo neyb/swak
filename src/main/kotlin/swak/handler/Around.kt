@@ -8,6 +8,7 @@ import swak.interceptor.before.BeforeInterceptor
 import swak.interceptor.before.BeforeInterceptors
 import swak.interceptor.errorHandler.ErrorHandlers
 import swak.interceptor.errorHandler.ErrorRecover
+import kotlin.properties.Delegates
 
 internal class Around<Body>(
         private val before: BeforeInterceptor<Body>,
@@ -31,16 +32,16 @@ internal class Around<Body>(
 
     class Builder<Body> {
         val before = BeforeInterceptors.Builder<Body>()
+        var innerHandler: HandlerBuilder<Body> by Delegates.notNull()
         val after = AfterInterceptors.Builder<Body>()
-        val errorHandlersBuilder = ErrorHandlers.Builder()
+        val errorHandlers = ErrorHandlers.Builder()
 
-        fun hasBehaviour() = before.hasBehaviour() || after.hasBehaviour() || errorHandlersBuilder.hasBehaviour()
+        private fun hasBehaviour() = before.hasBehaviour() || after.hasBehaviour() || errorHandlers.hasBehaviour()
 
-        fun build(handler: Handler<Body>) = Around(
-                before.build(),
-                handler,
-                after.build(),
-                errorHandlersBuilder.build()
-        )
+        fun build() = build(innerHandler.build())
+
+        private fun build(innerHandler: Handler<Body>) =
+                if(hasBehaviour()) Around(before.build(),innerHandler, after.build(), errorHandlers.build())
+                else innerHandler
     }
 }

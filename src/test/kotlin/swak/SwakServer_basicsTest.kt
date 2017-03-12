@@ -2,29 +2,41 @@ package swak
 
 import io.github.neyb.shoulk.*
 import io.github.neyb.shoulk.matcher.*
+import io.reactivex.Single
 import org.junit.jupiter.api.Test
+import swak.http.Method
+import swak.http.Response
 
 class SwakServer_basicsTest : SwakServerTest() {
 
     @Test fun `a server can be started and stoped`() {
+        val swakServer = swakServer {
+            handle("/", Method.GET) { Single.just(Response()) }
+        }
         swakServer.start()
         swakServer.stop()
     }
 
     @Test
     internal fun `a server already started cannot be started again`() {
-        swakServer.start();
+        swakServer {
+            handle("/", Method.GET) { Single.just(Response()) }
+        }.start();
         { swakServer.start() } shouldThrow IllegalStateException::class that hasMessage("server already started!")
     }
 
     @Test
     internal fun `a not started server cannot be stoped`() {
-        { swakServer.stop() } shouldThrow IllegalStateException::class that hasMessage("server not started!")
+        { swakServer {
+            handle("/", Method.GET) { Single.just(Response()) }
+        }.stop() } shouldThrow IllegalStateException::class that hasMessage("server not started!")
     }
 
     @Test
     internal fun `get undefined path return 404`() {
-        swakServer.start()
+        swakServer {
+            handle("/", Method.GET) { Single.just(Response()) }
+        }.start()
         get(path = "/hello", checkSuccess = false) should match("fail with 404") { it.code() == 404 }
     }
 }

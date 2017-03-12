@@ -47,14 +47,11 @@ internal interface ConfigurableRouter : RouterConfigurer, ConfigurableHandler<St
         val routePath = RoutePath.of(this.path + path, !haveSubRoute)
         val matcher = PathMatcher<String>(routePath) and additionalMatcher
 
-        val handlerWithAnyParamUpdater =
-                if (routePath.extractor != null) {
-                    Around.Builder<String>().apply {
-                        before.interceptors.add(PathParamUpdater(routePath))
-                    }.build(handler)
-                } else {
-                    handler
-                }
+        val handlerWithAnyParamUpdater = Around.Builder<String>().apply {
+            innerHandler = AlreadyBuiltHandlerBuilder(handler)
+            if (routePath.extractor != null)
+                before.interceptors.add(PathParamUpdater(routePath))
+        }.build()
 
         addRoute(Route(matcher, handlerWithAnyParamUpdater))
     }

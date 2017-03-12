@@ -6,13 +6,10 @@ import swak.interceptor.errorHandler.ErrorHandler
 
 internal interface ConfigurableAround<B> : AroundConfigurer, ConfigurableHandler<B> {
     val interceptHandlerBuilder: Around.Builder<B>
-    val innerHandlerBuilder: HandlerBuilder<B>
 
     override fun handleError(errorHandler: ErrorHandler) {
-        interceptHandlerBuilder.errorHandlersBuilder.errorHandlers.add(errorHandler)
+        interceptHandlerBuilder.errorHandlers.errorHandlers.add(errorHandler)
     }
 
-    override fun build(): Handler<B> =
-            if (interceptHandlerBuilder.hasBehaviour()) interceptHandlerBuilder.build(innerHandlerBuilder.build())
-            else innerHandlerBuilder.build()
+    override fun build(): Handler<B> = interceptHandlerBuilder.build()
 }

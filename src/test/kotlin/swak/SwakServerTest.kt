@@ -6,11 +6,12 @@ import okhttp3.*
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Tag
 import swak.config.configurer.SubRouteConfigurer
+import kotlin.properties.Delegates
 
 @Tag("it")
 open class SwakServerTest {
     val client: OkHttpClient = OkHttpClient()
-    var swakServer = swakServer()
+    var swakServer by Delegates.notNull<SwakServer>()
         private set
 
     fun swakServer(configuration: Configuration = Configuration(8080), handlerConfiguration: SubRouteConfigurer.() -> Unit = {}): SwakServer {

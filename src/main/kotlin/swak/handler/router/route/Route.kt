@@ -1,6 +1,7 @@
 package swak.handler.router.route
 
 import swak.handler.Handler
+import swak.handler.router.Router
 import swak.matcher.RequestMatcher
 
 internal class Route(
@@ -8,5 +9,7 @@ internal class Route(
         private val handler: Handler<String>
 ) : RequestMatcher<String> by matcher,
         Handler<String> by handler{
+    fun  isARouter() = handler is Router
+    fun asRouter() = handler as Router
     override fun toString() = "$matcher => $handler"
 }
