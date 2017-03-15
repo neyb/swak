@@ -13,11 +13,11 @@ while being very flexible
 # example
 
 # tasks
-* use `Internal` what can be
+* Build rxstream only once?
+* Add request context
 * around Wrapper
  * timeout
-* list routes
-* dont build interceptorPluger when not necessary
+* list 
 * separate undertow (to eventually let user replace it)
 
 # where 'swak' comes from
