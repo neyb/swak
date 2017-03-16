@@ -1,7 +1,7 @@
 package swak.matcher
 
 import swak.handler.path.RoutePath
-import swak.http.UpdatableRequest
+import swak.http.request.UpdatableRequest
 
 internal class PathMatcher<B>(private val path: RoutePath) : RequestMatcher<B> {
     override fun accept(request: UpdatableRequest<B>) = path.accept(request.path)

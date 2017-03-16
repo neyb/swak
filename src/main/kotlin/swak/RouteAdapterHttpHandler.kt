@@ -3,8 +3,8 @@ package swak
 import io.undertow.server.HttpHandler
 import io.undertow.server.HttpServerExchange
 import swak.handler.Handler
-import swak.http.UndertowBasicRequest
-import swak.http.UpdatableRequest
+import swak.http.request.UndertowBasicRequest
+import swak.http.request.UpdatableRequest
 import swak.reader.TextReader
 
 internal class RouteAdapterHttpHandler(private val mainHandler: Handler<String>) : HttpHandler {

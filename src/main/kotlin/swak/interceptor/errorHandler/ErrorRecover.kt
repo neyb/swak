@@ -1,6 +1,6 @@
 package swak.interceptor.errorHandler
 
-import swak.http.Response
+import swak.http.response.Response
 
 internal sealed class ErrorRecover {
     abstract val response: Response

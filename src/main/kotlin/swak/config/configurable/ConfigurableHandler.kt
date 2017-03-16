@@ -3,8 +3,8 @@ package swak.config.configurable
 import io.reactivex.Single
 import swak.config.configurer.HandlerConfigurer
 import swak.handler.*
-import swak.http.Request
-import swak.http.Response
+import swak.http.request.Request
+import swak.http.response.Response
 import swak.reader.provider.type.BodyReaderTypeProvider
 import swak.reader.provider.type.BodyReaderTypeProviders
 

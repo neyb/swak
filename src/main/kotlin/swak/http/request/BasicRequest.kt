@@ -1,6 +1,8 @@
-package swak.http
+package swak.http.request
 
 import io.reactivex.Single
+import swak.http.Headers
+import swak.http.request.Method
 
 interface BasicRequest {
     val headers: Headers

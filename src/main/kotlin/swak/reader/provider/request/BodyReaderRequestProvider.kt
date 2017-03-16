@@ -1,6 +1,6 @@
 package swak.reader.provider.request
 
-import swak.http.UpdatableRequest
+import swak.http.request.UpdatableRequest
 import swak.reader.BodyReader
 
 interface BodyReaderRequestProvider<out B> {

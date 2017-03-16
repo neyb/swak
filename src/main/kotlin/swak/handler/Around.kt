@@ -1,8 +1,8 @@
 package swak.handler
 
 import io.reactivex.Single
-import swak.http.Response
-import swak.http.UpdatableRequest
+import swak.http.response.Response
+import swak.http.request.UpdatableRequest
 import swak.interceptor.after.AfterInterceptors
 import swak.interceptor.before.BeforeInterceptor
 import swak.interceptor.before.BeforeInterceptors

@@ -4,8 +4,8 @@ import io.github.neyb.shoulk.*
 import io.github.neyb.shoulk.matcher.*
 import io.reactivex.Single
 import org.junit.jupiter.api.Test
-import swak.http.Method
-import swak.http.Response
+import swak.http.request.Method
+import swak.http.response.Response
 
 class SwakServer_basicsTest : SwakServerTest() {
 

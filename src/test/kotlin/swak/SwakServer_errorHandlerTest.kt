@@ -3,6 +3,9 @@ package swak
 import io.github.neyb.shoulk.*
 import org.junit.jupiter.api.Test
 import swak.http.*
+import swak.http.request.Method
+import swak.http.response.Code
+import swak.http.response.Response
 
 class SwakServer_errorHandlerTest : SwakServerTest() {
     open class MyException : RuntimeException()

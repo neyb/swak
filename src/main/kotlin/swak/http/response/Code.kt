@@ -1,4 +1,4 @@
-package swak.http
+package swak.http.response
 
 enum class Code(val code: Int, val description: String) {
     CONTINUE(100, "Continue"),

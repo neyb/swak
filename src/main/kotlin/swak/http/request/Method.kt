@@ -1,4 +1,4 @@
-package swak.http
+package swak.http.request
 
 enum class Method {
     GET,

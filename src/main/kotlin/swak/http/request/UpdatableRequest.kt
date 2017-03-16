@@ -1,6 +1,8 @@
-package swak.http
+package swak.http.request
 
 import io.reactivex.Single
+import swak.http.*
+import swak.http.requestContext.AdditionalData
 import swak.reader.BodyReader
 
 class UpdatableRequest<B> internal constructor(
@@ -24,8 +26,6 @@ class UpdatableRequest<B> internal constructor(
     override val body: Single<B?> by lazy {
         basicRequest.body.map { bodyReader.read(it) }
     }
-
-    override val additionalData: AdditionalData = AdditionalData()
 
     fun <NewBody> withBodyReader(newBodyReader: BodyReader<NewBody>) =
             UpdatableRequest(basicRequest, newBodyReader, pathParamExtractor)

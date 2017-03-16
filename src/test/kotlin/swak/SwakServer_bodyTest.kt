@@ -2,8 +2,8 @@ package swak
 
 import io.github.neyb.shoulk.*
 import org.junit.jupiter.api.Test
-import swak.http.Method
-import swak.http.Response
+import swak.http.request.Method
+import swak.http.response.Response
 
 class SwakServer_bodyTest : SwakServerTest() {
     @Test

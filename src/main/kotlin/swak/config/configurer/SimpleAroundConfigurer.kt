@@ -1,7 +1,7 @@
 package swak.config.configurer
 
 import swak.config.configurable.SimpleConfigurableAround
-import swak.http.Response
+import swak.http.response.Response
 import swak.interceptor.errorHandler.ErrorHandler
 
 class SimpleAroundConfigurer internal constructor(

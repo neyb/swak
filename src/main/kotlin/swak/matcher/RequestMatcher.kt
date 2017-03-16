@@ -1,6 +1,6 @@
 package swak.matcher
 
-import swak.http.UpdatableRequest
+import swak.http.request.UpdatableRequest
 
 @FunctionalInterface
 interface RequestMatcher<B> {

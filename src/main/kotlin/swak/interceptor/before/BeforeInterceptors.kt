@@ -1,7 +1,7 @@
 package swak.interceptor.before
 
 import io.reactivex.Single
-import swak.http.UpdatableRequest
+import swak.http.request.UpdatableRequest
 import java.util.*
 
 internal class BeforeInterceptors<T>(

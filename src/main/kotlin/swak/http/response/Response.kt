@@ -1,4 +1,6 @@
-package swak.http
+package swak.http.response
+
+import swak.http.response.Code
 
 data class Response(
         val status: Code = Code.OK,

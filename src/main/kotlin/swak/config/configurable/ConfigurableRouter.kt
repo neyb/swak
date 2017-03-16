@@ -8,6 +8,9 @@ import swak.handler.path.RoutePath
 import swak.handler.router.Router
 import swak.handler.router.route.Route
 import swak.http.*
+import swak.http.request.Method
+import swak.http.request.Request
+import swak.http.response.Response
 import swak.interceptor.before.PathParamUpdater
 import swak.matcher.*
 

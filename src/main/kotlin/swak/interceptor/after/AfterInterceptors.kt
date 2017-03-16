@@ -1,8 +1,8 @@
 package swak.interceptor.after
 
 import io.reactivex.Single
-import swak.http.Response
-import swak.http.UpdatableRequest
+import swak.http.response.Response
+import swak.http.request.UpdatableRequest
 
 internal class AfterInterceptors<B> : AfterInterceptor<B> {
     private val interceptors = mutableListOf<AfterInterceptor<B>>()

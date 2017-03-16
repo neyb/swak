@@ -4,8 +4,8 @@ import io.reactivex.Single
 import swak.handler.Handler
 import swak.handler.HandlerBuilder
 import swak.handler.router.route.Route
-import swak.http.Response
-import swak.http.UpdatableRequest
+import swak.http.response.Response
+import swak.http.request.UpdatableRequest
 import java.util.*
 
 internal class Router(

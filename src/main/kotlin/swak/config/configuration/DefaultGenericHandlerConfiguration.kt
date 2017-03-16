@@ -4,8 +4,8 @@ import mu.KLoggable
 import swak.config.configurer.SimpleAroundConfigurer
 import swak.handler.router.NoRouteFound
 import swak.handler.router.SeveralRouteFound
-import swak.http.Code
-import swak.http.Response
+import swak.http.response.Code
+import swak.http.response.Response
 
 internal object DefaultGenericHandlerConfiguration : GenericHandlerConfiguration<SimpleAroundConfigurer>, KLoggable {
 

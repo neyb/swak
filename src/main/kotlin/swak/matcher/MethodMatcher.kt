@@ -1,7 +1,7 @@
 package swak.matcher
 
-import swak.http.Method
-import swak.http.UpdatableRequest
+import swak.http.request.Method
+import swak.http.request.UpdatableRequest
 
 class MethodMatcher<B>(private val method: Method) : RequestMatcher<B> {
     override fun accept(request: UpdatableRequest<B>) =

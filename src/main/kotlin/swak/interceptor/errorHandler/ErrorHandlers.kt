@@ -1,6 +1,6 @@
 package swak.interceptor.errorHandler
 
-import swak.http.Response
+import swak.http.response.Response
 
 internal class ErrorHandlers(
         private val errorHandlers: List<ErrorHandler>
