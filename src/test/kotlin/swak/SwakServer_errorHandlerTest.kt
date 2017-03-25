@@ -10,8 +10,7 @@ class SwakServer_errorHandlerTest : SwakServerTest() {
     open class MyException : RuntimeException()
     class MySubException : MyException()
 
-    @Test
-    internal fun `can handle a specific error`() {
+    @Test fun `can handle a specific error`() {
         swakServer {
             handle("/test", Method.GET) {
                 throw MyException()
@@ -26,8 +25,7 @@ class SwakServer_errorHandlerTest : SwakServerTest() {
         get("/test2").code() shouldEqual 206
     }
 
-    @Test
-    internal fun `can overwrite a error handler`() {
+    @Test fun `can overwrite a error handler`() {
         swakServer {
             sub("/foo") {
                 handle("/bar", Method.GET) {

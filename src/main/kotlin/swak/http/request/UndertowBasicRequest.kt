@@ -5,7 +5,7 @@ import io.undertow.server.HttpServerExchange
 import swak.http.Headers
 import java.util.*
 
-internal class UndertowBasicRequest(private val exchange: HttpServerExchange): BasicRequest {
+internal class UndertowBasicRequest(private val exchange: HttpServerExchange) : BasicRequest {
     override val headers: Headers by lazy {
         Headers(exchange.requestHeaders
                 .map { it.headerName.toString() to ArrayList(it) }
@@ -24,8 +24,14 @@ internal class UndertowBasicRequest(private val exchange: HttpServerExchange): B
         Single.create<String> {
             exchange.requestReceiver.receiveFullString(
                     { _, stringValue -> it.onSuccess(stringValue) },
+                    { _, error -> it.onError(error) },
                     charset(exchange.requestCharset))
         }
+    }
+
+    override val queryParam: Map<String, List<String>> by lazy {
+        exchange.queryParameters.map { entry -> entry.key to ArrayList(entry.value) }
+                .toMap()
     }
 
 }

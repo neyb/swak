@@ -26,7 +26,7 @@ internal class Router(
     class Builder : HandlerBuilder<String> {
         val routes: MutableList<Route> = ArrayList()
         override fun build() : Router{
-            if(routes.size == 0) throw IllegalStateException("a router has no route")
+            if(routes.size == 0) throw NoRouteProvided()
             if(routes.size == 1 && routes[0].isARouter())
                 return routes[0].asRouter()
             return Router(routes)

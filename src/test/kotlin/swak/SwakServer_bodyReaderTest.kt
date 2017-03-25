@@ -11,8 +11,7 @@ import swak.reader.provider.type.BodyReaderTypeProvider
 
 class SwakServer_bodyReaderTest : SwakServerTest() {
 
-    @Test
-    internal fun body_can_be_read() {
+    @Test fun body_can_be_read() {
         val bodyLengthReader = object : BodyReader<Int>, BodyReaderTypeProvider, BodyReaderRequestProvider<Int> {
             override fun read(body: String) = body.length
 

@@ -9,17 +9,20 @@ class UpdatableRequest<out B> internal constructor(
         private val bodyReader: BodyReader<B>,
         private val pathParamExtractor: PathParamExtractor = NoPathParamExtractor
 ) : Request<B> {
-    override val headers: Headers
+    override val headers
         get() = basicRequest.headers
 
-    override val path: String
+    override val path
         get() = basicRequest.path
 
     override val pathParams by lazy {
         pathParamExtractor.extractFrom(path)
     }
 
-    override val method: Method
+    override val queryParams
+        get() = basicRequest.queryParam
+
+    override val method
         get() = basicRequest.method
 
     override val body: Single<out B?> by lazy {

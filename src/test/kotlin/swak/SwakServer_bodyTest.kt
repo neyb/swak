@@ -6,8 +6,7 @@ import swak.http.request.Method
 import swak.http.response.Response
 
 class SwakServer_bodyTest : SwakServerTest() {
-    @Test
-    internal fun `body can be read`() {
+    @Test fun `body can be read`() {
         var whoAmI: String? = null
         swakServer {
             handle("/IAm", Method.POST) { request ->
