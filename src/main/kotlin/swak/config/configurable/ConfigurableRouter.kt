@@ -7,7 +7,6 @@ import swak.handler.*
 import swak.handler.path.RoutePath
 import swak.handler.router.Router
 import swak.handler.router.route.Route
-import swak.http.*
 import swak.http.request.Method
 import swak.http.request.Request
 import swak.http.response.Response
@@ -36,9 +35,9 @@ internal interface ConfigurableRouter : RouterConfigurer, ConfigurableHandler<St
     }
 
     private fun <B> handleTyped(path: String, method: Method, bodyType: Class<B>, handler: Handler<B>, haveSubRoute: Boolean) {
-        handle(path, method, BodyConverterHandler(
-                bodyReaderTypeProviders.forClass(bodyType),
-                handler),
+        handle(path,
+                method,
+                BodyConverterHandler(bodyReaderTypeProviders.forClass(bodyType), handler),
                 haveSubRoute)
     }
 

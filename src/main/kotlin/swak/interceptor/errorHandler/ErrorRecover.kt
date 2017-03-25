@@ -1,17 +1,18 @@
 package swak.interceptor.errorHandler
 
-import swak.http.response.Response
+import swak.http.requestContext.UpdatableResponseContext
 
-internal sealed class ErrorRecover {
-    abstract val response: Response
+///TODO generify on subject, not on body
+internal sealed class ErrorRecover<out BodyIn> {
+    abstract val responseContext: UpdatableResponseContext<BodyIn>
 
-    class SafeErrorRecover(override val response: Response) : ErrorRecover()
+    class SafeErrorRecover<out BodyIn>(override val responseContext: UpdatableResponseContext<BodyIn>) : ErrorRecover<BodyIn>()
 
-    class RethrowErrorRecover(
+    class RethrowErrorRecover<out BodyIn>(
             private val baseError: Throwable,
-            private val possibleResponse: Response?
-    ) : ErrorRecover() {
-        override val response: Response
-            get() = possibleResponse ?: throw baseError
+            private val possibleResponseContext: UpdatableResponseContext<BodyIn>?
+    ) : ErrorRecover<BodyIn>() {
+        override val responseContext: UpdatableResponseContext<BodyIn>
+            get() = possibleResponseContext ?: throw baseError
     }
 }

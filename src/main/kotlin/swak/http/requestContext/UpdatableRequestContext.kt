@@ -1,10 +1,14 @@
 package swak.http.requestContext
 
-import swak.http.request.Request
-import swak.http.response.Response
+import swak.http.request.UpdatableRequest
+import swak.reader.BodyReader
 
-class UpdatableRequestContext<BodyIn>(
-        override var request: Request<BodyIn>
-) : RequestContext<BodyIn> {
-    override var response: Response = Response()
+data class UpdatableRequestContext<out BodyIn>(
+        override val request: UpdatableRequest<BodyIn>
+) : RequestContext<BodyIn>{
+    fun <NewBody> withRequest(request: UpdatableRequest<NewBody>) =
+            UpdatableRequestContext(request)
+
+    fun <NewBody> withBodyReader(newBodyReader: BodyReader<NewBody>) =
+            withRequest(request.withBodyReader(newBodyReader))
 }

@@ -8,7 +8,7 @@ import swak.http.response.Response
 import swak.reader.provider.type.BodyReaderTypeProvider
 import swak.reader.provider.type.BodyReaderTypeProviders
 
-internal interface ConfigurableHandler<B> : HandlerConfigurer, HandlerBuilder<B> {
+internal interface ConfigurableHandler<Body> : HandlerConfigurer, HandlerBuilder<Body> {
     val parent: ConfigurableHandler<*>?
     val localPath: String?
     val path: String

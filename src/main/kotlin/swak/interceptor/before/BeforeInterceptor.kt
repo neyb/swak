@@ -1,8 +1,8 @@
 package swak.interceptor.before
 
 import io.reactivex.Single
-import swak.http.request.UpdatableRequest
+import swak.http.requestContext.UpdatableRequestContext
 
-interface BeforeInterceptor<I> {
-    fun updateRequest(request: UpdatableRequest<I>): Single<UpdatableRequest<I>>
+interface BeforeInterceptor<Body> {
+    fun updateRequestContext(requestContext: UpdatableRequestContext<Body>):Single<UpdatableRequestContext<Body>>
 }

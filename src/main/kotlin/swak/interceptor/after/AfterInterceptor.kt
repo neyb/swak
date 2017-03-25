@@ -1,9 +1,8 @@
 package swak.interceptor.after
 
 import io.reactivex.Single
-import swak.http.response.Response
-import swak.http.request.UpdatableRequest
+import swak.http.requestContext.UpdatableResponseContext
 
-interface AfterInterceptor<in B> {
-    fun <B> onAfter(request: UpdatableRequest<B>, response: Response): Single<Response>
+interface AfterInterceptor<Body> {
+    fun updateRequestContext(respContext: UpdatableResponseContext<Body>): Single<UpdatableResponseContext<Body>>
 }

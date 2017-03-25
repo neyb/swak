@@ -1,13 +1,12 @@
 package swak.http.request
 
 import io.reactivex.Single
-import swak.http.*
-import swak.http.requestContext.AdditionalData
+import swak.http.Headers
 
-interface Request<B> {
+interface Request<out B> {
     val headers: Headers
     val path: String
     val pathParams: Map<String, String>
     val method: Method
-    val body: Single<B?>
+    val body: Single<out B?>
 }

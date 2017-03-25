@@ -1,5 +1,5 @@
 package swak.handler
 
-internal interface HandlerBuilder<B> {
-    fun build(): Handler<B>
+internal interface HandlerBuilder<ReqBody> {
+    fun build(): Handler<ReqBody>
 }

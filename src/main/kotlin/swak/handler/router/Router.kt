@@ -4,19 +4,19 @@ import io.reactivex.Single
 import swak.handler.Handler
 import swak.handler.HandlerBuilder
 import swak.handler.router.route.Route
-import swak.http.response.Response
-import swak.http.request.UpdatableRequest
+import swak.http.requestContext.UpdatableRequestContext
+import swak.http.requestContext.UpdatableResponseContext
 import java.util.*
 
 internal class Router(
         private val routes: List<Route>
 ) : Handler<String> {
-
-    override fun handle(request: UpdatableRequest<String>): Single<Response> {
+    override fun handle(reqContext: UpdatableRequestContext<String>): Single<UpdatableResponseContext<String>> {
+        val request = reqContext.request
         val acceptingRoutes = routes.filter { it.accept(request) }
         return when (acceptingRoutes.size) {
             0 -> Single.error { NoRouteFound(request.path) }
-            1 -> acceptingRoutes.single().handle(request)
+            1 -> acceptingRoutes.single().handle(reqContext)
             else -> Single.error { SeveralRouteFound(request.path, acceptingRoutes) }
         }
     }

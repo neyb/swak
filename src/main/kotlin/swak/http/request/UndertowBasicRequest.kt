@@ -2,7 +2,7 @@ package swak.http.request
 
 import io.reactivex.Single
 import io.undertow.server.HttpServerExchange
-import swak.http.*
+import swak.http.Headers
 import java.util.*
 
 internal class UndertowBasicRequest(private val exchange: HttpServerExchange): BasicRequest {

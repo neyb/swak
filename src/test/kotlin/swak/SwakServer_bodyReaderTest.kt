@@ -2,7 +2,6 @@ package swak
 
 import io.github.neyb.shoulk.*
 import org.junit.jupiter.api.Test
-import swak.http.*
 import swak.http.request.Method
 import swak.http.request.UpdatableRequest
 import swak.http.response.Response
