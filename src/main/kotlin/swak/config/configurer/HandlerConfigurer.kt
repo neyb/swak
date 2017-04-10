@@ -1,7 +1,9 @@
 package swak.config.configurer
 
-import swak.reader.provider.type.BodyReaderTypeProvider
+import swak.body.reader.provider.type.BodyReaderChooserProvider
+import swak.body.writer.provider.type.BodyWriterChooserProvider
 
 interface HandlerConfigurer {
-    fun addContentReaderProvider(bodyReaderTypeProvider: BodyReaderTypeProvider)
+    fun addContentReaderProvider(bodyReaderChooserProvider: BodyReaderChooserProvider)
+    fun addContentWriterProvider(bodyWriterChooserProvider: BodyWriterChooserProvider)
 }

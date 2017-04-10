@@ -3,8 +3,7 @@ package swak
 import io.github.neyb.shoulk.*
 import org.junit.jupiter.api.Test
 import swak.http.request.Method
-import swak.http.response.Code
-import swak.http.response.Response
+import swak.http.response.*
 
 class SwakServer_errorHandlerTest : SwakServerTest() {
     open class MyException : RuntimeException()
@@ -12,13 +11,13 @@ class SwakServer_errorHandlerTest : SwakServerTest() {
 
     @Test fun `can handle a specific error`() {
         swakServer {
-            handle("/test", Method.GET) {
+            handle<Unit>("/test", Method.GET) {
                 throw MyException()
             }
-            handle("/test2", Method.GET) {
+            handle<Unit>("/test2", Method.GET) {
                 throw MySubException()
             }
-            handleError<MyException> { Response(Code.PARTIAL_CONTENT) }
+            handleError { _: MyException -> NoBodyResponse(Code.PARTIAL_CONTENT) }
         }.start()
 
         get("/test").code() shouldEqual 206
@@ -28,12 +27,12 @@ class SwakServer_errorHandlerTest : SwakServerTest() {
     @Test fun `can overwrite a error handler`() {
         swakServer {
             sub("/foo") {
-                handle("/bar", Method.GET) {
+                handle<Unit>("/bar", Method.GET) {
                     throw MyException()
                 }
-                handleError<MyException> { Response(status = Code.OK) }
+                handleError { _: MyException -> NoBodyResponse(status = Code.OK) }
             }
-            handleError<MyException> { Response(Code.NOT_FOUND) }
+            handleError { _: MyException -> NoBodyResponse(Code.NOT_FOUND) }
         }.start()
 
         get("/foo/bar").code() shouldEqual 200

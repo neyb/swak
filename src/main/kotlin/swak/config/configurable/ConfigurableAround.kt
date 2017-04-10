@@ -5,12 +5,11 @@ import swak.handler.Around
 import swak.handler.Handler
 import swak.interceptor.errorHandler.ErrorHandler
 
-internal interface ConfigurableAround<Body> : AroundConfigurer, ConfigurableHandler<Body> {
-    val interceptHandlerBuilder: Around.Builder<Body>
-
-    override fun handleError(errorHandler: ErrorHandler) {
-        interceptHandlerBuilder.errorHandlers.errorHandlers.add(errorHandler)
+internal interface ConfigurableAround<IB, OB:Any> : AroundConfigurer, ConfigurableHandler<IB, OB> {
+    val interceptHandlerBuilder: Around.Builder<IB, OB>
+    override fun <T : Any> handleError(target: Class<T>, errorHandler: ErrorHandler<T>) {
+        interceptHandlerBuilder.errorRecoverers.add(target, errorHandler)
     }
 
-    override fun build(): Handler<Body> = interceptHandlerBuilder.build()
+    override fun build(): Handler<IB> = interceptHandlerBuilder.build(bodyWriterTypeProviders)
 }

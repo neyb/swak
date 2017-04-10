@@ -5,7 +5,8 @@ import io.reactivex.Single
 import org.junit.jupiter.api.Test
 import swak.http.Headers
 import swak.http.request.Method.GET
-import swak.http.response.Response
+import swak.http.response.NoBodyResponse
+import swak.http.response.SimpleResponse
 
 class SwakServer_headerTest : SwakServerTest() {
     @Test
@@ -14,7 +15,7 @@ class SwakServer_headerTest : SwakServerTest() {
         swakServer {
             handle("/", GET) { request ->
                 header = request.headers
-                Single.just(Response())
+                Single.just(NoBodyResponse())
             }
         }.start()
 

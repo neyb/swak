@@ -1,19 +1,23 @@
 package swak.handler
 
 import io.reactivex.Single
-import swak.http.requestContext.UpdatableRequestContext
-import swak.http.requestContext.UpdatableResponseContext
-import swak.reader.provider.request.BodyReaderRequestProvider
+import swak.http.request.context.UpdatableRequestContext
+import swak.http.response.context.UpdatableResponseContext
+import swak.body.reader.provider.request.BodyReaderChooser
+import swak.body.writer.provider.request.BodyWriterChooser
 
-internal class BodyConverterHandler<Body>(
-        private val readerProvider: BodyReaderRequestProvider<Body>,
-        private val handler: Handler<Body>
+internal class BodyConverterHandler<ReqBody, RespBody : Any>(
+        private val readerProvider: BodyReaderChooser<ReqBody>,
+        private val handler: NotWritableHandler<ReqBody, RespBody>,
+        private val writerChooser: BodyWriterChooser<RespBody>
 ) : Handler<String> {
     override fun handle(reqContext: UpdatableRequestContext<String>): Single<UpdatableResponseContext<String>> {
         val request = reqContext.request
         return handler.handle(reqContext.withBodyReader(readerProvider.forRequest(request)))
-                .map { UpdatableResponseContext(
-                        UpdatableRequestContext(request),
-                        it.response) }
+                .map {
+                    it
+                            .withWriter(writerChooser.`for`(it.response, request))
+                            .withRequestContext(reqContext)
+                }
     }
 }

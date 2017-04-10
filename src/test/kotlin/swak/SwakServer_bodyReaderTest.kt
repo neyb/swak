@@ -2,22 +2,22 @@ package swak
 
 import io.github.neyb.shoulk.*
 import org.junit.jupiter.api.Test
-import swak.http.request.Method
-import swak.http.request.UpdatableRequest
-import swak.http.response.Response
-import swak.reader.BodyReader
-import swak.reader.provider.request.BodyReaderRequestProvider
-import swak.reader.provider.type.BodyReaderTypeProvider
+import swak.http.response.SimpleResponse
+import swak.body.reader.BodyReader
+import swak.body.reader.provider.request.BodyReaderChooser
+import swak.body.reader.provider.type.BodyReaderChooserProvider
+import swak.http.request.*
+import swak.http.response.NoBodyResponse
 
 class SwakServer_bodyReaderTest : SwakServerTest() {
 
     @Test fun body_can_be_read() {
-        val bodyLengthReader = object : BodyReader<Int>, BodyReaderTypeProvider, BodyReaderRequestProvider<Int> {
+        val bodyLengthReader = object : BodyReader<Int>, BodyReaderChooserProvider, BodyReaderChooser<Int> {
             override fun read(body: String) = body.length
 
             override fun <B> forClass(target: Class<B>) =
                     @Suppress("UNCHECKED_CAST")
-                    if (target == Int::class.javaObjectType) this as BodyReaderRequestProvider<B>
+                    if (target == Int::class.javaObjectType) this as BodyReaderChooser<B>
                     else null
 
             override fun forRequest(request: UpdatableRequest<String>) = this
@@ -27,10 +27,10 @@ class SwakServer_bodyReaderTest : SwakServerTest() {
         swakServer {
             addContentReaderProvider(bodyLengthReader)
 
-            handleTyped<Int>(Method.POST, "/IAm") { request ->
+            handleTyped(Method.POST, "/IAm") { request: Request<Int> ->
                 request.body
                         .doOnSuccess { nameLength = it }
-                        .map { Response() }
+                        .map { NoBodyResponse() }
             }
         }.start()
 

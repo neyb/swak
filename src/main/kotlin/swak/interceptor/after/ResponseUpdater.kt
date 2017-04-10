@@ -2,14 +2,15 @@ package swak.interceptor.after
 
 import io.reactivex.Single
 import swak.http.request.Request
-import swak.http.requestContext.UpdatableResponseContext
-import swak.http.response.Response
+import swak.http.response.context.UpdatableResponseContext
+import swak.http.response.SimpleResponse
+import swak.http.response.WritableResponse
 
 //FIXME shitty generics in this class
-interface ResponseUpdater<B> : AfterInterceptor<B> {
-    override fun updateRequestContext(respContext: UpdatableResponseContext<B>) =
+interface ResponseUpdater<IB> : AfterInterceptor<IB> {
+    override fun updateRequestContext(respContext: UpdatableResponseContext<IB>) =
             onAfter(respContext.request, respContext.response)
                     .map { respContext.copy(response = it) }!!
 
-    fun <B> onAfter(request: Request<B>, response: Response): Single<Response>
+    fun onAfter(request: Request<IB>, response: WritableResponse<Any>): Single<WritableResponse<Any>>
 }

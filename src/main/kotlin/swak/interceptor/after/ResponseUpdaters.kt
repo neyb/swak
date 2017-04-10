@@ -2,13 +2,13 @@ package swak.interceptor.after
 
 import io.reactivex.Single
 import swak.http.request.Request
-import swak.http.response.Response
+import swak.http.response.SimpleResponse
+import swak.http.response.WritableResponse
 
-internal class ResponseUpdaters<B>(
-        private val interceptors: List<ResponseUpdater<*>> = listOf()
-) : ResponseUpdater<B> {
-
-    override fun <B> onAfter(request: Request<B>, response: Response): Single<Response> {
+internal class ResponseUpdaters<IB>(
+        private val interceptors: List<ResponseUpdater<IB>> = listOf()
+) : ResponseUpdater<IB> {
+    override fun onAfter(request: Request<IB>, response: WritableResponse<Any>): Single<WritableResponse<Any>> {
         var result = Single.just(response)
         for (interceptor in interceptors)
             result = result.flatMap { interceptor.onAfter(request, response) }
@@ -17,10 +17,10 @@ internal class ResponseUpdaters<B>(
 
     override fun toString() = interceptors.toString()
 
-    class Builder<B> {
-        private val interceptors = mutableListOf<ResponseUpdater<*>>()
+    class Builder<IB> {
+        private val interceptors = mutableListOf<ResponseUpdater<IB>>()
 
-        fun build(): ResponseUpdaters<B> = ResponseUpdaters(interceptors)
+        fun build(): ResponseUpdaters<IB> = ResponseUpdaters(interceptors)
 
         fun hasBehaviour() = false
     }

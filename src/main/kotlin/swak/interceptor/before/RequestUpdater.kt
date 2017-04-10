@@ -2,7 +2,7 @@ package swak.interceptor.before
 
 import io.reactivex.Single
 import swak.http.request.UpdatableRequest
-import swak.http.requestContext.UpdatableRequestContext
+import swak.http.request.context.UpdatableRequestContext
 
 interface RequestUpdater<I> : BeforeInterceptor<I> {
     override fun updateRequestContext(requestContext: UpdatableRequestContext<I>) =

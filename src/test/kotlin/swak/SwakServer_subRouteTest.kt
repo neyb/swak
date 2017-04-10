@@ -4,14 +4,15 @@ import io.github.neyb.shoulk.*
 import io.reactivex.Single
 import org.junit.jupiter.api.Test
 import swak.http.request.Method.GET
-import swak.http.response.Response
+import swak.http.response.NoBodyResponse
+import swak.http.response.SimpleResponse
 
 class SwakServer_subRouteTest : SwakServerTest() {
     @Test
     internal fun `one route in a sub route`() {
         swakServer {
             sub("/begin") {
-                handle("/end", GET) { Single.just(Response()) }
+                handle("/end", GET) { Single.just(NoBodyResponse()) }
             }
         }.start()
 
@@ -23,7 +24,7 @@ class SwakServer_subRouteTest : SwakServerTest() {
         swakServer {
             sub("/begin") {
                 sub("/middle") {
-                    handle("/end", GET) { Single.just(Response()) }
+                    handle("/end", GET) { Single.just(NoBodyResponse()) }
                 }
             }
         }.start()
@@ -36,24 +37,24 @@ class SwakServer_subRouteTest : SwakServerTest() {
         swakServer {
             sub("/begin1") {
                 sub("/middle1") {
-                    handle("/end1", GET) { Single.just(Response(body = "111")) }
-                    handle("/end2", GET) { Single.just(Response(body = "112")) }
+                    handle("/end1", GET) { Single.just(SimpleResponse(body = "111")) }
+                    handle("/end2", GET) { Single.just(SimpleResponse(body = "112")) }
                 }
 
                 sub("/middle2") {
-                    handle("/end1", GET) { Single.just(Response(body = "121")) }
-                    handle("/end2", GET) { Single.just(Response(body = "122")) }
+                    handle("/end1", GET) { Single.just(SimpleResponse(body = "121")) }
+                    handle("/end2", GET) { Single.just(SimpleResponse(body = "122")) }
                 }
             }
             sub("/begin2") {
                 sub("/middle1") {
-                    handle("/end1", GET) { Single.just(Response(body = "211")) }
-                    handle("/end2", GET) { Single.just(Response(body = "212")) }
+                    handle("/end1", GET) { Single.just(SimpleResponse(body = "211")) }
+                    handle("/end2", GET) { Single.just(SimpleResponse(body = "212")) }
                 }
 
                 sub("/middle2") {
-                    handle("/end1", GET) { Single.just(Response(body = "221")) }
-                    handle("/end2", GET) { Single.just(Response(body = "222")) }
+                    handle("/end1", GET) { Single.just(SimpleResponse(body = "221")) }
+                    handle("/end2", GET) { Single.just(SimpleResponse(body = "222")) }
                 }
             }
         }.start()
@@ -80,7 +81,7 @@ class SwakServer_subRouteTest : SwakServerTest() {
                         begin = it.pathParams["begin"]
                         middle = it.pathParams["middle"]
                         end = it.pathParams["end"]
-                        Single.just(Response())
+                        Single.just(NoBodyResponse())
                     }
                 }
             }

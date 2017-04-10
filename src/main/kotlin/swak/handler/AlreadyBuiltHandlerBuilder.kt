@@ -1,5 +1,5 @@
 package swak.handler
 
-class AlreadyBuiltHandlerBuilder<B>(private val handler: Handler<B>) : HandlerBuilder<B> {
+class AlreadyBuiltHandlerBuilder<IB, out OB>(private val handler: Handler<IB>) : HandlerBuilder<IB, OB> {
     override fun build() = handler
 }

@@ -1,9 +1,9 @@
 package swak.handler
 
 import io.reactivex.Single
-import swak.http.requestContext.UpdatableRequestContext
-import swak.http.requestContext.UpdatableResponseContext
+import swak.http.request.context.UpdatableRequestContext
+import swak.http.response.context.UpdatableResponseContext
 
-interface Handler<ReqBodyIn> {
-    fun handle(reqContext: UpdatableRequestContext<ReqBodyIn>): Single<UpdatableResponseContext<ReqBodyIn>>
+interface Handler<ReqBody> {
+    fun handle(reqContext: UpdatableRequestContext<ReqBody>): Single<UpdatableResponseContext<ReqBody>>
 }

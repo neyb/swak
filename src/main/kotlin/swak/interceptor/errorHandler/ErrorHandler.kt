@@ -1,15 +1,16 @@
 package swak.interceptor.errorHandler
 
-import swak.http.response.Response
+import swak.http.response.NotWritableResponse
+import swak.http.response.SimpleResponse
 
-interface ErrorHandler {
+interface ErrorHandler<out OB:Any> {
     companion object {
-        inline fun <reified E:Throwable> of(noinline errorHandler: (E)-> Response): ErrorHandler =
-                ErrorHandler.Companion.of(E::class.java, errorHandler)
+        inline fun <reified E:Throwable, OB : Any> of(noinline errorHandler: (E)-> SimpleResponse<OB>): ErrorHandler<OB> =
+                of(E::class.java, errorHandler)
 
-        fun <E : Throwable> of(errorClass: Class<E>, errorHandler: (E)-> Response): ErrorHandler =
+        fun <E : Throwable, OB : Any> of(errorClass: Class<E>, errorHandler: (E)-> SimpleResponse<OB>): ErrorHandler<OB> =
                 SpecificErrorHandler(errorClass, errorHandler)
     }
 
-    fun onError(error: Throwable): Response?
+    fun onError(error: Throwable): NotWritableResponse<OB>?
 }

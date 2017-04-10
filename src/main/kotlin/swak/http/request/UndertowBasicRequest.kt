@@ -3,13 +3,15 @@ package swak.http.request
 import io.reactivex.Single
 import io.undertow.server.HttpServerExchange
 import swak.http.Headers
+import swak.http.MutableHeaders
 import java.util.*
 
 internal class UndertowBasicRequest(private val exchange: HttpServerExchange) : BasicRequest {
     override val headers: Headers by lazy {
-        Headers(exchange.requestHeaders
+        MutableHeaders(exchange.requestHeaders
                 .map { it.headerName.toString() to ArrayList(it) }
-                .toMap())
+                .toMap()
+                .toMutableMap())
     }
 
     override val path: String by lazy {

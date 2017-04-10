@@ -4,8 +4,8 @@ import io.reactivex.Single
 import swak.handler.Handler
 import swak.handler.HandlerBuilder
 import swak.handler.router.route.Route
-import swak.http.requestContext.UpdatableRequestContext
-import swak.http.requestContext.UpdatableResponseContext
+import swak.http.request.context.UpdatableRequestContext
+import swak.http.response.context.UpdatableResponseContext
 import java.util.*
 
 internal class Router(
@@ -23,7 +23,7 @@ internal class Router(
 
     override fun toString() = routes.toString()
 
-    class Builder : HandlerBuilder<String> {
+    class Builder : HandlerBuilder<String, String> {
         val routes: MutableList<Route> = ArrayList()
         override fun build() : Router{
             if(routes.size == 0) throw NoRouteProvided()

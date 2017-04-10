@@ -4,7 +4,8 @@ import io.github.neyb.shoulk.*
 import io.reactivex.Single
 import org.junit.jupiter.api.Test
 import swak.http.request.Method
-import swak.http.response.Response
+import swak.http.response.NoBodyResponse
+import swak.http.response.SimpleResponse
 
 class SwakServer_queryParamTest :SwakServerTest() {
     @Test
@@ -13,7 +14,7 @@ class SwakServer_queryParamTest :SwakServerTest() {
         swakServer {
             handle("/test", Method.GET) { request ->
                 params = request.queryParams
-                Single.just(Response())
+                Single.just(NoBodyResponse())
             }
         }.start()
 

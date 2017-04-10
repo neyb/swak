@@ -1,38 +1,26 @@
 package swak.handler
 
 import io.reactivex.Single
-import swak.http.requestContext.*
+import swak.body.writer.provider.type.BodyWriterChooserProvider
+import swak.body.writer.provider.type.BodyWriterChooserProviders
+import swak.http.request.context.*
+import swak.http.response.context.NotWrittableResponseContext
+import swak.http.response.context.UpdatableResponseContext
 import swak.interceptor.after.AfterInterceptor
 import swak.interceptor.after.ResponseUpdaters
 import swak.interceptor.before.BeforeInterceptor
 import swak.interceptor.before.RequestUpdaters
-import swak.interceptor.errorHandler.ErrorHandlers
-import swak.interceptor.errorHandler.ErrorRecover
+import swak.interceptor.errorHandler.*
 import kotlin.properties.Delegates
 
-internal class Around<Body>(
-        private val before: BeforeInterceptor<Body>,
-        private val handler: Handler<Body>,
-        private val after: AfterInterceptor<Body>,
-        private val errorHandlers: ErrorHandlers
-) : Handler<Body> {
+internal class Around<IB>(
+        private val before: BeforeInterceptor<IB>,
+        private val handler: Handler<IB>,
+        private val after: AfterInterceptor<IB>,
+        private val errorHandlers: ErrorRecoverers
+) : Handler<IB> {
 
-    class Builder<Body> {
-        val before = RequestUpdaters.Builder<Body>()
-        var innerHandler: HandlerBuilder<Body> by Delegates.notNull()
-        val after = ResponseUpdaters.Builder<Body>()
-        val errorHandlers = ErrorHandlers.Builder()
-
-        private fun hasBehaviour() = before.hasBehaviour() || after.hasBehaviour() || errorHandlers.hasBehaviour()
-
-        fun build() = build(innerHandler.build())
-
-        private fun build(innerHandler: Handler<Body>) =
-                if (hasBehaviour()) Around(before.build(), innerHandler, after.build(), errorHandlers.build())
-                else innerHandler
-    }
-
-    override fun handle(reqContext: UpdatableRequestContext<Body>): Single<UpdatableResponseContext<Body>> =
+    override fun handle(reqContext: UpdatableRequestContext<IB>): Single<UpdatableResponseContext<IB>> =
             Single.just(reqContext)
                     .flatMap { before.updateRequestContext(it) }
                     .flatMap { handler.handle(it) }
@@ -41,18 +29,41 @@ internal class Around<Body>(
 
     override fun toString() = handler.toString()
 
-    private fun Single<UpdatableResponseContext<Body>>.handleError(reqContext: RequestContext<Body>): Single<UpdatableResponseContext<Body>> =
-            this.map<ErrorRecover<Body>> { ErrorRecover.SafeErrorRecover(it) }
-                    .onErrorReturn { error: Throwable ->
-                        val possibleResponse = errorHandlers.onError(error)
+    private fun Single<UpdatableResponseContext<IB>>.handleError(reqContext: RequestContext<IB>): Single<UpdatableResponseContext<IB>> =
+            this.map<RxErrorRecover<IB>> { RxErrorRecover.SafeRxErrorRecover(it) }
+                    .onErrorReturn { error: Throwable -> recoverError(error, reqContext) }
+                    .map(RxErrorRecover<IB>::responseContext)
 
-                        ErrorRecover.RethrowErrorRecover(
-                                error,
-                                if (possibleResponse != null)
-                                    UpdatableResponseContext(reqContext, possibleResponse)
-                                else
-                                    null
-                        )
-                    }
-                    .map(ErrorRecover<Body>::responseContext)
+    private fun recoverError(error: Throwable, reqContext: RequestContext<IB>): RxErrorRecover.RethrowRxErrorRecover<IB> {
+        val possibleResponse = errorHandlers.onError(reqContext.request, error)
+
+        return RxErrorRecover.RethrowRxErrorRecover(
+                error,
+                if (possibleResponse != null) {
+                    UpdatableResponseContext(reqContext, possibleResponse)
+                } else null
+        )
+    }
+
+    class Builder<IB, OB> {
+        val before = RequestUpdaters.Builder<IB>()
+        var innerHandler: HandlerBuilder<IB, OB> by Delegates.notNull()
+        val after = ResponseUpdaters.Builder<IB>()
+        val errorRecoverers = ErrorRecoverers.Builder()
+
+        fun build(writersProvider: BodyWriterChooserProviders) = build(
+                writersProvider,
+                innerHandler.build())
+
+        private fun build(writersProvider: BodyWriterChooserProviders, innerHandler: Handler<IB>) =
+                if (hasBehaviour())
+                    Around(
+                            before.build(),
+                            innerHandler,
+                            after.build(),
+                            errorRecoverers.build(writersProvider))
+                else innerHandler
+
+        private fun hasBehaviour() = before.hasBehaviour() || after.hasBehaviour() || errorRecoverers.hasBehaviour()
+    }
 }
