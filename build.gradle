@@ -2,47 +2,38 @@ group 'swak'
 version '0.1-SNAPSHOT'
 
 task wrapper(type: Wrapper) {
-  gradleVersion = '3.5'
-  distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
+    gradleVersion = '3.5'
+    distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
 }
 
 buildscript {
     ext.kotlin_version = '1.1.2-2'
 
     repositories {
+        jcenter()
         mavenCentral()
     }
 
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.0-M4'
     }
 }
 
-apply plugin: 'kotlin'
-apply plugin: 'org.junit.platform.gradle.plugin'
-apply plugin: 'maven'
+subprojects {
+    buildscript {
+        repositories {
+            jcenter()
+            mavenCentral()
+        }
+    }
 
-compileKotlin.kotlinOptions.jvmTarget = "1.8"
-compileTestKotlin.kotlinOptions.jvmTarget = "1.8"
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
 
-repositories {
-    mavenCentral()
-    maven { url 'https://dl.bintray.com/neyb/maven' }
-}
+    apply plugin: 'kotlin'
 
-dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
-    compile "io.undertow:undertow-core:1.4.10.Final"
-    compile "io.reactivex.rxjava2:rxjava:2.0.+"
-    compile 'io.github.microutils:kotlin-logging:1.+'
-    compile "org.slf4j:slf4j-api:1.+"
-
-    testCompile "org.junit.jupiter:junit-jupiter-api:5.0.0-M4"
-    testCompile "com.squareup.okhttp3:okhttp:3.+"
-    testCompile "org.jetbrains.kotlin:kotlin-test:1+"
-    testCompile "io.github.neyb.shoulk:shoulk:0.1.0"
-    testCompile "ch.qos.logback:logback-classic:1.2.1"
-
-    testRuntime("org.junit.jupiter:junit-jupiter-engine:5.0.0-M4")
+    compileKotlin.kotlinOptions.jvmTarget = "1.8"
+    compileTestKotlin.kotlinOptions.jvmTarget = "1.8"
 }
