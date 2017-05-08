@@ -1,6 +1,8 @@
 rootProject.name = 'swak'
-include 'core'
-include 'undertow'
+
+include ':core'
+include ':undertow'
+
 findProject(':core')?.name = 'swak-core'
 findProject(':undertow')?.name = 'swak-undertow'
 

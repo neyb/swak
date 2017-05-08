@@ -1,4 +1,4 @@
-package swak
+package swak.server
 
 data class Configuration @JvmOverloads constructor(
         val port: Int = 80

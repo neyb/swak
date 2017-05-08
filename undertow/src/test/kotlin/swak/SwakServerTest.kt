@@ -6,6 +6,8 @@ import okhttp3.*
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Tag
 import swak.config.configurer.SubRouteConfigurer
+import swak.server.Configuration
+import swak.undertow.SwakServer
 import kotlin.properties.Delegates
 
 @Tag("it")

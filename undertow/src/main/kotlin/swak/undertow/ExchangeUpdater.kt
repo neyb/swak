@@ -1,4 +1,4 @@
-package swak
+package swak.undertow
 
 import io.reactivex.SingleObserver
 import io.reactivex.disposables.Disposable

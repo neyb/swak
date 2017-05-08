@@ -1,9 +1,11 @@
-package swak.http.request
+package swak.undertow
 
 import io.reactivex.Single
 import io.undertow.server.HttpServerExchange
 import swak.http.Headers
 import swak.http.MutableHeaders
+import swak.http.request.BasicRequest
+import swak.http.request.Method
 import java.util.*
 
 internal class UndertowBasicRequest(private val exchange: HttpServerExchange) : BasicRequest {

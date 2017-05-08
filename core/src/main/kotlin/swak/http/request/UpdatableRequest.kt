@@ -4,7 +4,7 @@ import io.reactivex.Single
 import swak.http.*
 import swak.body.reader.BodyReader
 
-class UpdatableRequest<out B> internal constructor(
+class UpdatableRequest<out B> constructor(
         private val basicRequest: BasicRequest,
         private val bodyReader: BodyReader<B>,
         private val pathParamExtractor: PathParamExtractor = NoPathParamExtractor
