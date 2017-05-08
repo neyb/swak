@@ -1,6 +1,6 @@
 package swak
 
-import io.github.neyb.shoulk.*
+import io.github.neyb.shoulk.shouldEqual
 import io.reactivex.Single
 import org.junit.jupiter.api.Test
 import swak.http.request.Method.GET
@@ -11,7 +11,7 @@ class SwakServer_finalRouteExtractTest : SwakServerTest() {
     @Test
     internal fun simpleExtraction() {
         swakServer {
-            handle("/hello/{who}", GET) { request ->
+            on("/hello/{who}", GET) answer {
                 Single.just(SimpleResponse(body = request.pathParams["who"]))
             }
         }.start()

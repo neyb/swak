@@ -1,8 +1,8 @@
 package swak
 
-import io.github.neyb.shoulk.*
+import io.github.neyb.shoulk.shouldEqual
 import org.junit.jupiter.api.Test
-import swak.http.request.Method
+import swak.http.request.Method.GET
 import swak.http.response.*
 
 class SwakServer_errorHandlerTest : SwakServerTest() {
@@ -11,10 +11,10 @@ class SwakServer_errorHandlerTest : SwakServerTest() {
 
     @Test fun `can handle a specific error`() {
         swakServer {
-            handle<Unit>("/test", Method.GET) {
+            on("/test", GET).answer<Unit> {
                 throw MyException()
             }
-            handle<Unit>("/test2", Method.GET) {
+            on("/test2", GET).answer<Unit> {
                 throw MySubException()
             }
             handleError { _: MyException -> NoBodyResponse(Code.PARTIAL_CONTENT) }
@@ -27,7 +27,7 @@ class SwakServer_errorHandlerTest : SwakServerTest() {
     @Test fun `can overwrite a error handler`() {
         swakServer {
             sub("/foo") {
-                handle<Unit>("/bar", Method.GET) {
+                on("/bar", GET).answer<Unit> {
                     throw MyException()
                 }
                 handleError { _: MyException -> NoBodyResponse(status = Code.OK) }

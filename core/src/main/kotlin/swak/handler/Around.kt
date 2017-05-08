@@ -4,10 +4,8 @@ import io.reactivex.Single
 import swak.body.writer.provider.type.BodyWriterChooserProviders
 import swak.http.request.context.*
 import swak.http.response.context.UpdatableResponseContext
-import swak.interceptor.after.AfterInterceptor
-import swak.interceptor.after.ResponseUpdaters
-import swak.interceptor.before.BeforeInterceptor
-import swak.interceptor.before.RequestUpdaters
+import swak.interceptor.after.*
+import swak.interceptor.before.*
 import swak.interceptor.errorHandler.*
 import kotlin.properties.Delegates
 
@@ -43,9 +41,9 @@ internal class Around<IB>(
         )
     }
 
-    class Builder<IB, OB> {
+    class Builder<IB> {
         val before = RequestUpdaters.Builder<IB>()
-        var innerHandler: HandlerBuilder<IB, OB> by Delegates.notNull()
+        var innerHandler: HandlerBuilder<IB> by Delegates.notNull()
         val after = ResponseUpdaters.Builder<IB>()
         val errorRecoverers = ErrorRecoverers.Builder()
 

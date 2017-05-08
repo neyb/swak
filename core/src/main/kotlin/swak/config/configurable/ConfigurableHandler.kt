@@ -1,17 +1,16 @@
 package swak.config.configurable
 
 import io.reactivex.Single
+import swak.body.reader.provider.type.*
+import swak.body.writer.provider.type.*
 import swak.config.configurer.HandlerConfigurer
-import swak.handler.*
-import swak.http.request.Request
-import swak.body.reader.provider.type.BodyReaderChooserProvider
-import swak.body.reader.provider.type.BodyReaderChooserProviders
-import swak.body.writer.provider.type.BodyWriterChooserProvider
-import swak.body.writer.provider.type.BodyWriterChooserProviders
+import swak.handler.HandlerBuilder
+import swak.handler.NotWritable.*
+import swak.http.request.context.RequestContext
 import swak.http.response.NotWritableResponse
 
-internal interface ConfigurableHandler<reqBody, out respBody> : HandlerConfigurer, HandlerBuilder<reqBody, respBody> {
-    val parent: ConfigurableHandler<*, *>?
+internal interface ConfigurableHandler<reqBody> : HandlerConfigurer, HandlerBuilder<reqBody> {
+    val parent: ConfigurableHandler<*>?
     val localPath: String?
     val path: String
         get() = (parent?.localPath ?: "") + (localPath ?: "")
@@ -26,7 +25,7 @@ internal interface ConfigurableHandler<reqBody, out respBody> : HandlerConfigure
         bodyWriterTypeProviders.add(bodyWriterChooserProvider)
     }
 
-    fun <IB, OB : Any> ((Request<IB>) -> Single<out NotWritableResponse<OB>>).asRequestHandler(): NotWritableHandler<IB, OB> =
+    fun <IB, OB : Any> ((RequestContext<IB>) -> Single<out NotWritableResponse<OB>>).asRequestHandler(): NotWritableHandler<IB, OB> =
             FinalHandler(this)
 }
 

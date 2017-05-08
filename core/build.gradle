@@ -10,12 +10,12 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
     compile "io.reactivex.rxjava2:rxjava:2.0.+"
     compile 'io.github.microutils:kotlin-logging:1.+'
-    compile "org.slf4j:slf4j-api:1.+"
+    compile "org.slf4j:slf4j-api:1.7.+"
 
     testCompile "org.junit.jupiter:junit-jupiter-api:5.0.0-M4"
     testCompile "org.jetbrains.kotlin:kotlin-test:1+"
     testCompile "io.github.neyb.shoulk:shoulk:0.1.0"
-    testCompile "ch.qos.logback:logback-classic:1.2.1"
+    testCompile "ch.qos.logback:logback-classic:1.2.+"
     testCompile "org.mockito:mockito-core:2.7.22"
 
     testRuntime("org.junit.jupiter:junit-jupiter-engine:5.0.0-M4")

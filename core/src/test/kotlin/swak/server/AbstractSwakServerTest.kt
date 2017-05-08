@@ -1,14 +1,11 @@
 package swak.server
 
-import io.github.neyb.shoulk.hasMessage
-import io.github.neyb.shoulk.shouldBe
-import io.github.neyb.shoulk.shouldThrow
-import io.github.neyb.shoulk.that
+import io.github.neyb.shoulk.*
 import io.reactivex.Single
 import org.junit.jupiter.api.Test
 import swak.config.configurer.SubRouteConfigurer
 import swak.handler.Handler
-import swak.http.request.Method
+import swak.http.request.Method.GET
 import swak.http.response.NotWritableResponse
 
 class AbstractSwakServerTest {
@@ -29,7 +26,7 @@ class AbstractSwakServerTest {
     }
 
     val ss: TestSwakServer = TestSwakServer {
-        handle("/", Method.GET) { Single.error<NotWritableResponse<Unit>>(IllegalStateException()) }
+        on("/", GET) answer { Single.error<NotWritableResponse<Unit>>(IllegalStateException()) }
     }
 
     @Test fun `a new SwakServer should not be started`() {

@@ -1,6 +1,6 @@
 package swak
 
-import io.github.neyb.shoulk.*
+import io.github.neyb.shoulk.shouldEqual
 import io.reactivex.Single
 import org.junit.jupiter.api.Test
 import swak.http.request.Method
@@ -11,7 +11,7 @@ class SwakServer_queryParamTest :SwakServerTest() {
     fun `can get a query param`() {
         var params :Map<String, List<String>>? = null
         swakServer {
-            handle("/test", Method.GET) { request ->
+            on("/test", Method.GET) answer  {
                 params = request.queryParams
                 Single.just(NoBodyResponse())
             }

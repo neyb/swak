@@ -1,39 +1,31 @@
 package swak.config.configurable
 
 import io.reactivex.Single
-import swak.config.configurer.RouterConfigurer
-import swak.config.configurer.SubRouteConfigurer
+import swak.config.configurer.*
 import swak.handler.*
+import swak.handler.NotWritable.NotWritableHandler
 import swak.handler.path.RoutePath
 import swak.handler.router.Router
 import swak.handler.router.route.Route
 import swak.http.request.Method
-import swak.http.request.Request
+import swak.http.request.context.RequestContext
 import swak.http.response.NotWritableResponse
 import swak.interceptor.before.PathParamUpdater
 import swak.matcher.*
 
-internal interface ConfigurableRouter : RouterConfigurer, ConfigurableHandler<String, String> {
+internal interface ConfigurableRouter : RouterConfigurer, ConfigurableHandler<String> {
     val routerHandlerBuilder: Router.Builder
 
     fun addRoute(route: Route) {
         routerHandlerBuilder.routes.add(route)
     }
 
-    override fun <OB : Any> handle(
-            path: String,
-            method: Method,
-            respBodyType: Class<OB>,
-            handler: (Request<String>) -> Single<out NotWritableResponse<OB>>) {
-        handleTyped(path, method, String::class.java, respBodyType, handler.asRequestHandler(), haveSubRoute = false)
-    }
-
-    override fun <IB, OB : Any> handleTyped(
+    override fun <IB, OB : Any> handle(
             path: String,
             method: Method,
             reqBodyType: Class<IB>,
             respBodyType: Class<OB>,
-            handler: (Request<IB>) -> Single<out NotWritableResponse<OB>>) {
+            handler: RequestContext<IB>.() -> Single<out NotWritableResponse<OB>>) {
         handleTyped(path, method, reqBodyType, respBodyType, handler.asRequestHandler(), haveSubRoute = false)
     }
 
@@ -67,7 +59,7 @@ internal interface ConfigurableRouter : RouterConfigurer, ConfigurableHandler<St
         val routePath = RoutePath.of(this.path + path, !haveSubRoute)
         val matcher = PathMatcher<String>(routePath) and additionalMatcher
 
-        val handlerWithAnyParamUpdater = Around.Builder<String, String>().apply {
+        val handlerWithAnyParamUpdater = Around.Builder<String>().apply {
             innerHandler = AlreadyBuiltHandlerBuilder(handler)
             if (routePath.extractor != null)
                 before.interceptors.add(PathParamUpdater(routePath))

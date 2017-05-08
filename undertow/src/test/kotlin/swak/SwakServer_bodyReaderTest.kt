@@ -1,11 +1,12 @@
 package swak
 
-import io.github.neyb.shoulk.*
+import io.github.neyb.shoulk.shouldEqual
 import org.junit.jupiter.api.Test
 import swak.body.reader.BodyReader
 import swak.body.reader.provider.request.BodyReaderChooser
 import swak.body.reader.provider.type.BodyReaderChooserProvider
-import swak.http.request.*
+import swak.http.request.Method.POST
+import swak.http.request.UpdatableRequest
 import swak.http.response.NoBodyResponse
 
 class SwakServer_bodyReaderTest : SwakServerTest() {
@@ -26,11 +27,12 @@ class SwakServer_bodyReaderTest : SwakServerTest() {
         swakServer {
             addContentReaderProvider(bodyLengthReader)
 
-            handleTyped(Method.POST, "/IAm") { request: Request<Int> ->
+            on("/IAm", POST).withA<Int>() answer {
                 request.body
                         .doOnSuccess { nameLength = it }
                         .map { NoBodyResponse() }
             }
+
         }.start()
 
         post("/IAm", "Tony Stark")

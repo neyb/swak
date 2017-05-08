@@ -5,28 +5,41 @@ import swak.body.reader.provider.type.BodyReaderChooserProvider
 import swak.body.writer.provider.type.BodyWriterChooserProvider
 import swak.config.configurable.SubRouteConfigurable
 import swak.http.request.Method
-import swak.http.request.Request
-import swak.http.response.NotWritableResponse
-import swak.http.response.SimpleResponse
+import swak.http.request.context.RequestContext
+import swak.http.response.*
 import swak.interceptor.errorHandler.ErrorHandler
 
 class SubRouteConfigurer internal constructor(
         private val subRouteHandler: SubRouteConfigurable
-) : AroundConfigurer by subRouteHandler, RouterConfigurer by subRouteHandler{
+) : AroundConfigurer by subRouteHandler, RouterConfigurer by subRouteHandler {
+
+    fun on(path: String, method: Method) = HandlerHelper(method, path, String::class.java)
+
+    inner class HandlerHelper<out IB> internal constructor(
+            private val method: Method,
+            private val path: String,
+            private val inputClass: Class<IB>
+    ) {
+        inline fun <reified T> withA() = withA(T::class.java)
+        fun <T> withA(inputClass: Class<T>) = HandlerHelper(method, path, inputClass)
+
+        inline infix fun <reified OB : Any> answer(noinline handler: RequestContext<IB>.() -> Single<out NotWritableResponse<OB>>) =
+                answer(OB::class.java, handler)
+        fun <OB : Any> answer(outputClass: Class<OB>, handler: RequestContext<IB>.() -> Single<out NotWritableResponse<OB>>) {
+            this@SubRouteConfigurer.handle(
+                    path,
+                    method,
+                    inputClass,
+                    outputClass,
+                    handler)
+        }
+    }
 
     override fun addContentReaderProvider(bodyReaderChooserProvider: BodyReaderChooserProvider) =
             subRouteHandler.addContentReaderProvider(bodyReaderChooserProvider)
 
     override fun addContentWriterProvider(bodyWriterChooserProvider: BodyWriterChooserProvider) =
             subRouteHandler.addContentWriterProvider(bodyWriterChooserProvider)
-
-    inline fun <reified OB : Any> handle(path: String, method: Method, noinline handler: (Request<String>) -> Single<out NotWritableResponse<OB>>) {
-        handle(path, method, OB::class.java, handler)
-    }
-
-    inline fun <reified IB, reified OB : Any> handleTyped(method: Method, path: String, noinline handler: (Request<IB>) -> Single<out NotWritableResponse<OB>>) {
-        handleTyped(path, method, IB::class.java, OB::class.java, handler)
-    }
 
     inline fun <reified E : Throwable, reified OB : Any> handleError(noinline errorHandler: (E) -> SimpleResponse<OB>) {
         handleError(OB::class.java, ErrorHandler.of(errorHandler))
