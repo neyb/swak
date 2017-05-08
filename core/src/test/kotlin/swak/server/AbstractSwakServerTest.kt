@@ -4,42 +4,32 @@ import io.github.neyb.shoulk.hasMessage
 import io.github.neyb.shoulk.shouldBe
 import io.github.neyb.shoulk.shouldThrow
 import io.github.neyb.shoulk.that
-import org.junit.jupiter.api.BeforeEach
+import io.reactivex.Single
 import org.junit.jupiter.api.Test
-import org.mockito.Mockito
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.mock
+import swak.config.configurer.SubRouteConfigurer
 import swak.handler.Handler
+import swak.http.request.Method
+import swak.http.response.NotWritableResponse
 
-@Suppress("UNCHECKED_CAST")
 class AbstractSwakServerTest {
 
-    private fun <T> any(): T {
-        Mockito.any<T>()
-        return uninitialized()
-    }
-
-    private fun <T> uninitialized(): T = null as T
-
-
-    inner class TestSwakServer : AbstractSwakServer({}, rootHandlerInitializer) {
+    inner class TestSwakServer(conf: SubRouteConfigurer.() -> Unit) : AbstractSwakServer(conf) {
         var started = false
+        var rootHandler: Handler<String>? = null
 
         override fun doStart(rootHandler: Handler<String>) {
+            this.rootHandler = rootHandler
             started = true
         }
 
         override fun doStop() {
+            this.rootHandler = null
             started = false
         }
     }
 
-    val rootHandlerInitializer: RootHandlerInitialiazer = mock(RootHandlerInitialiazer::class.java)
-    val rootHandler: Handler<String> = mock(Handler::class.java) as Handler<String>
-    val ss: TestSwakServer by lazy { TestSwakServer() }
-
-    @BeforeEach fun setUp() {
-        `when`(rootHandlerInitializer.initialise(any())).thenReturn(rootHandler)
+    val ss: TestSwakServer = TestSwakServer {
+        handle("/", Method.GET) { Single.error<NotWritableResponse<Unit>>(IllegalStateException()) }
     }
 
     @Test fun `a new SwakServer should not be started`() {
@@ -63,7 +53,7 @@ class AbstractSwakServerTest {
         { ss.start() } shouldThrow IllegalStateException::class that hasMessage("server already started!")
     }
 
-    @Test fun `cannot stop a stoped server`() {
-        {ss.stop()} shouldThrow IllegalStateException::class that hasMessage("server not started!")
+    @Test fun `cannot stop a stopped server`() {
+        { ss.stop() } shouldThrow IllegalStateException::class that hasMessage("server not started!")
     }
 }

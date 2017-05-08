@@ -4,11 +4,10 @@ import swak.config.configurer.SubRouteConfigurer
 import swak.handler.Handler
 
 abstract class AbstractSwakServer(
-        mainConfiguration: SubRouteConfigurer.() -> Unit = {},
-        rootHandlerInitializer: RootHandlerInitialiazer = RootHandlerInitialiazer()
+        mainConfiguration: SubRouteConfigurer.() -> Unit
 ) : SwakServer {
 
-    private val rootHandler: Handler<String> = rootHandlerInitializer.initialise(mainConfiguration)
+    private val rootHandler: Handler<String> = RootHandlerInitializer.initialise(mainConfiguration)
     private var started = false
 
     override final fun start() {

@@ -7,7 +7,7 @@ import swak.config.configurer.SimpleAroundConfigurer
 import swak.config.configurer.SubRouteConfigurer
 import swak.handler.Handler
 
-class RootHandlerInitialiazer {
+object RootHandlerInitializer {
     fun initialise(mainConfiguration: SubRouteConfigurer.() -> Unit): Handler<String> {
         val rootHandlerBuilder = SimpleConfigurableAround()
         val mainHandlerBuilder = SubRouteConfigurable(rootHandlerBuilder)
