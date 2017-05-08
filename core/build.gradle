@@ -16,6 +16,7 @@ dependencies {
     testCompile "org.jetbrains.kotlin:kotlin-test:1+"
     testCompile "io.github.neyb.shoulk:shoulk:0.1.0"
     testCompile "ch.qos.logback:logback-classic:1.2.1"
+    testCompile "org.mockito:mockito-core:2.7.22"
 
     testRuntime("org.junit.jupiter:junit-jupiter-engine:5.0.0-M4")
 }

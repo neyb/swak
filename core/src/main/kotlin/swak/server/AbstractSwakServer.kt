@@ -1,43 +1,31 @@
 package swak.server
 
-import swak.config.configurable.SimpleConfigurableAround
-import swak.config.configurable.SubRouteConfigurable
-import swak.config.configuration.DefaultGenericHandlerConfiguration
-import swak.config.configurer.SimpleAroundConfigurer
 import swak.config.configurer.SubRouteConfigurer
 import swak.handler.Handler
+
 abstract class AbstractSwakServer(
-        protected val serverConfiguration: Configuration = Configuration(),
-        mainConfiguration: SubRouteConfigurer.() -> Unit = {}
+        mainConfiguration: SubRouteConfigurer.() -> Unit = {},
+        rootHandlerInitializer: RootHandlerInitialiazer = RootHandlerInitialiazer()
 ) : SwakServer {
 
-    private val rootHandler: Handler<String>
+    private val rootHandler: Handler<String> = rootHandlerInitializer.initialise(mainConfiguration)
     private var started = false
 
-    init {
-        val rootHandlerBuilder = SimpleConfigurableAround()
-        val mainHandlerBuilder = SubRouteConfigurable(rootHandlerBuilder)
-        rootHandlerBuilder.interceptHandlerBuilder.innerHandler = mainHandlerBuilder
-
-        DefaultGenericHandlerConfiguration.configure(SimpleAroundConfigurer(rootHandlerBuilder))
-        mainConfiguration(SubRouteConfigurer(mainHandlerBuilder))
-
-        rootHandler = rootHandlerBuilder.build()
-    }
-
     override final fun start() {
-        if(started) throw IllegalStateException("server already started!")
-        start(rootHandler)
+        if (started) throw IllegalStateException("server already started!")
+        doStart(rootHandler)
         started = true
     }
-    protected abstract fun start(rootHandler: Handler<String>)
 
     override final fun stop() {
-        if(!started) throw IllegalStateException("server not started!")
+        if (!started) throw IllegalStateException("server not started!")
         started = false
-        safeStop()
+        doStop()
     }
-    abstract fun safeStop()
+
+    protected abstract fun doStart(rootHandler: Handler<String>)
+
+    protected abstract fun doStop()
 
 }
 
