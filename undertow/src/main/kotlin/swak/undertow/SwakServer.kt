@@ -2,8 +2,7 @@ package swak.undertow
 
 import io.undertow.Undertow
 import swak.config.configurer.SubRouteConfigurer
-import swak.handler.Handler
-import swak.server.AbstractSwakServer
+import swak.server.*
 
 class SwakServer(
         private val serverConfiguration: Configuration = Configuration(),
@@ -12,7 +11,7 @@ class SwakServer(
 
     private var ut: Undertow? = null
 
-    override fun doStart(rootHandler: Handler<String>) {
+    override fun doStart(rootHandler: RootReqHandler) {
         ut = Undertow.builder()
                 .addHttpListener(serverConfiguration.port, "0.0.0.0")
                 .setHandler(RouteAdapterHttpHandler(rootHandler))

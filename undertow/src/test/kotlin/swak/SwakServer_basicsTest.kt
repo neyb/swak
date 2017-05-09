@@ -26,7 +26,7 @@ class SwakServer_basicsTest : SwakServerTest() {
     }
 
     @Test
-    internal fun `a not started server cannot be stoped`() {
+    internal fun `a not started server cannot be stopped`() {
         { swakServer {
             on("/", GET) answer { Single.just(NoBodyResponse()) }
         }.stop() } shouldThrow IllegalStateException::class that hasMessage("server not started!")

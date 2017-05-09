@@ -4,7 +4,6 @@ import io.github.neyb.shoulk.*
 import io.reactivex.Single
 import org.junit.jupiter.api.Test
 import swak.config.configurer.SubRouteConfigurer
-import swak.handler.Handler
 import swak.http.request.Method.GET
 import swak.http.response.NotWritableResponse
 
@@ -12,9 +11,9 @@ class AbstractSwakServerTest {
 
     inner class TestSwakServer(conf: SubRouteConfigurer.() -> Unit) : AbstractSwakServer(conf) {
         var started = false
-        var rootHandler: Handler<String>? = null
+        var rootHandler: RootReqHandler? = null
 
-        override fun doStart(rootHandler: Handler<String>) {
+        override fun doStart(rootHandler: RootReqHandler) {
             this.rootHandler = rootHandler
             started = true
         }
@@ -26,7 +25,7 @@ class AbstractSwakServerTest {
     }
 
     val ss: TestSwakServer = TestSwakServer {
-        on("/", GET) answer { Single.error<NotWritableResponse<Unit>>(IllegalStateException()) }
+        on(".*", GET) answer { Single.error<NotWritableResponse<Unit>>(IllegalStateException()) }
     }
 
     @Test fun `a new SwakServer should not be started`() {

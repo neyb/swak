@@ -1,13 +1,12 @@
 package swak.server
 
 import swak.config.configurer.SubRouteConfigurer
-import swak.handler.Handler
 
 abstract class AbstractSwakServer(
         mainConfiguration: SubRouteConfigurer.() -> Unit
 ) : SwakServer {
 
-    private val rootHandler: Handler<String> = RootHandlerInitializer.initialise(mainConfiguration)
+    private val rootHandler: RootReqHandler = RootHandlerInitializer.initialise(mainConfiguration)
     private var started = false
 
     override final fun start() {
@@ -22,7 +21,7 @@ abstract class AbstractSwakServer(
         doStop()
     }
 
-    protected abstract fun doStart(rootHandler: Handler<String>)
+    protected abstract fun doStart(rootHandler: RootReqHandler)
 
     protected abstract fun doStop()
 

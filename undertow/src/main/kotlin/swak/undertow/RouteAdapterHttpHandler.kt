@@ -1,17 +1,13 @@
 package swak.undertow
 
-import io.undertow.server.HttpHandler
-import io.undertow.server.HttpServerExchange
-import swak.body.reader.StringReader
-import swak.handler.Handler
-import swak.http.request.UpdatableRequest
-import swak.http.request.context.UpdatableRequestContext
+import io.undertow.server.*
+import swak.server.RootReqHandler
 
-internal class RouteAdapterHttpHandler(private val mainHandler: Handler<String>) : HttpHandler {
+internal class RouteAdapterHttpHandler(private val rootReqHandler: RootReqHandler) : HttpHandler {
     override fun handleRequest(exchange: HttpServerExchange) {
         exchange.dispatch(Runnable {
-            mainHandler.handle(UpdatableRequestContext(UpdatableRequest(UndertowBasicRequest(exchange), StringReader)))
-                    .map { it.response }
+            rootReqHandler
+                    .handle(UndertowBasicRequest(exchange))
                     .subscribe(ExchangeUpdater(exchange))
         })
     }
