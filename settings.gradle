@@ -2,7 +2,9 @@ rootProject.name = 'swak'
 
 include ':core'
 include ':undertow'
+include 'gson'
 
 findProject(':core')?.name = 'swak-core'
 findProject(':undertow')?.name = 'swak-undertow'
+findProject(':gson')?.name = 'swak-gson'
 
