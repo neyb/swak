@@ -7,7 +7,6 @@ buildscript {
 apply plugin: 'org.junit.platform.gradle.plugin'
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
     compile "io.reactivex.rxjava2:rxjava:2.1.+"
     compile 'io.github.microutils:kotlin-logging:1.+'
     compile "org.slf4j:slf4j-api:1.7.+"
