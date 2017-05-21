@@ -2,7 +2,7 @@ package swak.server
 
 import io.github.neyb.shoulk.*
 import io.reactivex.Single
-import org.junit.jupiter.api.Test
+import org.junit.Test
 import swak.config.configurer.SubRouteConfigurer
 import swak.http.request.Method.GET
 import swak.http.response.NotWritableResponse

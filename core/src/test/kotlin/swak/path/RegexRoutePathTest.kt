@@ -2,7 +2,7 @@ package swak.path
 
 import io.github.neyb.shoulk.*
 import io.github.neyb.shoulk.matcher.*
-import org.junit.jupiter.api.Test
+import org.junit.Test
 import swak.handler.path.RegexRoutePath
 
 internal class RegexRoutePathTest {

@@ -1,7 +1,7 @@
 package swak
 
 import io.github.neyb.shoulk.shouldEqual
-import org.junit.jupiter.api.Test
+import org.junit.Test
 import swak.http.request.Method.POST
 import swak.http.response.NoBodyResponse
 

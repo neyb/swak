@@ -3,7 +3,7 @@ package swak
 import io.github.neyb.shoulk.*
 import io.github.neyb.shoulk.matcher.match
 import io.reactivex.Single
-import org.junit.jupiter.api.Test
+import org.junit.Test
 import swak.http.request.Method.GET
 import swak.http.response.NoBodyResponse
 

@@ -2,7 +2,7 @@ package swak
 
 import io.github.neyb.shoulk.shouldEqual
 import io.reactivex.Single
-import org.junit.jupiter.api.Test
+import org.junit.Test
 import swak.http.request.Method.GET
 import swak.http.response.*
 
@@ -58,14 +58,14 @@ class SwakServer_subRouteTest : SwakServerTest() {
             }
         }.start()
 
-        get("/begin1/middle1/end1").body().string() shouldEqual "111"
-        get("/begin1/middle1/end2").body().string() shouldEqual "112"
-        get("/begin1/middle2/end1").body().string() shouldEqual "121"
-        get("/begin1/middle2/end2").body().string() shouldEqual "122"
-        get("/begin2/middle1/end1").body().string() shouldEqual "211"
-        get("/begin2/middle1/end2").body().string() shouldEqual "212"
-        get("/begin2/middle2/end1").body().string() shouldEqual "221"
-        get("/begin2/middle2/end2").body().string() shouldEqual "222"
+        get("/begin1/middle1/end1").body()!!.string() shouldEqual "111"
+        get("/begin1/middle1/end2").body()!!.string() shouldEqual "112"
+        get("/begin1/middle2/end1").body()!!.string() shouldEqual "121"
+        get("/begin1/middle2/end2").body()!!.string() shouldEqual "122"
+        get("/begin2/middle1/end1").body()!!.string() shouldEqual "211"
+        get("/begin2/middle1/end2").body()!!.string() shouldEqual "212"
+        get("/begin2/middle2/end1").body()!!.string() shouldEqual "221"
+        get("/begin2/middle2/end2").body()!!.string() shouldEqual "222"
     }
 
     @Test

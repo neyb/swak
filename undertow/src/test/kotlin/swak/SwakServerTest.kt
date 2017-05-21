@@ -3,14 +3,12 @@ package swak
 import io.github.neyb.shoulk.*
 import io.github.neyb.shoulk.matcher.*
 import okhttp3.*
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.Tag
+import org.junit.After
 import swak.config.configurer.SubRouteConfigurer
 import swak.undertow.Configuration
 import swak.undertow.SwakServer
 import kotlin.properties.Delegates
 
-@Tag("it")
 open class SwakServerTest {
     val client: OkHttpClient = OkHttpClient()
     var swakServer by Delegates.notNull<SwakServer>()
@@ -21,8 +19,7 @@ open class SwakServerTest {
         return swakServer
     }
 
-    @AfterEach
-    internal fun tearDown() {
+    @After internal fun tearDown() {
         try {
             swakServer.stop()
         } catch (e: Exception) {

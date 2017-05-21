@@ -2,7 +2,7 @@ package swak
 
 import io.github.neyb.shoulk.shouldEqual
 import io.reactivex.Single
-import org.junit.jupiter.api.Test
+import org.junit.Test
 import swak.body.writer.BodyWriter
 import swak.body.writer.provider.useAlways
 import swak.http.request.Method.*
@@ -16,7 +16,7 @@ class SwakServer_routeTest : SwakServerTest() {
             }
         }.start()
 
-        get("/hello").body().string() shouldEqual "hello world!"
+        get("/hello").body()!!.string() shouldEqual "hello world!"
     }
 
     @Test fun `several route on same path`() {
@@ -31,7 +31,7 @@ class SwakServer_routeTest : SwakServerTest() {
 
         post("/count", "")
         post("/count", "")
-        get("/count").body().string() shouldEqual "2"
+        get("/count").body()!!.string() shouldEqual "2"
     }
 
     @Test fun `2 routes with a path containing the other`() {

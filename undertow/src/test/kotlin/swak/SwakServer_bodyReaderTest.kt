@@ -1,7 +1,7 @@
 package swak
 
 import io.github.neyb.shoulk.shouldEqual
-import org.junit.jupiter.api.Test
+import org.junit.Test
 import swak.body.reader.BodyReader
 import swak.body.reader.provider.request.BodyReaderChooser
 import swak.body.reader.provider.type.BodyReaderChooserProvider
