@@ -1,4 +1,5 @@
-rootProject.name = 'swak'
+rootProject.buildFileName = 'build.gradle.kts'
+rootProject.name = 'swak-parent'
 
 include ':core'
 include ':undertow'
