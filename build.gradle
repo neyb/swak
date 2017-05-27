@@ -3,7 +3,6 @@ version '0.1-SNAPSHOT'
 
 task wrapper(type: Wrapper) {
     gradleVersion = '3.5'
-    distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
 }
 
 buildscript {
