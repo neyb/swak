@@ -9,7 +9,7 @@ interface ErrorHandler<out OB:Any> {
                 of(E::class, errorHandler)
 
         fun <E : Throwable, OB : Any> of(errorClass: KClass<E>, errorHandler: (E)-> SimpleResponse<OB>): ErrorHandler<OB> =
-                SpecificErrorHandler(errorClass, errorHandler)
+                SpecificExceptionErrorHandler(errorClass, errorHandler)
     }
 
     fun onError(error: Throwable): NotWritableResponse<OB>?

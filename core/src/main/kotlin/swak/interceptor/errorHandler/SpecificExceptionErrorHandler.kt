@@ -3,7 +3,7 @@ package swak.interceptor.errorHandler
 import swak.http.response.SimpleResponse
 import kotlin.reflect.KClass
 
-internal class SpecificErrorHandler<in E : Throwable, out Body : Any>(
+internal class SpecificExceptionErrorHandler<in E : Throwable, out Body : Any>(
         private val handledErrorType: KClass<E>,
         private val errorHandler: (E) -> SimpleResponse<Body>
 ) : ErrorHandler<Body> {
