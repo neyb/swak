@@ -17,7 +17,7 @@ class BodyWriterChooserProviders(
     get() = if (parent != null) localChooserProviders + parent.allChooserProviders
     else localChooserProviders
 
-    override fun <B : Any> forClass(target: Class<B>): BodyWriterChooser<B> {
+    override fun <B> forClass(target: Class<B>): BodyWriterChooser<B> {
         val choosers = allChooserProviders.mapNotNull { it.forClass(target) }
         return if (choosers.isEmpty()) throw NoWriterFoundForType(target)
         else BodyWriterChoosers(choosers)

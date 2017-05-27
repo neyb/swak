@@ -8,7 +8,7 @@ class ErrorRecoverer<out ErrBody : Any>(
         private val errorHandler: ErrorHandler<ErrBody>,
         private val writerChooser: BodyWriterChooser<ErrBody>
 ) {
-    fun recoverFrom(request: Request<Any?>, error: Throwable): WritableResponse<ErrBody>? {
+    fun recoverFrom(request: Request<*>, error: Throwable): WritableResponse<ErrBody>? {
         return errorHandler.onError(error)
                 ?.let { response ->
                     SimpleWritableResponse(

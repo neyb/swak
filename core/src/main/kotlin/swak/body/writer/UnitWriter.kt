@@ -8,7 +8,7 @@ import swak.http.response.Response
 object UnitWriter : BodyWriter<Unit>, BodyWriterChooser<Unit>, BodyWriterChooserProvider {
     override fun write(body: Unit): String = ""
 
-    override fun <B : Any> forClass(target: Class<B>) =
+    override fun <B> forClass(target: Class<B>) =
             @Suppress("UNCHECKED_CAST")
             if (target == Unit::class.java) this as BodyWriterChooser<B>
             else null

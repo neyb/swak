@@ -7,7 +7,7 @@ import swak.http.response.WritableResponse
 internal class ResponseUpdaters<IB>(
         private val interceptors: List<ResponseUpdater<IB>> = listOf()
 ) : ResponseUpdater<IB> {
-    override fun onAfter(request: Request<IB>, response: WritableResponse<Any>): Single<WritableResponse<Any>> {
+    override fun onAfter(request: Request<IB>, response: WritableResponse<*>): Single<WritableResponse<*>> {
         var result = Single.just(response)
         for (interceptor in interceptors)
             result = result.flatMap { interceptor.onAfter(request, response) }

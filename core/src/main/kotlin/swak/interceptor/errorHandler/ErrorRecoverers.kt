@@ -8,7 +8,7 @@ import java.util.*
 internal class ErrorRecoverers(
         private val errorHandlers: List<ErrorRecoverer<Any>>
 ) {
-    fun onError(request: Request<Any?>, error: Throwable): WritableResponse<Any>? =
+    fun onError(request: Request<*>, error: Throwable): WritableResponse<Any>? =
             errorHandlers.asSequence()
                     .mapNotNull { it.recoverFrom(request, error) }
                     .firstOrNull()

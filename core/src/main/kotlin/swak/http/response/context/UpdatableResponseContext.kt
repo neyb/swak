@@ -6,8 +6,8 @@ import swak.http.response.WritableResponse
 
 data class UpdatableResponseContext<out IB>(
         val requestContext: RequestContext<IB>,
-        override val response: WritableResponse<Any>
-) : ResponseContext<IB, Any>, RequestContext<IB> by requestContext {
+        override val response: WritableResponse<*>
+) : ResponseContext<IB, Any?>, RequestContext<IB> by requestContext {
     fun <NewReqBody> withRequestContext(requestContext: RequestContext<NewReqBody>) =
             UpdatableResponseContext(requestContext, response)
 }

@@ -20,7 +20,7 @@ internal interface ConfigurableRouter : RouterConfigurer, ConfigurableHandler<St
         routerHandlerBuilder.routes.add(route)
     }
 
-    override fun <IB, OB : Any> handle(
+    override fun <IB, OB> handle(
             path: String,
             method: Method,
             reqBodyType: Class<IB>,
@@ -29,7 +29,7 @@ internal interface ConfigurableRouter : RouterConfigurer, ConfigurableHandler<St
         handleTyped(path, method, reqBodyType, respBodyType, handler.asRequestHandler(), haveSubRoute = false)
     }
 
-    private fun <IB, OB : Any> handleTyped(
+    private fun <IB, OB> handleTyped(
             path: String,
             method: Method,
             reqBodyType: Class<IB>,

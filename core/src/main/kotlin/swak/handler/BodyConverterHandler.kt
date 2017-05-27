@@ -7,7 +7,7 @@ import swak.handler.NotWritable.NotWritableHandler
 import swak.http.request.context.UpdatableRequestContext
 import swak.http.response.context.UpdatableResponseContext
 
-internal class BodyConverterHandler<ReqBody, RespBody : Any>(
+internal class BodyConverterHandler<ReqBody, RespBody>(
         private val readerProvider: BodyReaderChooser<ReqBody>,
         private val handler: NotWritableHandler<ReqBody, RespBody>,
         private val writerChooser: BodyWriterChooser<RespBody>

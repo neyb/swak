@@ -25,7 +25,7 @@ internal interface ConfigurableHandler<reqBody> : HandlerConfigurer, HandlerBuil
         bodyWriterTypeProviders.add(bodyWriterChooserProvider)
     }
 
-    fun <IB, OB : Any> ((RequestContext<IB>) -> Single<out NotWritableResponse<OB>>).asRequestHandler(): NotWritableHandler<IB, OB> =
+    fun <IB, OB> ((RequestContext<IB>) -> Single<out NotWritableResponse<OB>>).asRequestHandler(): NotWritableHandler<IB, OB> =
             FinalHandler(this)
 }
 

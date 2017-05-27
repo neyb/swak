@@ -4,7 +4,7 @@ import swak.body.writer.BodyWriter
 import swak.http.request.Request
 import swak.http.response.Response
 
-class BodyWriterChoosers<in B:Any>(
+class BodyWriterChoosers<in B>(
         private val writerChoosers: List<PotentialBodyWriterChooser<B>>
 ) :BodyWriterChooser<B> {
     override fun `for`(response: Response<B>, request: Request<*>): BodyWriter<B> {

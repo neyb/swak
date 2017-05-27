@@ -11,5 +11,5 @@ interface ResponseUpdater<IB> : AfterInterceptor<IB> {
             onAfter(respContext.request, respContext.response)
                     .map { respContext.copy(response = it) }!!
 
-    fun onAfter(request: Request<IB>, response: WritableResponse<Any>): Single<WritableResponse<Any>>
+    fun onAfter(request: Request<IB>, response: WritableResponse<*>): Single<WritableResponse<*>>
 }
