@@ -2,6 +2,7 @@ dependencies {
     compile "io.reactivex.rxjava2:rxjava:2.1.+"
     compile 'io.github.microutils:kotlin-logging:1.+'
     compile "org.slf4j:slf4j-api:1.7.+"
+    compile "org.jetbrains.kotlin:kotlin-reflect:1.1.2-2"
 
     testCompile "org.jetbrains.kotlin:kotlin-test:1+"
     testCompile "io.github.neyb.shoulk:shoulk:0.1.0"
