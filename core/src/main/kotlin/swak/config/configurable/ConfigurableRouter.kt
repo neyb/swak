@@ -13,7 +13,7 @@ import swak.http.response.NotWritableResponse
 import swak.interceptor.before.PathParamUpdater
 import swak.matcher.*
 
-internal interface ConfigurableRouter : RouterConfigurer, ConfigurableHandler<String> {
+internal interface ConfigurableRouter : RouterConfigurer, ConfigurableHandler<String, Any?> {
     val routerHandlerBuilder: Router.Builder
 
     fun addRoute(route: Route) {
@@ -51,15 +51,15 @@ internal interface ConfigurableRouter : RouterConfigurer, ConfigurableHandler<St
         handle(path, null, subRouteConfigurable.build(), haveSubRoute = true)
     }
 
-    private fun handle(path: String, method: Method, handler: Handler<String>, haveSubRoute: Boolean) {
+    private fun handle(path: String, method: Method, handler: Handler<String, *>, haveSubRoute: Boolean) {
         handle(path, MethodMatcher(method), handler, haveSubRoute)
     }
 
-    private fun handle(path: String, additionalMatcher: RequestMatcher<String>?, handler: Handler<String>, haveSubRoute: Boolean) {
+    private fun handle(path: String, additionalMatcher: RequestMatcher<String>?, handler: Handler<String, *>, haveSubRoute: Boolean) {
         val routePath = RoutePath.of(this.path + path, !haveSubRoute)
         val matcher = PathMatcher<String>(routePath) and additionalMatcher
 
-        val handlerWithAnyParamUpdater = Around.Builder<String>().apply {
+        val handlerWithAnyParamUpdater = Around.Builder<String, Any?>().apply {
             innerHandler = AlreadyBuiltHandlerBuilder(handler)
             if (routePath.extractor != null)
                 before.interceptors.add(PathParamUpdater(routePath))
@@ -73,6 +73,6 @@ internal interface ConfigurableRouter : RouterConfigurer, ConfigurableHandler<St
             if (additionalMatcher != null) this and additionalMatcher
             else this
 
-    override fun build(): Handler<String> = routerHandlerBuilder.build()
+    override fun build(): Handler<String, Any?> = routerHandlerBuilder.build()
 
 }

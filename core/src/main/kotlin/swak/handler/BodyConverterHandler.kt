@@ -7,12 +7,12 @@ import swak.handler.NotWritable.NotWritableHandler
 import swak.http.request.context.UpdatableRequestContext
 import swak.http.response.context.UpdatableResponseContext
 
-internal class BodyConverterHandler<ReqBody, RespBody>(
+internal class BodyConverterHandler<ReqBody, out RespBody>(
         private val readerProvider: BodyReaderChooser<ReqBody>,
         private val handler: NotWritableHandler<ReqBody, RespBody>,
         private val writerChooser: BodyWriterChooser<RespBody>
-) : Handler<String> {
-    override fun handle(reqContext: UpdatableRequestContext<String>): Single<UpdatableResponseContext<String>> {
+) : Handler<String, RespBody> {
+    override fun handle(reqContext: UpdatableRequestContext<String>): Single<UpdatableResponseContext<String, @UnsafeVariance RespBody>> {
         val request = reqContext.request
         return handler.handle(reqContext.withBodyReader(readerProvider.forRequest(request)))
                 .map {

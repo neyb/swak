@@ -5,5 +5,5 @@ import swak.http.request.Request
 import swak.http.response.Response
 
 interface PotentialBodyWriterChooser<in B> {
-    fun `for`(response: Response<B>, request: Request<*>): BodyWriter<B>?
+    fun `for`(response: Response<*>, request: Request<*>): BodyWriter<B>?
 }

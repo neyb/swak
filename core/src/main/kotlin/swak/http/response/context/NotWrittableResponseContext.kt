@@ -4,6 +4,7 @@ import swak.body.writer.BodyWriter
 import swak.http.request.context.RequestContext
 import swak.http.request.context.ResponseContext
 import swak.http.response.*
+import swak.http.response.WritableResponse
 
 class NotWrittableResponseContext<out ReqBody, out RespBody>(
         val requestContext: RequestContext<ReqBody>,

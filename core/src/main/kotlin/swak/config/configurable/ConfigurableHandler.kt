@@ -9,8 +9,8 @@ import swak.handler.NotWritable.*
 import swak.http.request.context.RequestContext
 import swak.http.response.NotWritableResponse
 
-internal interface ConfigurableHandler<reqBody> : HandlerConfigurer, HandlerBuilder<reqBody> {
-    val parent: ConfigurableHandler<*>?
+internal interface ConfigurableHandler<reqBody, out Out> : HandlerConfigurer, HandlerBuilder<reqBody, Out> {
+    val parent: ConfigurableHandler<*, *>?
     val localPath: String?
     val path: String
         get() = (parent?.localPath ?: "") + (localPath ?: "")

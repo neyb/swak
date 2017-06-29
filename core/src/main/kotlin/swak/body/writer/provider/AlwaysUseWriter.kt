@@ -18,5 +18,5 @@ class AlwaysUseWriter<in T>(
             if (target == this.target) this as BodyWriterChooser<B>
             else null
 
-    override fun `for`(response: Response<T>, request: Request<*>) = this
+    override fun `for`(response: Response<*>, request: Request<*>) = this
 }

@@ -3,7 +3,7 @@ package swak
 import io.github.neyb.shoulk.shouldEqual
 import org.junit.Test
 import swak.http.request.Method.POST
-import swak.http.response.NoBodyResponse
+import swak.http.response.*
 
 class SwakServer_bodyTest : SwakServerTest() {
     @Test fun `body can be read`() {
@@ -12,7 +12,7 @@ class SwakServer_bodyTest : SwakServerTest() {
             on("/IAm", POST) answer {
                 request.body
                         .doOnSuccess { whoAmI = it }
-                        .map { NoBodyResponse() }
+                        .map { SimpleResponse.withoutBody() }
             }
         }.start()
 

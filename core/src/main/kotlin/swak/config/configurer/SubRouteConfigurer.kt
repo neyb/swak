@@ -7,6 +7,7 @@ import swak.config.configurable.SubRouteConfigurable
 import swak.http.request.Method
 import swak.http.request.context.RequestContext
 import swak.http.response.*
+import swak.http.response.ErrorResponse
 import swak.interceptor.errorHandler.ErrorHandler
 
 class SubRouteConfigurer internal constructor(
@@ -41,7 +42,7 @@ class SubRouteConfigurer internal constructor(
     override fun addContentWriterProvider(bodyWriterChooserProvider: BodyWriterChooserProvider) =
             subRouteHandler.addContentWriterProvider(bodyWriterChooserProvider)
 
-    inline fun <reified E : Throwable, reified OB : Any> handleError(noinline errorHandler: (E) -> SimpleResponse<OB>) {
+    inline fun <reified E : Throwable, reified OB> handleError(noinline errorHandler: (E) -> ErrorResponse<OB>) {
         handleError(OB::class.java, ErrorHandler.of(errorHandler))
     }
 }

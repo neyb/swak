@@ -6,9 +6,9 @@ import swak.http.response.WritableResponse
 import java.util.*
 
 internal class ErrorRecoverers(
-        private val errorHandlers: List<ErrorRecoverer<Any>>
+        private val errorHandlers: List<ErrorRecoverer<*>>
 ) {
-    fun onError(request: Request<*>, error: Throwable): WritableResponse<Any>? =
+    fun onError(request: Request<*>, error: Throwable): WritableResponse<Nothing>? =
             errorHandlers.asSequence()
                     .mapNotNull { it.recoverFrom(request, error) }
                     .firstOrNull()
@@ -17,11 +17,11 @@ internal class ErrorRecoverers(
 
     class Builder {
         class HandlerByClass {
-            private val handlersByClass = mutableMapOf<Class<Any>, MutableList<ErrorHandler<Any>>>()
+            private val handlersByClass = mutableMapOf<Class<Any?>, MutableList<ErrorHandler<*>>>()
 
-            fun <OB : Any> put(returnedTyped: Class<out OB>, errorHandler: ErrorHandler<OB>) {
+            fun <OB> put(returnedTyped: Class<out OB>, errorHandler: ErrorHandler<OB>) {
                 @Suppress("UNCHECKED_CAST")
-                handlersByClass.getOrPut(returnedTyped as Class<Any>, { ArrayList() }).add(errorHandler)
+                handlersByClass.getOrPut(returnedTyped as Class<Any?>, { ArrayList() }).add(errorHandler)
             }
 
             fun toErrorHandlers(writerChooserProvider: BodyWriterChooserProviders) =
@@ -34,7 +34,7 @@ internal class ErrorRecoverers(
         }
 
         private val handlerByClass = HandlerByClass()
-        fun <OB : Any> add(target: Class<OB>, errorHandler: ErrorHandler<OB>) {
+        fun <OB> add(target: Class<OB>, errorHandler: ErrorHandler<OB>) {
             handlerByClass.put(target, errorHandler)
         }
 

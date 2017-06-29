@@ -5,7 +5,7 @@ import io.reactivex.Single
 import org.junit.Test
 import swak.http.Headers
 import swak.http.request.Method.GET
-import swak.http.response.NoBodyResponse
+import swak.http.response.*
 
 class SwakServer_headerTest : SwakServerTest() {
     @Test
@@ -14,7 +14,7 @@ class SwakServer_headerTest : SwakServerTest() {
         swakServer {
             on("/", GET) answer {
                 header = request.headers
-                Single.just(NoBodyResponse())
+                Single.just(SimpleResponse.withoutBody())
             }
         }.start()
 

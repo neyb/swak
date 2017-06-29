@@ -6,8 +6,8 @@ import swak.http.response.Response
 
 class BodyWriterChoosers<in B>(
         private val writerChoosers: List<PotentialBodyWriterChooser<B>>
-) :BodyWriterChooser<B> {
-    override fun `for`(response: Response<B>, request: Request<*>): BodyWriter<B> {
+) : BodyWriterChooser<B> {
+    override fun `for`(response: Response<*>, request: Request<*>): BodyWriter<B> {
         return writerChoosers
                 .mapNotNull { it.`for`(response, request) }
                 .firstOrNull()

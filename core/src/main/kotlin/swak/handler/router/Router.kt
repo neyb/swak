@@ -9,8 +9,8 @@ import java.util.*
 
 internal class Router(
         private val routes: List<Route>
-) : Handler<String> {
-    override fun handle(reqContext: UpdatableRequestContext<String>): Single<UpdatableResponseContext<String>> {
+) : Handler<String, Any?> {
+    override fun handle(reqContext: UpdatableRequestContext<String>): Single<UpdatableResponseContext<String, Any?>> {
         val request = reqContext.request
         val acceptingRoutes = routes.filter { it.accept(request) }
         return when (acceptingRoutes.size) {
@@ -22,11 +22,11 @@ internal class Router(
 
     override fun toString() = routes.toString()
 
-    class Builder : HandlerBuilder<String> {
+    class Builder : HandlerBuilder<String, Any?> {
         val routes: MutableList<Route> = ArrayList()
-        override fun build() : Router{
-            if(routes.size == 0) throw NoRouteProvided()
-            if(routes.size == 1 && routes[0].isARouter())
+        override fun build(): Router {
+            if (routes.size == 0) throw NoRouteProvided()
+            if (routes.size == 1 && routes[0].isARouter())
                 return routes[0].asRouter()
             return Router(routes)
         }

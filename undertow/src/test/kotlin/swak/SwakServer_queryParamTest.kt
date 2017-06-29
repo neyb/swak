@@ -4,7 +4,7 @@ import io.github.neyb.shoulk.shouldEqual
 import io.reactivex.Single
 import org.junit.Test
 import swak.http.request.Method
-import swak.http.response.NoBodyResponse
+import swak.http.response.*
 
 class SwakServer_queryParamTest :SwakServerTest() {
     @Test
@@ -13,7 +13,7 @@ class SwakServer_queryParamTest :SwakServerTest() {
         swakServer {
             on("/test", Method.GET) answer  {
                 params = request.queryParams
-                Single.just(NoBodyResponse())
+                Single.just(SimpleResponse.withoutBody())
             }
         }.start()
 
