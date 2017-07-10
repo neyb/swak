@@ -3,45 +3,46 @@ package swak.server
 import io.github.neyb.shoulk.*
 import io.reactivex.Single
 import org.junit.Test
-import swak.config.configurer.SubRouteConfigurer
 import swak.http.request.Method.GET
 import swak.http.response.NotWritableResponse
 
-class AbstractSwakServerTest {
+class SwakServerTest {
 
-    inner class TestSwakServer(conf: SubRouteConfigurer.() -> Unit) : AbstractSwakServer(conf) {
+    class TestEngine : SwakServerEngine {
         var started = false
         var rootHandler: RootReqHandler? = null
 
-        override fun doStart(rootHandler: RootReqHandler) {
+        override fun start(rootHandler: RootReqHandler) {
             this.rootHandler = rootHandler
             started = true
         }
 
-        override fun doStop() {
+        override fun stop() {
             this.rootHandler = null
             started = false
         }
     }
 
-    val ss: TestSwakServer = TestSwakServer {
+    val engine = TestEngine()
+
+    val ss: SwakServer = SwakServer(engine) {
         on(".*", GET) answer { Single.error<NotWritableResponse<Unit>>(IllegalStateException()) }
     }
 
     @Test fun `a new SwakServer should not be started`() {
-        ss.started shouldBe false
+        engine.started shouldBe false
     }
 
     @Test fun `a started SwakServer should call doStart`() {
         ss.start()
-        ss.started shouldBe true
+        engine.started shouldBe true
     }
 
     @Test fun `can start then stop a server`() {
         ss.start()
-        ss.started shouldBe true
+        engine.started shouldBe true
         ss.stop()
-        ss.started shouldBe false
+        engine.started shouldBe false
     }
 
     @Test fun `start a started server should fail`() {

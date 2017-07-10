@@ -5,8 +5,8 @@ import io.github.neyb.shoulk.matcher.*
 import okhttp3.*
 import org.junit.After
 import swak.config.configurer.SubRouteConfigurer
-import swak.undertow.Configuration
-import swak.undertow.SwakServer
+import swak.server.SwakServer
+import swak.undertow.*
 import kotlin.properties.Delegates
 
 open class SwakServerTest {
@@ -15,7 +15,7 @@ open class SwakServerTest {
         private set
 
     fun swakServer(configuration: Configuration = Configuration(8080), handlerConfiguration: SubRouteConfigurer.() -> Unit = {}): SwakServer {
-        swakServer = SwakServer(configuration, handlerConfiguration)
+        swakServer = SwakServer(UndertowEngine(configuration), handlerConfiguration)
         return swakServer
     }
 
