@@ -6,13 +6,13 @@ import swak.handler.Around
 import swak.handler.router.Router
 
 internal class SubRouteConfigurable(
-        override val parent: ConfigurableHandler<*>? = null,
+        override val parent: ConfigurableHandler<*, *>? = null,
         override val localPath: String? = null
-) : ConfigurableAround<String, String>, ConfigurableRouter{
+) : ConfigurableAround<String, Any?>, ConfigurableRouter{
     override val bodyReaderTypeProviders = BodyReaderChooserProviders(parent?.bodyReaderTypeProviders)
     override val bodyWriterTypeProviders = BodyWriterChooserProviders(parent?.bodyWriterTypeProviders)
     override val routerHandlerBuilder = Router.Builder()
-    override val interceptHandlerBuilder = Around.Builder<String>().apply {
+    override val interceptHandlerBuilder = Around.Builder<String, Any?>().apply {
         innerHandler = routerHandlerBuilder
         bodyWriterTypeProviders
     }

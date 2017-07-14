@@ -10,14 +10,14 @@ import swak.body.writer.provider.useAlways
 import swak.config.configurer.SimpleAroundConfigurer
 import swak.handler.router.NoRouteFound
 import swak.handler.router.SeveralRouteFound
-import swak.http.response.Code
-import swak.http.response.SimpleResponse
+import swak.http.response.*
+import swak.http.response.ErrorResponse
 
-internal object DefaultGenericHandlerConfiguration : GenericHandlerConfiguration<SimpleAroundConfigurer>, KLoggable {
+internal object DefaultGenericHandlerConfiguration : GenericHandlerConfiguration<SimpleAroundConfigurer<*>>, KLoggable {
 
     override val logger = logger()
 
-    override fun configure(configurer: SimpleAroundConfigurer) {
+    override fun configure(configurer: SimpleAroundConfigurer<*>) {
         configurer.apply {
             addContentReaderProvider(UnitReader.useAlways())
             addContentWriterProvider(UnitWriter.useAlways())
@@ -29,14 +29,14 @@ internal object DefaultGenericHandlerConfiguration : GenericHandlerConfiguration
         }
     }
 
-    inline fun <reified E : Throwable> SimpleAroundConfigurer.logAndRespondWithStatus(
+    inline fun <reified E : Throwable> SimpleAroundConfigurer<*>.logAndRespondWithStatus(
             code: Code,
             message: String = "",
             logStack: Boolean = true) {
-        handleError<E,  Unit> { error ->
-            if (logStack) DefaultGenericHandlerConfiguration.logger.error(error) { message + error.message }
-            else DefaultGenericHandlerConfiguration.logger.error { message + error.message }
-            SimpleResponse(status = code)
+        handleError<E, Unit> { error ->
+            if (logStack) logger.error(error) { message + error.message }
+            else logger.error { message + error.message }
+            ErrorResponse.withoutBody(status = code)
         }
     }
 }

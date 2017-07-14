@@ -11,7 +11,7 @@ class SwakServer_subRouteTest : SwakServerTest() {
     internal fun `one route in a sub route`() {
         swakServer {
             sub("/begin") {
-                on("/end", GET) answer { Single.just(NoBodyResponse()) }
+                on("/end", GET) answer { Single.just(SimpleResponse.withoutBody()) }
             }
         }.start()
 
@@ -23,7 +23,7 @@ class SwakServer_subRouteTest : SwakServerTest() {
         swakServer {
             sub("/begin") {
                 sub("/middle") {
-                    on("/end", GET) answer { Single.just(NoBodyResponse()) }
+                    on("/end", GET) answer { Single.just(SimpleResponse.withoutBody()) }
                 }
             }
         }.start()
@@ -80,7 +80,7 @@ class SwakServer_subRouteTest : SwakServerTest() {
                         begin = request.pathParams["begin"]
                         middle = request.pathParams["middle"]
                         end = request.pathParams["end"]
-                        Single.just(NoBodyResponse())
+                        Single.just(SimpleResponse.withoutBody())
                     }
                 }
             }

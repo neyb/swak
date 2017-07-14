@@ -4,6 +4,7 @@ import io.github.neyb.shoulk.shouldEqual
 import org.junit.Test
 import swak.http.request.Method.GET
 import swak.http.response.*
+import swak.http.response.ErrorResponse
 
 class SwakServer_errorHandlerTest : SwakServerTest() {
     open class MyException : RuntimeException()
@@ -17,7 +18,9 @@ class SwakServer_errorHandlerTest : SwakServerTest() {
             on("/test2", GET).answer<Unit> {
                 throw MySubException()
             }
-            handleError { _: MyException -> NoBodyResponse(Code.PARTIAL_CONTENT) }
+            handleError { _: MyException ->
+                ErrorResponse.withoutBody(status = Code.PARTIAL_CONTENT)
+            }
         }.start()
 
         get("/test").code() shouldEqual 206
@@ -30,9 +33,9 @@ class SwakServer_errorHandlerTest : SwakServerTest() {
                 on("/bar", GET).answer<Unit> {
                     throw MyException()
                 }
-                handleError { _: MyException -> NoBodyResponse(status = Code.OK) }
+                handleError { _: MyException -> ErrorResponse.withoutBody(Code.OK) }
             }
-            handleError { _: MyException -> NoBodyResponse(Code.NOT_FOUND) }
+            handleError { _: MyException -> ErrorResponse.withoutBody(Code.NOT_FOUND) }
         }.start()
 
         get("/foo/bar").code() shouldEqual 200

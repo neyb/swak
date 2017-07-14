@@ -5,6 +5,7 @@ import io.reactivex.disposables.Disposable
 import io.undertow.server.HttpServerExchange
 import mu.KLogging
 import swak.http.response.*
+import swak.http.response.WritableResponse
 
 internal class ExchangeUpdater(private val exchange: HttpServerExchange) : KLogging(), SingleObserver<WritableResponse<Any>> {
     override fun onSubscribe(d: Disposable) {

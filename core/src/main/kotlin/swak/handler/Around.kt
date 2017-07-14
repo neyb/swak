@@ -9,14 +9,14 @@ import swak.interceptor.before.*
 import swak.interceptor.errorHandler.*
 import kotlin.properties.Delegates
 
-internal class Around<IB>(
+internal class Around<IB, out OB>(
         private val before: BeforeInterceptor<IB>,
-        private val handler: Handler<IB>,
-        private val after: AfterInterceptor<IB>,
+        private val handler: Handler<IB, OB>,
+        private val after: AfterInterceptor<IB, OB>,
         private val errorHandlers: ErrorRecoverers
-) : Handler<IB> {
+) : Handler<IB, OB> {
 
-    override fun handle(reqContext: UpdatableRequestContext<IB>): Single<UpdatableResponseContext<IB>> =
+    override fun handle(reqContext: UpdatableRequestContext<IB>): Single<UpdatableResponseContext<IB, @UnsafeVariance OB>> =
             Single.just(reqContext)
                     .flatMap { before.updateRequestContext(it) }
                     .flatMap { handler.handle(it) }
@@ -25,12 +25,12 @@ internal class Around<IB>(
 
     override fun toString() = handler.toString()
 
-    private fun Single<UpdatableResponseContext<IB>>.handleError(reqContext: RequestContext<IB>): Single<UpdatableResponseContext<IB>> =
-            this.map<RxErrorRecover<IB>> { RxErrorRecover.SafeRxErrorRecover(it) }
+    private fun Single<UpdatableResponseContext<IB, OB>>.handleError(reqContext: RequestContext<IB>): Single<UpdatableResponseContext<IB, @UnsafeVariance OB>> =
+            this.map<RxErrorRecover<IB, OB>> { RxErrorRecover.SafeRxErrorRecover(it) }
                     .onErrorReturn { error: Throwable -> recoverError(error, reqContext) }
-                    .map(RxErrorRecover<IB>::responseContext)
+                    .map(RxErrorRecover<IB, OB>::responseContext)
 
-    private fun recoverError(error: Throwable, reqContext: RequestContext<IB>): RxErrorRecover.RethrowRxErrorRecover<IB> {
+    private fun recoverError(error: Throwable, reqContext: RequestContext<IB>): RxErrorRecover.RethrowRxErrorRecover<IB, OB> {
         val possibleResponse = errorHandlers.onError(reqContext.request, error)
 
         return RxErrorRecover.RethrowRxErrorRecover(
@@ -41,17 +41,17 @@ internal class Around<IB>(
         )
     }
 
-    class Builder<IB> {
+    class Builder<IB, OB> {
         val before = RequestUpdaters.Builder<IB>()
-        var innerHandler: HandlerBuilder<IB> by Delegates.notNull()
-        val after = ResponseUpdaters.Builder<IB>()
+        var innerHandler: HandlerBuilder<IB, OB> by Delegates.notNull()
+        val after = ResponseUpdaters.Builder<IB, OB>()
         val errorRecoverers = ErrorRecoverers.Builder()
 
         fun build(writersProvider: BodyWriterChooserProviders) = build(
                 writersProvider,
                 innerHandler.build())
 
-        private fun build(writersProvider: BodyWriterChooserProviders, innerHandler: Handler<IB>) =
+        private fun build(writersProvider: BodyWriterChooserProviders, innerHandler: Handler<IB, OB>) =
                 if (hasBehaviour())
                     Around(
                             before.build(),

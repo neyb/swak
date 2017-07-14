@@ -7,7 +7,7 @@ import swak.body.reader.provider.request.BodyReaderChooser
 import swak.body.reader.provider.type.BodyReaderChooserProvider
 import swak.http.request.Method.POST
 import swak.http.request.UpdatableRequest
-import swak.http.response.NoBodyResponse
+import swak.http.response.*
 
 class SwakServer_bodyReaderTest : SwakServerTest() {
 
@@ -30,7 +30,7 @@ class SwakServer_bodyReaderTest : SwakServerTest() {
             on("/IAm", POST).withA<Int>() answer {
                 request.body
                         .doOnSuccess { nameLength = it }
-                        .map { NoBodyResponse() }
+                        .map { SimpleResponse.withoutBody() }
             }
 
         }.start()

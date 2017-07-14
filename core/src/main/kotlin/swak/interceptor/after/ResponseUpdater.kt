@@ -5,11 +5,10 @@ import swak.http.request.Request
 import swak.http.response.context.UpdatableResponseContext
 import swak.http.response.WritableResponse
 
-//FIXME shitty generics in this class
-interface ResponseUpdater<IB> : AfterInterceptor<IB> {
-    override fun updateRequestContext(respContext: UpdatableResponseContext<IB>) =
+interface ResponseUpdater<IB, OB> : AfterInterceptor<IB, OB> {
+    override fun updateRequestContext(respContext: UpdatableResponseContext<IB, OB>) =
             onAfter(respContext.request, respContext.response)
                     .map { respContext.copy(response = it) }!!
 
-    fun onAfter(request: Request<IB>, response: WritableResponse<Any>): Single<WritableResponse<Any>>
+    fun onAfter(request: Request<IB>, response: WritableResponse<OB>): Single<WritableResponse<OB>>
 }

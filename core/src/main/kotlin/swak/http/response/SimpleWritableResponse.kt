@@ -2,7 +2,7 @@ package swak.http.response
 
 import swak.body.writer.BodyWriter
 
-class SimpleWritableResponse<out Body : Any>(
+class SimpleWritableResponse<out Body>(
         val response: NotWritableResponse<Body>,
         bodyWriter: BodyWriter<Body>
 ) : Response<Body> by response, WritableResponse<Body> {

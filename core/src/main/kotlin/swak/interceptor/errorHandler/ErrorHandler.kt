@@ -1,16 +1,16 @@
 package swak.interceptor.errorHandler
 
-import swak.http.response.NotWritableResponse
-import swak.http.response.SimpleResponse
+import swak.http.response.ErrorResponse
+import kotlin.reflect.KClass
 
-interface ErrorHandler<out OB:Any> {
+interface ErrorHandler<out OB> {
     companion object {
-        inline fun <reified E:Throwable, OB : Any> of(noinline errorHandler: (E)-> SimpleResponse<OB>): ErrorHandler<OB> =
-                of(E::class.java, errorHandler)
+        inline fun <reified E : Throwable, OB> of(noinline errorHandler: (E) -> ErrorResponse<OB>): ErrorHandler<OB> =
+                of(E::class, errorHandler)
 
-        fun <E : Throwable, OB : Any> of(errorClass: Class<E>, errorHandler: (E)-> SimpleResponse<OB>): ErrorHandler<OB> =
-                SpecificErrorHandler(errorClass, errorHandler)
+        fun <E : Throwable, OB> of(errorClass: KClass<E>, errorHandler: (E) -> ErrorResponse<OB>): ErrorHandler<OB> =
+                SpecificExceptionErrorHandler(errorClass, errorHandler)
     }
 
-    fun onError(error: Throwable): NotWritableResponse<OB>?
+    fun onError(error: Throwable): ErrorResponse<OB>?
 }

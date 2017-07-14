@@ -4,10 +4,10 @@ import io.reactivex.Single
 import swak.http.request.Request
 import swak.http.response.WritableResponse
 
-internal class ResponseUpdaters<IB>(
-        private val interceptors: List<ResponseUpdater<IB>> = listOf()
-) : ResponseUpdater<IB> {
-    override fun onAfter(request: Request<IB>, response: WritableResponse<Any>): Single<WritableResponse<Any>> {
+internal class ResponseUpdaters<IB, OB>(
+        private val interceptors: List<ResponseUpdater<IB, OB>> = listOf()
+) : ResponseUpdater<IB, OB> {
+    override fun onAfter(request: Request<IB>, response: WritableResponse<OB>): Single<WritableResponse<OB>> {
         var result = Single.just(response)
         for (interceptor in interceptors)
             result = result.flatMap { interceptor.onAfter(request, response) }
@@ -16,10 +16,10 @@ internal class ResponseUpdaters<IB>(
 
     override fun toString() = interceptors.toString()
 
-    class Builder<IB> {
-        private val interceptors = mutableListOf<ResponseUpdater<IB>>()
+    class Builder<IB, OB> {
+        private val interceptors = mutableListOf<ResponseUpdater<IB, OB>>()
 
-        fun build(): ResponseUpdaters<IB> = ResponseUpdaters(interceptors)
+        fun build(): ResponseUpdaters<IB, OB> = ResponseUpdaters(interceptors)
 
         fun hasBehaviour() = false
     }

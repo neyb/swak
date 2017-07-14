@@ -25,7 +25,7 @@ class SwakServer_routeTest : SwakServerTest() {
             addContentWriterProvider(object : BodyWriter<Int> {
                 override fun write(body: Int) = body.toString()
             }.useAlways())
-            on("/count", POST) answer { counter++;Single.just(NoBodyResponse()) }
+            on("/count", POST) answer { counter++;Single.just(SimpleResponse.withoutBody()) }
             on("/count", GET) answer { Single.just(SimpleResponse(body = counter)) }
         }.start()
 
@@ -36,8 +36,8 @@ class SwakServer_routeTest : SwakServerTest() {
 
     @Test fun `2 routes with a path containing the other`() {
         swakServer {
-            on("/hello1", GET) answer { Single.just(NoBodyResponse()) }
-            on("/hello2", GET) answer { Single.just(NoBodyResponse()) }
+            on("/hello1", GET) answer { Single.just(SimpleResponse.withoutBody()) }
+            on("/hello2", GET) answer { Single.just(SimpleResponse.withoutBody()) }
         }.start()
 
         get("/hello1")
@@ -46,8 +46,8 @@ class SwakServer_routeTest : SwakServerTest() {
 
     @Test fun `if several route intercept a path, server returns 500`() {
         swakServer {
-            on("/hello", GET) answer { Single.just(NoBodyResponse()) }
-            on("/hell{thisIsAO}", GET) answer { Single.just(NoBodyResponse()) }
+            on("/hello", GET) answer { Single.just(SimpleResponse.withoutBody()) }
+            on("/hell{thisIsAO}", GET) answer { Single.just(SimpleResponse.withoutBody()) }
         }.start()
 
         val response = get("/hello", checkSuccess = false)
