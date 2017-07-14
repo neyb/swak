@@ -7,11 +7,11 @@ import mu.KLogging
 import swak.http.response.*
 import swak.http.response.WritableResponse
 
-internal class ExchangeUpdater(private val exchange: HttpServerExchange) : KLogging(), SingleObserver<WritableResponse<Any>> {
+internal class ExchangeUpdater(private val exchange: HttpServerExchange) : KLogging(), SingleObserver<WritableResponse<Any?>> {
     override fun onSubscribe(d: Disposable) {
     }
 
-    override fun onSuccess(response: WritableResponse<Any>) {
+    override fun onSuccess(response: WritableResponse<Any?>) {
         exchange.statusCode = response.status.code
         exchange.responseSender.send(response.writableBody)
         exchange.endExchange()
