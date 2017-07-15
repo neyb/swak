@@ -9,22 +9,20 @@ import java.lang.*
 
 internal class RouteAdapterHttpHandler(private val rootReqHandler: RootReqHandler) : KLogging(), HttpHandler {
     override fun handleRequest(exchange: HttpServerExchange) {
-        exchange.dispatch(Runnable {
-            launch(CommonPool) {
-                try {
-                    exchange.update(rootReqHandler.handle(UndertowBasicRequest(exchange)))
-                } catch (e: Exception) {
-                    logger.error("unhandled error", e)
-                    exchange.update(StringResponse(Code.INTERNAL_SERVER_ERROR))
-                } finally {
-                    exchange.endExchange()
-                }
-            }
-        })
+        exchange.dispatch(Runnable { launch(CommonPool) { exchange.answer(getResponse(exchange)) } })
     }
 
-    private fun HttpServerExchange.update(response: WritableResponse<*>) {
+    private suspend fun getResponse(exchange: HttpServerExchange): WritableResponse<*> =
+            try {
+                rootReqHandler.handle(UndertowBasicRequest(exchange))
+            } catch (e: Exception) {
+                logger.error("unhandled error", e)
+                StringResponse(Code.INTERNAL_SERVER_ERROR)
+            }
+
+    private fun HttpServerExchange.answer(response: WritableResponse<*>) {
         statusCode = response.status.code
         if (!response.writableBody.isEmpty()) responseSender.send(response.writableBody)
+        endExchange()
     }
 }
