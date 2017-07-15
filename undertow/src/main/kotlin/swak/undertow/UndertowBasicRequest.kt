@@ -1,12 +1,10 @@
 package swak.undertow
 
-import io.reactivex.Single
 import io.undertow.server.HttpServerExchange
-import swak.http.Headers
-import swak.http.MutableHeaders
-import swak.http.request.BasicRequest
-import swak.http.request.Method
+import swak.http.*
+import swak.http.request.*
 import java.util.*
+import kotlin.coroutines.experimental.suspendCoroutine
 
 internal class UndertowBasicRequest(private val exchange: HttpServerExchange) : BasicRequest {
     override val headers: Headers by lazy {
@@ -24,13 +22,12 @@ internal class UndertowBasicRequest(private val exchange: HttpServerExchange) : 
         Method.valueOf(exchange.requestMethod.toString())
     }
 
-    override val body: Single<String> by lazy {
-        Single.create<String> {
-            exchange.requestReceiver.receiveFullString(
-                    { _, stringValue -> it.onSuccess(stringValue) },
-                    { _, error -> it.onError(error) },
-                    charset(exchange.requestCharset))
-        }
+    //TODO make it lazy
+    override suspend fun body(): String = suspendCoroutine { cont ->
+        exchange.requestReceiver.receiveFullString(
+                { _, stringValue -> cont.resume(stringValue) },
+                { _, error -> cont.resumeWithException(error) },
+                charset(exchange.requestCharset))
     }
 
     override val queryParam: Map<String, List<String>> by lazy {

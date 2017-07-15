@@ -1,6 +1,5 @@
 package swak.config.configurable
 
-import io.reactivex.Single
 import swak.config.configurer.*
 import swak.handler.*
 import swak.handler.NotWritable.NotWritableHandler
@@ -20,12 +19,12 @@ internal interface ConfigurableRouter : RouterConfigurer, ConfigurableHandler<St
         routerHandlerBuilder.routes.add(route)
     }
 
-    override fun <IB, OB> handle(
+     override fun <IB, OB> handle(
             path: String,
             method: Method,
             reqBodyType: Class<IB>,
             respBodyType: Class<OB>,
-            handler: RequestContext<IB>.() -> Single<out NotWritableResponse<OB>>) {
+            handler: suspend RequestContext<IB>.() -> NotWritableResponse<OB>) {
         handleTyped(path, method, reqBodyType, respBodyType, handler.asRequestHandler(), haveSubRoute = false)
     }
 

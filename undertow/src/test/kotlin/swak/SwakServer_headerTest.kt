@@ -1,7 +1,6 @@
 package swak
 
 import io.github.neyb.shoulk.*
-import io.reactivex.Single
 import org.junit.Test
 import swak.http.Headers
 import swak.http.request.Method.GET
@@ -14,7 +13,7 @@ class SwakServer_headerTest : SwakServerTest() {
         swakServer {
             on("/", GET) answer {
                 header = request.headers
-                Single.just(SimpleResponse.withoutBody())
+                SimpleResponse.withoutBody()
             }
         }.start()
 

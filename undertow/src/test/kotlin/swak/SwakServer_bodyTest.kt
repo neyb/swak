@@ -10,9 +10,8 @@ class SwakServer_bodyTest : SwakServerTest() {
         var whoAmI: String? = null
         swakServer {
             on("/IAm", POST) answer {
-                request.body
-                        .doOnSuccess { whoAmI = it }
-                        .map { SimpleResponse.withoutBody() }
+                whoAmI = request.body()
+                SimpleResponse.withoutBody()
             }
         }.start()
 

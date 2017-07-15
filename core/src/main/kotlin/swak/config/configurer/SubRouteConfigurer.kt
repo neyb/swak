@@ -1,6 +1,5 @@
 package swak.config.configurer
 
-import io.reactivex.Single
 import swak.body.reader.provider.type.BodyReaderChooserProvider
 import swak.body.writer.provider.type.BodyWriterChooserProvider
 import swak.config.configurable.SubRouteConfigurable
@@ -24,9 +23,9 @@ class SubRouteConfigurer internal constructor(
         inline fun <reified T> withA() = withA(T::class.java)
         fun <T> withA(inputClass: Class<T>) = HandlerHelper(method, path, inputClass)
 
-        inline infix fun <reified OB> answer(noinline handler: RequestContext<IB>.() -> Single<out NotWritableResponse<OB>>) =
+        inline infix fun <reified OB> answer(noinline handler: suspend RequestContext<IB>.() -> NotWritableResponse<OB>) =
                 answer(OB::class.java, handler)
-        fun <OB> answer(outputClass: Class<OB>, handler: RequestContext<IB>.() -> Single<out NotWritableResponse<OB>>) {
+        fun <OB> answer(outputClass: Class<OB>, handler: suspend RequestContext<IB>.() -> NotWritableResponse<OB>) {
             this@SubRouteConfigurer.handle(
                     path,
                     method,

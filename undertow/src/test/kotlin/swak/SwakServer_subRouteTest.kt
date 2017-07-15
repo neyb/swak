@@ -1,7 +1,6 @@
 package swak
 
 import io.github.neyb.shoulk.shouldEqual
-import io.reactivex.Single
 import org.junit.Test
 import swak.http.request.Method.GET
 import swak.http.response.*
@@ -11,7 +10,7 @@ class SwakServer_subRouteTest : SwakServerTest() {
     internal fun `one route in a sub route`() {
         swakServer {
             sub("/begin") {
-                on("/end", GET) answer { Single.just(SimpleResponse.withoutBody()) }
+                on("/end", GET) answer { SimpleResponse.withoutBody() }
             }
         }.start()
 
@@ -23,7 +22,7 @@ class SwakServer_subRouteTest : SwakServerTest() {
         swakServer {
             sub("/begin") {
                 sub("/middle") {
-                    on("/end", GET) answer { Single.just(SimpleResponse.withoutBody()) }
+                    on("/end", GET) answer { SimpleResponse.withoutBody() }
                 }
             }
         }.start()
@@ -36,24 +35,24 @@ class SwakServer_subRouteTest : SwakServerTest() {
         swakServer {
             sub("/begin1") {
                 sub("/middle1") {
-                    on("/end1", GET) answer { Single.just(SimpleResponse(body = "111")) }
-                    on("/end2", GET) answer { Single.just(SimpleResponse(body = "112")) }
+                    on("/end1", GET) answer { SimpleResponse(body = "111") }
+                    on("/end2", GET) answer { SimpleResponse(body = "112") }
                 }
 
                 sub("/middle2") {
-                    on("/end1", GET) answer { Single.just(SimpleResponse(body = "121")) }
-                    on("/end2", GET) answer { Single.just(SimpleResponse(body = "122")) }
+                    on("/end1", GET) answer { SimpleResponse(body = "121") }
+                    on("/end2", GET) answer { SimpleResponse(body = "122") }
                 }
             }
             sub("/begin2") {
                 sub("/middle1") {
-                    on("/end1", GET) answer { Single.just(SimpleResponse(body = "211")) }
-                    on("/end2", GET) answer { Single.just(SimpleResponse(body = "212")) }
+                    on("/end1", GET) answer { SimpleResponse(body = "211") }
+                    on("/end2", GET) answer { SimpleResponse(body = "212") }
                 }
 
                 sub("/middle2") {
-                    on("/end1", GET) answer { Single.just(SimpleResponse(body = "221")) }
-                    on("/end2", GET) answer { Single.just(SimpleResponse(body = "222")) }
+                    on("/end1", GET) answer { SimpleResponse(body = "221") }
+                    on("/end2", GET) answer { SimpleResponse(body = "222") }
                 }
             }
         }.start()
@@ -80,7 +79,7 @@ class SwakServer_subRouteTest : SwakServerTest() {
                         begin = request.pathParams["begin"]
                         middle = request.pathParams["middle"]
                         end = request.pathParams["end"]
-                        Single.just(SimpleResponse.withoutBody())
+                        SimpleResponse.withoutBody()
                     }
                 }
             }

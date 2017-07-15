@@ -28,9 +28,8 @@ class SwakServer_bodyReaderTest : SwakServerTest() {
             addContentReaderProvider(bodyLengthReader)
 
             on("/IAm", POST).withA<Int>() answer {
-                request.body
-                        .doOnSuccess { nameLength = it }
-                        .map { SimpleResponse.withoutBody() }
+                nameLength = request.body()
+                SimpleResponse.withoutBody()
             }
 
         }.start()

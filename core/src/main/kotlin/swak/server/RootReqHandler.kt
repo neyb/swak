@@ -6,7 +6,7 @@ import swak.http.request.*
 import swak.http.request.context.UpdatableRequestContext
 
 class RootReqHandler(private val rootHandler: Handler<String, Any?>) {
-    fun handle(request: BasicRequest) = rootHandler
-            .handle(UpdatableRequestContext(UpdatableRequest(request, StringReader)))
-            .map { it.response }
+    suspend fun handle(request: BasicRequest) =
+            rootHandler.handle(UpdatableRequestContext(UpdatableRequest(request, StringReader)))
+                    .response
 }

@@ -1,10 +1,8 @@
 package swak.server
 
 import io.github.neyb.shoulk.*
-import io.reactivex.Single
 import org.junit.Test
 import swak.http.request.Method.GET
-import swak.http.response.NotWritableResponse
 
 class SwakServerTest {
 
@@ -26,7 +24,7 @@ class SwakServerTest {
     val engine = TestEngine()
 
     val ss: SwakServer = SwakServer(engine) {
-        on(".*", GET) answer { Single.error<NotWritableResponse<Unit>>(IllegalStateException()) }
+        on(".*", GET).answer<Unit> { throw IllegalStateException() }
     }
 
     @Test fun `a new SwakServer should not be started`() {

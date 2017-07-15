@@ -1,6 +1,5 @@
 package swak.handler
 
-import io.reactivex.Single
 import swak.body.reader.provider.request.BodyReaderChooser
 import swak.body.writer.provider.request.BodyWriterChooser
 import swak.handler.NotWritable.NotWritableHandler
@@ -12,13 +11,11 @@ internal class BodyConverterHandler<ReqBody, out RespBody>(
         private val handler: NotWritableHandler<ReqBody, RespBody>,
         private val writerChooser: BodyWriterChooser<RespBody>
 ) : Handler<String, RespBody> {
-    override fun handle(reqContext: UpdatableRequestContext<String>): Single<UpdatableResponseContext<String, @UnsafeVariance RespBody>> {
+    override suspend fun handle(reqContext: UpdatableRequestContext<String>): UpdatableResponseContext<String, RespBody> {
         val request = reqContext.request
-        return handler.handle(reqContext.withBodyReader(readerProvider.forRequest(request)))
-                .map {
-                    it
-                            .withWriter(writerChooser.`for`(it.response, request))
-                            .withRequestContext(reqContext)
-                }
+        val responseContext = handler.handle(reqContext.withBodyReader(readerProvider.forRequest(request)))
+        return responseContext
+                .withWriter(writerChooser.`for`(responseContext.response, request))
+                .withRequestContext(reqContext)
     }
 }

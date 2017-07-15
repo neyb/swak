@@ -1,6 +1,5 @@
 package swak.config.configurable
 
-import io.reactivex.Single
 import swak.body.reader.provider.type.*
 import swak.body.writer.provider.type.*
 import swak.config.configurer.HandlerConfigurer
@@ -25,7 +24,7 @@ internal interface ConfigurableHandler<reqBody, out Out> : HandlerConfigurer, Ha
         bodyWriterTypeProviders.add(bodyWriterChooserProvider)
     }
 
-    fun <IB, OB> ((RequestContext<IB>) -> Single<out NotWritableResponse<OB>>).asRequestHandler(): NotWritableHandler<IB, OB> =
+    fun <IB, OB> (suspend (RequestContext<IB>) -> NotWritableResponse<OB>).asRequestHandler(): NotWritableHandler<IB, OB> =
             FinalHandler(this)
 }
 
