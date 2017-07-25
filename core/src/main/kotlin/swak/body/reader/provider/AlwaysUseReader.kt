@@ -10,12 +10,12 @@ inline fun <reified T> BodyReader<T>.useAlways() =
 
 class AlwaysUseReader<out T>(
         private val target: Class<T>,
-        bodyReader: BodyReader<T>
-) : BodyReader<T> by bodyReader, BodyReaderChooser<T>, BodyReaderChooserProvider {
+        private val bodyReader: BodyReader<T>
+) : BodyReaderChooser<T>, BodyReaderChooserProvider {
     override fun <B> forClass(target: Class<B>) =
             @Suppress("UNCHECKED_CAST")
-            if (target == this.target) this as BodyReaderChooser<B>
+            if (this.target.isAssignableFrom(target)) this as BodyReaderChooser<B>
             else null
 
-    override fun forRequest(request: UpdatableRequest<String>) = this
+    override fun forRequest(request: UpdatableRequest<String>) = bodyReader
 }

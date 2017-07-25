@@ -11,7 +11,6 @@ import swak.config.configurer.SimpleAroundConfigurer
 import swak.handler.router.NoRouteFound
 import swak.handler.router.SeveralRouteFound
 import swak.http.response.*
-import swak.http.response.ErrorResponse
 
 internal object DefaultGenericHandlerConfiguration : GenericHandlerConfiguration<SimpleAroundConfigurer<*>>, KLoggable {
 
@@ -36,7 +35,7 @@ internal object DefaultGenericHandlerConfiguration : GenericHandlerConfiguration
         handleError<E, Unit> { error ->
             if (logStack) logger.error(error) { message + error.message }
             else logger.error { message + error.message }
-            ErrorResponse.withoutBody(status = code)
+            SimpleResponse.withoutBody(status = code)
         }
     }
 }
